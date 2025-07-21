@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'blog-app-ui';
+  constructor(private translate: TranslateService) {
+    translate.addLangs(['en', 'tr']);
+    translate.setDefaultLang('tr');
+
+    const browserLang = translate.getBrowserLang();
+
+    if (browserLang && ['en', 'tr'].includes(browserLang)) {
+      translate.use(browserLang);
+    } else {
+      translate.use('tr');
+    }
+  }
 }

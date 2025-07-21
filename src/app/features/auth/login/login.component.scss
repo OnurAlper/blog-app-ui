@@ -1,0 +1,60 @@
+// ÖNEMLİ NOT: Bu style sadece login sayfasında çalışır, global değil
+// Bootstrap grid zaten HTML'de var, bu nedenle SCSS sade tutulur
+
+mat-form-field {
+  width: 100%;
+
+  .mat-input-element {
+    color: #333 !important; // Yazarken siyah olsun
+    background-color: white;
+  }
+
+  .mat-form-field-outline {
+    border-color: #ccc !important;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    color: #ccc;
+  }
+}
+
+button.login-button {
+  width: 100%;
+  background-color: #ffa500;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: #e69500;
+  }
+}
+
+.signup-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+
+  a {
+    color: #0d3a6a;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.snackbar-success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.snackbar-error {
+  background-color: #f44336;
+  color: #fff;
+}
+

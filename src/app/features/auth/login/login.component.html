@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <div class="row vh-100">
+    <!-- Sol Taraf -->
+    <div class="col-md-6 d-none d-md-flex flex-column align-items-center justify-content-center bg-primary text-white">
+      <h2 class="mb-3">EMBEDDEDACADEMY</h2>
+      <p class="mb-4">Learn. Build. Innovate.</p>
+      <img src="assets/circuit.svg" alt="circuit" style="width: 60%; max-width: 300px;" />
+    </div>
+
+    <!-- Sağ Taraf -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
+      <div class="card p-4 shadow w-100" style="max-width: 400px;">
+        <h3 class="text-center mb-4">{{ 'LOGIN.TITLE' | translate }}</h3>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="w-100 mb-3">
+            <mat-label>{{ 'LOGIN.USERNAME' | translate }}</mat-label>
+            <input matInput formControlName="usernameOrEmail" />
+            <mat-error *ngIf="loginForm.get('usernameOrEmail')?.hasError('required')">
+              {{ 'VALIDATION.REQUIRED' | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100 mb-3">
+            <mat-label>{{ 'LOGIN.PASSWORD' | translate }}</mat-label>
+            <input matInput type="password" formControlName="password" />
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              {{ 'VALIDATION.REQUIRED' | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            class="w-100"
+            [disabled]="loginForm.invalid || loading">
+            {{ loading ? ('LOGIN.LOADING' | translate) : ('LOGIN.BUTTON' | translate) }}
+          </button>
+        </form>
+
+        <p class="text-center mt-3">
+          {{ 'LOGIN.NO_ACCOUNT' | translate }}
+          <a routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

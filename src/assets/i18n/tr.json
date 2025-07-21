@@ -1,0 +1,26 @@
+{
+  "LOGIN": {
+    "TITLE": "Giriş Yap",
+    "USERNAME": "E-posta veya kullanıcı adı",
+    "PASSWORD": "Şifre",
+    "BUTTON": "Giriş Yap",
+    "LOADING": "Giriş Yapılıyor...",
+    "NO_ACCOUNT": "Hesabın yok mu?",
+    "SIGN_UP": "Kayıt ol"
+  },
+  "VALIDATION": {
+    "REQUIRED": "Bu alan zorunludur.",
+    "EMAIL": "Geçerli bir e-posta girin.",
+    "PASSWORD_MIN": "Şifre en az 6 karakter olmalı."
+  },
+  "ERRORS": {
+    "UNAUTHORIZED": "Giriş bilgileri hatalı.",
+    "SERVER": "Sunucu hatası oluştu.",
+    "UNKNOWN": "Bilinmeyen bir hata oluştu."
+  },
+  "COMMON": {
+    "LANGUAGE": "Dil",
+    "LOGOUT": "Çıkış Yap",
+    "DASHBOARD": "Kontrol Paneli"
+  }
+}

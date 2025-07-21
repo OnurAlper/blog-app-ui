@@ -1,0 +1,26 @@
+{
+  "LOGIN": {
+    "TITLE": "Login",
+    "USERNAME": "Email or Username",
+    "PASSWORD": "Password",
+    "BUTTON": "Login",
+    "LOADING": "Logging in...",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP": "Sign up"
+  },
+  "VALIDATION": {
+    "REQUIRED": "This field is required.",
+    "EMAIL": "Please enter a valid email.",
+    "PASSWORD_MIN": "Password must be at least 6 characters."
+  },
+  "ERRORS": {
+    "UNAUTHORIZED": "Incorrect login credentials.",
+    "SERVER": "Server error occurred.",
+    "UNKNOWN": "An unknown error occurred."
+  },
+  "COMMON": {
+    "LANGUAGE": "Language",
+    "LOGOUT": "Logout",
+    "DASHBOARD": "Dashboard"
+  }
+}
