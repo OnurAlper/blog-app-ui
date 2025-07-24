@@ -1,0 +1,176 @@
+<div class="container-fluid min-vh-100 d-flex flex-column flex-md-row p-0">
+  <!-- Sağ Taraf (Form) -->
+  <div class="order-1 order-md-2 col-12 col-md-6 d-flex align-items-center justify-content-center bg-light p-4 position-relative">
+    
+    <!-- Dil Dropdown -->
+    <div class="position-absolute top-0 end-0 p-3 z-3">
+      <div class="dropdown">
+        <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6" href="#" role="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="flag-icon" [ngClass]="'flag-icon-' + (currentLang === 'en' ? 'us' : currentLang)"></span>
+          <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
+              <span class="flag-icon flag-icon-tr"></span> {{ 'LANG.TURKISH' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
+              <span class="flag-icon flag-icon-us"></span> {{ 'LANG.ENGLISH' | translate }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Form Kartı -->
+    <div class="card p-4 shadow w-100" style="max-width: 500px;">
+      <h3 class="text-center mb-4">{{ 'SIGNUP.TITLE' | translate }}</h3>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+          <!-- Name -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.NAME' | translate }}</mat-label>
+              <input matInput formControlName="name" required />
+              <mat-error *ngIf="signupForm.get('name')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Surname -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.SURNAME' | translate }}</mat-label>
+              <input matInput formControlName="surname" required />
+              <mat-error *ngIf="signupForm.get('surname')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Username -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.USERNAME' | translate }}</mat-label>
+              <input matInput formControlName="username" required />
+              <mat-error *ngIf="signupForm.get('username')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.EMAIL' | translate }}</mat-label>
+              <input matInput formControlName="email" required />
+              <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Password -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.PASSWORD' | translate }}</mat-label>
+              <input matInput type="password" formControlName="password" required />
+              <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Phone -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.PHONE' | translate }}</mat-label>
+              <input matInput formControlName="phoneNumber" required />
+              <mat-error *ngIf="signupForm.get('phoneNumber')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Birth Date -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.BIRTHDATE' | translate }}</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birthDate" required />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="signupForm.get('birthDate')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Gender -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.GENDER' | translate }}</mat-label>
+              <mat-select formControlName="gender" required>
+                <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                  {{ gender.label | translate }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="signupForm.get('gender')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Country -->
+     <div class="col-12">
+  <mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ 'SIGNUP.COUNTRY' | translate }}</mat-label>
+
+  <mat-select formControlName="countryId" [formControl]="countryControl" [disableOptionCentering]="true">
+    <!-- Arama kutusu -->
+    <ngx-mat-select-search
+      [formControl]="countryFilterControl"
+      placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
+      noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}"
+    ></ngx-mat-select-search>
+
+    <!-- Seçenekler -->
+    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
+      {{ country.name }}
+    </mat-option>
+  </mat-select>
+
+  <mat-error *ngIf="signupForm.get('countryId')?.touched && signupForm.get('countryId')?.hasError('required')">
+    {{ 'VALIDATION.REQUIRED' | translate }}
+  </mat-error>
+</mat-form-field>
+</div>
+
+
+
+          <!-- Button -->
+          <div class="col-12">
+            <button mat-raised-button color="primary" class="w-100" [disabled]="signupForm.invalid || loading">
+              {{ loading ? ('SIGNUP.LOADING' | translate) : ('SIGNUP.BUTTON' | translate) }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <p class="text-center mt-3">
+        {{ 'SIGNUP.HAVE_ACCOUNT' | translate }}
+        <a routerLink="/login">{{ 'SIGNUP.LOGIN' | translate }}</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Sol Taraf (Görsel) -->
+  <div class="order-2 order-md-1 col-12 col-md-6 d-flex flex-column align-items-center justify-content-center bg-primary text-white text-center p-4">
+    <h2 class="mb-3">EMBEDDEDACADEMY</h2>
+    <p class="mb-4">Learn. Build. Innovate.</p>
+    <img src="assets/circuit.svg" alt="circuit" class="img-fluid" style="max-width: 300px;" />
+  </div>
+</div>

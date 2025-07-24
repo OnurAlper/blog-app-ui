@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,19 +8,42 @@ export class BaseApiService {
 
   constructor(protected http: HttpClient) {}
 
-  get<T>(url: string): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}/${url}`);
+  get<T>(url: string, options: {
+    params?: HttpParams,
+    headers?: { [key: string]: string }
+  } = {}): Observable<T> {
+    const defaultHeaders = new HttpHeaders({
+      'accept-language': localStorage.getItem('language') || 'tr-TR',
+      ...options.headers
+    });
+
+    return this.http.get<T>(`${this.baseUrl}/${url}`, {
+      params: options.params,
+      headers: defaultHeaders
+    });
   }
 
   post<T>(url: string, body: any): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}/${url}`, body);
+    return this.http.post<T>(`${this.baseUrl}/${url}`, body, {
+      headers: {
+        'accept-language': localStorage.getItem('language') || 'tr-TR'
+      }
+    });
   }
 
   put<T>(url: string, body: any): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}/${url}`, body);
+    return this.http.put<T>(`${this.baseUrl}/${url}`, body, {
+      headers: {
+        'accept-language': localStorage.getItem('language') || 'tr-TR'
+      }
+    });
   }
 
   delete<T>(url: string): Observable<T> {
-    return this.http.delete<T>(`${this.baseUrl}/${url}`);
+    return this.http.delete<T>(`${this.baseUrl}/${url}`, {
+      headers: {
+        'accept-language': localStorage.getItem('language') || 'tr-TR'
+      }
+    });
   }
 }

@@ -6,7 +6,9 @@
     "BUTTON": "Login",
     "LOADING": "Logging in...",
     "NO_ACCOUNT": "Don't have an account?",
-    "SIGN_UP": "Sign up"
+    "SIGN_UP": "Sign up",
+    "SUCCESS": "Login successful!",
+    "FAILURE": "Login failed"
   },
   "VALIDATION": {
     "REQUIRED": "This field is required.",
@@ -21,6 +23,35 @@
   "COMMON": {
     "LANGUAGE": "Language",
     "LOGOUT": "Logout",
-    "DASHBOARD": "Dashboard"
-  }
+    "DASHBOARD": "Dashboard",
+    "CLOSE": "Close"
+  },
+    "LANG": {
+    "TURKISH": "Turkish",
+    "ENGLISH": "English"
+  },
+  "SIGNUP": {
+  "TITLE": "Create an Account",
+  "NAME": "First Name",
+  "SURNAME": "Last Name",
+  "USERNAME": "Username",
+  "EMAIL": "Email",
+  "PASSWORD": "Password",
+  "PHONE": "Phone Number",
+  "BIRTHDATE": "Birth Date",
+  "GENDER": "Gender",
+  "COUNTRY": "Country",
+  "BUTTON": "Sign Up",
+  "LOADING": "Creating...",
+  "SUCCESS": "Registration successful!",
+  "FAILURE": "Registration failed.",
+  "HAVE_ACCOUNT": "Already have an account?",
+  "LOGIN": "Login",
+  "SEARCH_COUNTRY": "Search country..."
+},
+"GENDER": {
+  "MALE": "Male",
+  "FEMALE": "Female"
+}
+
 }

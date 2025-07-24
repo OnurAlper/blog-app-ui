@@ -1,48 +1,67 @@
-<div class="container-fluid">
-  <div class="row vh-100">
-    <!-- Sol Taraf -->
-    <div class="col-md-6 d-none d-md-flex flex-column align-items-center justify-content-center bg-primary text-white">
-      <h2 class="mb-3">EMBEDDEDACADEMY</h2>
-      <p class="mb-4">Learn. Build. Innovate.</p>
-      <img src="assets/circuit.svg" alt="circuit" style="width: 60%; max-width: 300px;" />
-    </div>
+<div class="container-fluid min-vh-100 d-flex flex-column flex-md-row p-0">
+  <!-- Sağ Taraf (Form) - Mobilde üstte, masaüstünde sağda -->
+  <div class="order-1 order-md-2 col-12 col-md-6 d-flex align-items-center justify-content-center bg-light p-4">
 
-    <!-- Sağ Taraf -->
-    <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
-      <div class="card p-4 shadow w-100" style="max-width: 400px;">
-        <h3 class="text-center mb-4">{{ 'LOGIN.TITLE' | translate }}</h3>
-
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <mat-form-field appearance="outline" class="w-100 mb-3">
-            <mat-label>{{ 'LOGIN.USERNAME' | translate }}</mat-label>
-            <input matInput formControlName="usernameOrEmail" />
-            <mat-error *ngIf="loginForm.get('usernameOrEmail')?.hasError('required')">
-              {{ 'VALIDATION.REQUIRED' | translate }}
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="w-100 mb-3">
-            <mat-label>{{ 'LOGIN.PASSWORD' | translate }}</mat-label>
-            <input matInput type="password" formControlName="password" />
-            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-              {{ 'VALIDATION.REQUIRED' | translate }}
-            </mat-error>
-          </mat-form-field>
-
-          <button
-            mat-raised-button
-            color="primary"
-            class="w-100"
-            [disabled]="loginForm.invalid || loading">
-            {{ loading ? ('LOGIN.LOADING' | translate) : ('LOGIN.BUTTON' | translate) }}
-          </button>
-        </form>
-
-        <p class="text-center mt-3">
-          {{ 'LOGIN.NO_ACCOUNT' | translate }}
-          <a routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a>
-        </p>
+    <!-- Sağ üstte bayrak dropdown -->
+    <div class="position-absolute top-0 end-0 p-3 z-3">
+      <div class="dropdown">
+        <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6" href="#" role="button"
+          id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+         <span class="flag-icon" [ngClass]="'flag-icon-' + (currentLang === 'en' ? 'us' : currentLang)"></span>
+          <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
+              <span class="flag-icon flag-icon-tr"></span> {{ 'LANG.TURKISH' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
+              <span class="flag-icon flag-icon-us"></span> {{ 'LANG.ENGLISH' | translate }}
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
+
+    <div class="card p-4 shadow w-100" style="max-width: 400px;">
+      <h3 class="text-center mb-4">{{ 'LOGIN.TITLE' | translate }}</h3>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="w-100 mb-3">
+          <mat-label>{{ 'LOGIN.USERNAME' | translate }}</mat-label>
+          <input matInput formControlName="usernameOrEmail" />
+          <mat-error *ngIf="loginForm.get('usernameOrEmail')?.hasError('required')">
+            {{ 'VALIDATION.REQUIRED' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100 mb-3">
+          <mat-label>{{ 'LOGIN.PASSWORD' | translate }}</mat-label>
+          <input matInput type="password" formControlName="password" />
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            {{ 'VALIDATION.REQUIRED' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="w-100" [disabled]="loginForm.invalid || loading">
+          {{ loading ? ('LOGIN.LOADING' | translate) : ('LOGIN.BUTTON' | translate) }}
+        </button>
+      </form>
+
+      <p class="text-center mt-3">
+        {{ 'LOGIN.NO_ACCOUNT' | translate }}
+        <a routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Sol Taraf (Görsel) - Mobilde altta, masaüstünde solda -->
+  <div
+    class="order-2 order-md-1 col-12 col-md-6 d-flex flex-column align-items-center justify-content-center bg-primary text-white text-center p-4">
+    <h2 class="mb-3">EMBEDDEDACADEMY</h2>
+    <p class="mb-4">Learn. Build. Innovate.</p>
+    <img src="assets/circuit.svg" alt="circuit" class="img-fluid" style="max-width: 300px;" />
   </div>
 </div>

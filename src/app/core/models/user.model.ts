@@ -1,3 +1,5 @@
+import { GenderType } from "./gender.enum";
+
 export interface LoginRequestDto {
   usernameOrEmail: string;
   password: string;
@@ -11,4 +13,16 @@ export interface LoginResponseDto {
   username: string;
   token: string;
   refreshToken?: string;
+}
+
+export interface SignupRequestDto {
+  name: string;
+  surname: string;
+  username: string;
+  email: string;
+  password: string;
+  phoneNumber?: string;
+  birthDate: Date;
+  gender: GenderType;
+  countryId: number;
 }

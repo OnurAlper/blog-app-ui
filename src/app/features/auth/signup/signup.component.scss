@@ -3,55 +3,29 @@
   background-color: #f8f9fa;
 }
 
-/* Kart sabit ortada kalır, sadece içerik döner */
-.card-container {
-  width: 100%;
-  max-width: 700px;
-  perspective: 1000px;
-  position: relative;
-}
-
-.card-inner {
-  width: 100%;
-  min-height: 520px;
-  transform-style: preserve-3d;
-  transition: transform 0.8s ease-in-out;
-  position: relative;
-}
-
-.card-container.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-face {
-  width: 100%;
-  backface-visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #fff;
+.card {
   border-radius: 0.75rem;
-  padding: 2rem;
+  background-color: #fff;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
 }
 
-.card-front {
-  transform: rotateY(0deg);
-  z-index: 2;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-  z-index: 1;
-}
-
-/* Material Input ayarları */
+/* Material input alanları */
 mat-form-field {
   width: 100%;
 
+  mat-label {
+    color: #333;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
   .mat-input-element {
     color: #333 !important;
-    background-color: #ffffff;
+    background-color: #eef3ff;
+    padding: 0.5rem;
   }
 
   .mat-form-field-outline {
@@ -61,10 +35,20 @@ mat-form-field {
   .mat-form-field-appearance-outline .mat-form-field-outline-thick {
     color: #ccc;
   }
+
+  .mat-form-field-flex {
+    align-items: center;
+  }
+}
+
+/* Select alanları için */
+mat-select {
+  background-color: #eef3ff;
+  padding: 0.4rem;
+  border-radius: 4px;
 }
 
 /* Butonlar */
-button.login-button,
 button[mat-raised-button] {
   width: 100%;
   background-color: #ffa500;
@@ -77,9 +61,14 @@ button[mat-raised-button] {
   &:hover {
     background-color: #e69500;
   }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 }
 
-/* Alt metin */
+/* Alt metin bağlantılar */
 p.text-center.mt-3 {
   margin-top: 1rem;
   font-size: 0.9rem;
@@ -96,17 +85,20 @@ p.text-center.mt-3 {
   }
 }
 
-/* Responsive */
+/* Responsive ayar */
 @media (max-width: 767.98px) {
-  .card-face {
+  .card {
     padding: 1.25rem;
   }
 
-  .card-inner {
-    min-height: auto;
-  }
-
-  .row.g-3 {
+  .row {
     row-gap: 1rem;
   }
 }
+::ng-deep .country-select-panel .mat-option input {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+  

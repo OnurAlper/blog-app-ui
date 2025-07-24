@@ -6,7 +6,9 @@
     "BUTTON": "Giriş Yap",
     "LOADING": "Giriş Yapılıyor...",
     "NO_ACCOUNT": "Hesabın yok mu?",
-    "SIGN_UP": "Kayıt ol"
+    "SIGN_UP": "Kayıt ol",
+    "SUCCESS": "Giriş başarılı!",
+    "FAILURE": "Giriş başarısız"
   },
   "VALIDATION": {
     "REQUIRED": "Bu alan zorunludur.",
@@ -21,6 +23,37 @@
   "COMMON": {
     "LANGUAGE": "Dil",
     "LOGOUT": "Çıkış Yap",
-    "DASHBOARD": "Kontrol Paneli"
-  }
+    "DASHBOARD": "Kontrol Paneli",
+    "CLOSE": "Kapat"
+
+  },
+  "LANG": {
+    "TURKISH": "Türkçe",
+    "ENGLISH": "İngilizce"
+  },
+ "SIGNUP": {
+  "TITLE": "Hesap Oluştur",
+  "NAME": "Ad",
+  "SURNAME": "Soyad",
+  "USERNAME": "Kullanıcı Adı",
+  "EMAIL": "E-posta",
+  "PASSWORD": "Şifre",
+  "PHONE": "Telefon Numarası",
+  "BIRTHDATE": "Doğum Tarihi",
+  "GENDER": "Cinsiyet",
+  "COUNTRY": "Ülke",
+  "BUTTON": "Kayıt Ol",
+  "LOADING": "Oluşturuluyor...",
+  "SUCCESS": "Kayıt başarılı!",
+  "FAILURE": "Kayıt başarısız.",
+  "HAVE_ACCOUNT": "Zaten bir hesabın var mı?",
+  "LOGIN": "Giriş Yap",
+  "SEARCH_COUNTRY": "Ülke ara..."
+},
+"GENDER": {
+  "MALE": "Erkek",
+  "FEMALE": "Kadın"
+}
+
+  
 }

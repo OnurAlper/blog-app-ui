@@ -1,26 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/core/services/user.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   error: string = '';
   loading: boolean = false;
+  currentLang: 'tr' | 'en' = 'tr';
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private snackBar: MatSnackBar 
+    private notification: NotificationService,
+    private translate: TranslateService
   ) {
-    // Form oluşturuluyor
     this.loginForm = this.fb.group({
       usernameOrEmail: ['', Validators.required],
       password: ['', Validators.required],
@@ -28,31 +30,44 @@ export class LoginComponent {
     });
   }
 
-onSubmit() {
-  if (this.loginForm.invalid) return;
-  this.loading = true;
+ ngOnInit(): void {
+    const savedLang = localStorage.getItem('language') as 'tr' | 'en' || 'tr';
+    this.currentLang = savedLang;
+    this.translate.use(savedLang);
+  }
 
-  this.userService.login(this.loginForm.value).subscribe({
-    next: (res) => {
-      localStorage.setItem('token', res.token);
-      this.snackBar.open('Giriş başarılı!', 'Kapat', {
-        duration: 3000,
-        panelClass: ['snackbar-success']
-      });
-      this.router.navigate(['/dashboard']);
-    },
-    error: (err) => {
-      const msg = err?.error?.message || 'Giriş başarısız';
-      this.snackBar.open(msg, 'Kapat', {
-        duration: 4000,
-        panelClass: ['snackbar-error']
-      });
-      this.loading = false;
-    },
-    complete: () => {
-      this.loading = false;
-    }
-  });
-}
+  switchLang(lang: 'tr' | 'en'): void {
+    this.currentLang = lang;
+    localStorage.setItem('language', lang);
+    this.translate.use(lang);
+  }
 
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
+    this.loading = true;
+
+    this.userService.login(this.loginForm.value).subscribe({
+      next: (res) => {
+        const token = res?.data?.token;
+
+        if (token) {
+          localStorage.setItem('token', token);
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.notification.error(this.translate.instant('LOGIN.FAILURE')); // ✅
+        }
+      },
+      error: (err) => {
+        const backendMsg = err?.error?.Message || err?.error?.message;
+        const translatedMsg = backendMsg || this.translate.instant('LOGIN.FAILURE');
+
+        this.notification.error(translatedMsg);
+
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
 }

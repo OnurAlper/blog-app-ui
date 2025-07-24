@@ -11,12 +11,15 @@ export class AppComponent {
     translate.addLangs(['en', 'tr']);
     translate.setDefaultLang('tr');
 
-    const browserLang = translate.getBrowserLang();
+    const savedLang = localStorage.getItem('language');
 
-    if (browserLang && ['en', 'tr'].includes(browserLang)) {
-      translate.use(browserLang);
+    if (savedLang && ['en', 'tr'].includes(savedLang)) {
+      translate.use(savedLang);
     } else {
-      translate.use('tr');
+      const browserLang = translate.getBrowserLang();
+      const langToUse = ['en', 'tr'].includes(browserLang!) ? browserLang! : 'tr';
+      translate.use(langToUse);
+      localStorage.setItem('language', langToUse);
     }
   }
 }
