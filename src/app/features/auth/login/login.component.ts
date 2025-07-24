@@ -6,9 +6,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
