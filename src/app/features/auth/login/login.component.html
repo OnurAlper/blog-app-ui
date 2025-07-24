@@ -59,6 +59,10 @@
           </mat-error>
         </mat-form-field>
 
+        <mat-checkbox formControlName="staySignedIn" class="mb-3">
+  {{ 'LOGIN.REMEMBER_ME' | translate }}
+</mat-checkbox>
+
         <button mat-raised-button color="primary" class="w-100" [disabled]="loginForm.invalid || loading">
           {{ loading ? ('LOGIN.LOADING' | translate) : ('LOGIN.BUTTON' | translate) }}
         </button>

@@ -26,3 +26,34 @@ export interface SignupRequestDto {
   gender: GenderType;
   countryId: number;
 }
+
+export interface GetUserDto {
+  id: number;
+
+  // Kimlik Bilgileri
+  name: string;
+  surname: string;
+  fullName: string; // Optional, backend computed olabilir
+
+  // Giriş Bilgileri
+  username: string;
+  email: string;
+  phoneNumber?: string;
+  birthDate: string; // ISO formatta string gelmesi beklenir (örn. "2000-01-01T00:00:00")
+  gender: GenderType;
+  countryId: number;
+
+  profileImageUrl?: string;
+}
+
+export interface UpdateProfileDto {
+  name: string;
+  surname: string;
+  username: string;
+  email: string;
+  phoneNumber?: string;
+  birthDate: string; // Angular'da Date ya da string olabilir
+  gender: GenderType;
+  countryId: number;
+  profileImageUrl?: string;
+}

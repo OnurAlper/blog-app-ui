@@ -43,32 +43,39 @@ export class LoginComponent implements OnInit {
     this.translate.use(lang);
   }
 
-  onSubmit(): void {
-    if (this.loginForm.invalid) return;
-    this.loading = true;
+ onSubmit(): void {
+  if (this.loginForm.invalid) return;
+  this.loading = true;
 
-    this.userService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        const token = res?.data?.token;
+  const { usernameOrEmail, password, staySignedIn } = this.loginForm.value;
 
-        if (token) {
-          localStorage.setItem('token', token);
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.notification.error(this.translate.instant('LOGIN.FAILURE')); // ✅
+  this.userService.login({ usernameOrEmail, password, staySignedIn }).subscribe({
+    next: (res) => {
+      const token = res?.data?.token;
+      const refreshToken = res?.data?.refreshToken;
+
+      if (token) {
+        localStorage.setItem('token', token);
+
+        if (staySignedIn && refreshToken) {
+          localStorage.setItem('refreshToken', refreshToken);
         }
-      },
-      error: (err) => {
-        const backendMsg = err?.error?.Message || err?.error?.message;
-        const translatedMsg = backendMsg || this.translate.instant('LOGIN.FAILURE');
 
-        this.notification.error(translatedMsg);
-
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.notification.error(this.translate.instant('LOGIN.FAILURE'));
       }
-    });
-  }
+    },
+    error: (err) => {
+      const backendMsg = err?.error?.Message || err?.error?.message;
+      const translatedMsg = backendMsg || this.translate.instant('LOGIN.FAILURE');
+
+      this.notification.error(translatedMsg);
+      this.loading = false;
+    },
+    complete: () => {
+      this.loading = false;
+    }
+  });
+}
 }

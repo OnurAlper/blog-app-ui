@@ -5,11 +5,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core'; // Tarih için zorunlu
-import { MatIconModule } from '@angular/material/icon'; // İleride lazım olabilir
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+import { MatMenuModule } from '@angular/material/menu'; // ✅ Eksikti, eklendi
+import { MatDividerModule } from '@angular/material/divider'; // (Opsiyonel)
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 @NgModule({
@@ -24,8 +30,11 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatListModule
+    MatListModule,
+    MatCheckboxModule,
+    MatMenuModule,         // ✅ Gerekli
+    MatDividerModule,  
+    MatDialogModule        
   ],
 })
 export class MaterialModule {}
-

@@ -2,18 +2,28 @@
   height: 100vh;
 }
 
-.dashboard-sidenav {
-  width: 250px;
+.topbar {
+  display: flex;
+  align-items: center;
+
+  .toolbar-title {
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .menu-button {
+    margin-right: 8px;
+  }
 }
 
-.topbar {
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
+.dashboard-sidenav {
+  width: 220px;
 }
 
 .dashboard-content {
-  margin-top: 56px; // Toolbar yüksekliği kadar boşluk
-  padding: 16px;
+  padding: 20px;
 }

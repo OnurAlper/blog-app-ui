@@ -21,6 +21,10 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 // ✅ Ngx-mask
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { UserMenuComponent } from './shared/components/user-menu/user-menu.component';
+import { ProfileComponent } from './features/profile/profile.component';
+import { HomeComponent } from './features/dashboard/home/home.component';
+
 
 // 🔁 Çeviri dosyalarının yolu
 export function HttpLoaderFactory(http: HttpClient) {
@@ -32,7 +36,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     LoginComponent,
     SignupComponent,
-    DashboardComponent
+    DashboardComponent,
+    UserMenuComponent,
+    ProfileComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

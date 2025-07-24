@@ -8,7 +8,8 @@
     "NO_ACCOUNT": "Hesabın yok mu?",
     "SIGN_UP": "Kayıt ol",
     "SUCCESS": "Giriş başarılı!",
-    "FAILURE": "Giriş başarısız"
+    "FAILURE": "Giriş başarısız",
+    "REMEMBER_ME": "Beni hatırla"
   },
   "VALIDATION": {
     "REQUIRED": "Bu alan zorunludur.",
@@ -53,7 +54,26 @@
 "GENDER": {
   "MALE": "Erkek",
   "FEMALE": "Kadın"
-}
-
+},
+ "UserMenu": {
+    "Profile": "Profilim",
+    "Logout": "Çıkış Yap"
+  },
+  "PROFILE": {
+    "TITLE": "Profil Bilgileri",
+    "NAME": "Ad",
+    "SURNAME": "Soyad",
+    "USERNAME": "Kullanıcı Adı",
+    "EMAIL": "Email",
+    "PHONE": "Telefon",
+    "BIRTHDATE": "Doğum Tarihi",
+    "GENDER": "Cinsiyet",
+    "COUNTRY": "Ülke",
+    "SEARCH_COUNTRY": "Ülke ara...",
+    "SAVE": "Kaydet",
+    "UPDATE_SUCCESS": "Profil başarıyla güncellendi",
+    "UPDATE_FAILED": "Profil güncellenemedi",
+    "COUNTRY_FETCH_ERROR": "Ülkeler alınırken hata oluştu"
+  }
   
 }

@@ -1,0 +1,66 @@
+.profile-card {
+  width: 700px;
+  max-width: 95vw;
+  margin: auto;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  position: relative;
+  top: -8px;
+  right: -8px;
+}
+
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+
+  .profile-image-label {
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+
+    .edit-overlay {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(63, 81, 181, 0.8);
+      border-radius: 50%;
+      padding: 4px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}

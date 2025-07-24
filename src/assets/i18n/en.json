@@ -8,7 +8,8 @@
     "NO_ACCOUNT": "Don't have an account?",
     "SIGN_UP": "Sign up",
     "SUCCESS": "Login successful!",
-    "FAILURE": "Login failed"
+    "FAILURE": "Login failed",
+    "REMEMBER_ME":"Remember me"
   },
   "VALIDATION": {
     "REQUIRED": "This field is required.",
@@ -52,6 +53,26 @@
 "GENDER": {
   "MALE": "Male",
   "FEMALE": "Female"
-}
+},
+  "UserMenu": {
+    "Profile": "My Profile",
+    "Logout": "Logout"
+  },
+  "PROFILE": {
+    "TITLE": "Profile Information",
+    "NAME": "First Name",
+    "SURNAME": "Last Name",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "PHONE": "Phone Number",
+    "BIRTHDATE": "Birth Date",
+    "GENDER": "Gender",
+    "COUNTRY": "Country",
+    "SEARCH_COUNTRY": "Search country...",
+    "SAVE": "Save",
+    "UPDATE_SUCCESS": "Profile updated successfully",
+    "UPDATE_FAILED": "Failed to update profile",
+    "COUNTRY_FETCH_ERROR": "An error occurred while fetching countries"
+  }
 
 }

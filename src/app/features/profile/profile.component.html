@@ -1,0 +1,69 @@
+<div class="profile-wrapper">
+  <mat-card class="profile-card mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>{{ 'PROFILE.TITLE' | translate }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+
+        <!-- GRID'li alanlar -->
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.NAME' | translate }}</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.SURNAME' | translate }}</mat-label>
+            <input matInput formControlName="surname" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.USERNAME' | translate }}</mat-label>
+            <input matInput formControlName="username" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.EMAIL' | translate }}</mat-label>
+            <input matInput formControlName="email" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
+            <input matInput formControlName="phoneNumber" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.BIRTHDATE' | translate }}</mat-label>
+            <input matInput formControlName="birthDate" type="date" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.GENDER' | translate }}</mat-label>
+            <mat-select formControlName="gender">
+              <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                {{ gender.label | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
+            <mat-select [formControl]="countryControl">
+              <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
+                {{ country.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="button-container">
+          <button mat-flat-button color="primary" type="submit">
+            {{ 'PROFILE.SAVE' | translate }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

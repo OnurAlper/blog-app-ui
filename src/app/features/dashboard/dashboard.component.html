@@ -1,22 +1,26 @@
 <mat-sidenav-container class="dashboard-container">
+  <!-- Sol Menü -->
   <mat-sidenav
     #sidenav
     mode="side"
     [opened]="isScreenLarge"
     class="dashboard-sidenav"
     fixedInViewport
-    [fixedTopGap]="56"
+    [fixedTopGap]="64"
   >
     <mat-toolbar>Menü</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
       <a mat-list-item routerLink="/profile" routerLinkActive="active-link">Profil</a>
       <a mat-list-item routerLink="/settings" routerLinkActive="active-link">Ayarlar</a>
-      <a mat-list-item routerLink="/logout">Çıkış</a>
+      <!-- Sağ üstte artık kullanıcı menüsü olduğu için burayı silebiliriz -->
+      <!-- <a mat-list-item routerLink="/logout">Çıkış</a> -->
     </mat-nav-list>
   </mat-sidenav>
 
+  <!-- Ana İçerik -->
   <mat-sidenav-content>
+    <!-- Üst Toolbar -->
     <mat-toolbar color="primary" class="topbar">
       <button
         type="button"
@@ -27,9 +31,16 @@
       >
         <mat-icon>menu</mat-icon>
       </button>
-      <span>Dashboard</span>
+
+      <span class="toolbar-title">Dashboard</span>
+
+      <span class="spacer"></span>
+
+      <!-- Kullanıcı menü component'i -->
+      <app-user-menu></app-user-menu>
     </mat-toolbar>
 
+    <!-- Sayfa İçeriği -->
     <div class="dashboard-content">
       <router-outlet></router-outlet>
     </div>

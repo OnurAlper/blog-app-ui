@@ -1,0 +1,15 @@
+<div class="user-info" [matMenuTriggerFor]="menu">
+  <span class="user-name" *ngIf="fullName">{{ fullName }}</span>
+  <mat-icon>account_circle</mat-icon>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="goToProfile()">
+    <mat-icon>person</mat-icon>
+    <span>{{ 'UserMenu.Profile' | translate }}</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>{{ 'UserMenu.Logout' | translate }}</span>
+  </button>
+</mat-menu>
