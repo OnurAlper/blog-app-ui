@@ -20,6 +20,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 // ✅ Ngx-mask
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 // 🔁 Çeviri dosyalarının yolu
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,7 +31,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

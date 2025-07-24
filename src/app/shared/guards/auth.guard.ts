@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { CanActivate, Router, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +8,23 @@ import {
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
-  canActivate(): boolean | UrlTree {
+  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
     const token = localStorage.getItem('token');
     if (!token) {
       return this.router.parseUrl('/login');
     }
-    return true;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const allowedRoles = route.data['roles'] as Array<string | number> | undefined;
+
+      if (allowedRoles && !allowedRoles.includes(decoded.roleId)) {
+        return this.router.parseUrl('/unauthorized');
+      }
+
+      return true;
+    } catch {
+      return this.router.parseUrl('/login');
+    }
   }
 }

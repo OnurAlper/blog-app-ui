@@ -7,6 +7,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core'; // Tarih için zorunlu
 import { MatIconModule } from '@angular/material/icon'; // İleride lazım olabilir
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+
 
 @NgModule({
   exports: [
@@ -17,7 +21,11 @@ import { MatIconModule } from '@angular/material/icon'; // İleride lazım olabi
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule
   ],
 })
 export class MaterialModule {}
+

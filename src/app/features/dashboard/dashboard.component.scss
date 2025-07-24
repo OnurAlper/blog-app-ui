@@ -1,0 +1,19 @@
+.dashboard-container {
+  height: 100vh;
+}
+
+.dashboard-sidenav {
+  width: 250px;
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.dashboard-content {
+  margin-top: 56px; // Toolbar yüksekliği kadar boşluk
+  padding: 16px;
+}
