@@ -11,10 +11,10 @@ import { GetCountryDto } from 'src/app/core/models/country.model';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-    selector: 'app-signup',
-    templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.scss'],
-    standalone: false
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss'],
+   standalone: false
 })
 export class SignupComponent implements OnInit, OnDestroy {
   signupForm!: FormGroup;
@@ -29,9 +29,10 @@ export class SignupComponent implements OnInit, OnDestroy {
   countries: GetCountryDto[] = [];
   filteredCountries: GetCountryDto[] = [];
 
-  // Yeni eklenecek olanlar:
   countryControl = new FormControl();
   countryFilterControl = new FormControl();
+
+  selectedDialCode: string = '+90'; // ✅ Varsayılan kod (Türkiye)
 
   private destroy$ = new Subject<void>();
 
@@ -55,7 +56,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      phoneNumber: [''],
+      phoneNumber: ['', Validators.required],
       birthDate: ['', Validators.required],
       gender: ['', Validators.required],
       countryId: ['', Validators.required],
@@ -63,7 +64,6 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.fetchCountries();
 
-    // Arama kutusu yazıldıkça ülke listesini filtrele
     this.countryFilterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((search: string) => {
@@ -73,11 +73,11 @@ export class SignupComponent implements OnInit, OnDestroy {
         );
       });
 
-    // Seçilen ülkeyi formControl'e set et
     this.countryControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(val => {
         this.signupForm.get('countryId')?.setValue(val);
+        this.onCountryChange(val); // ✅ Ülke değişince kod güncelle
       });
   }
 
@@ -98,6 +98,13 @@ export class SignupComponent implements OnInit, OnDestroy {
     localStorage.setItem('language', lang);
     this.translate.use(lang);
     this.fetchCountries();
+  }
+
+  onCountryChange(countryId: number): void {
+    const selected = this.countries.find(c => c.id === countryId);
+    if (selected) {
+      this.selectedDialCode = selected.dial_Code || '+90';
+    }
   }
 
   onSubmit(): void {

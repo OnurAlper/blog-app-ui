@@ -4,26 +4,40 @@
 
     <!-- Sağ üstte bayrak dropdown -->
     <div class="position-absolute top-0 end-0 p-3 z-3">
-      <div class="dropdown">
-        <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6" href="#" role="button"
-          id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-         <span class="flag-icon" [ngClass]="'flag-icon-' + (currentLang === 'en' ? 'us' : currentLang)"></span>
-          <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
+  <div class="dropdown">
+    <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6"
+       href="#"
+       role="button"
+       id="langDropdown"
+       data-bs-toggle="dropdown"
+       aria-expanded="false">
+      <img
+        [src]="'assets/flags/' + (currentLang === 'en' ? 'us' : currentLang) + '.svg'"
+        width="24"
+        height="16"
+        alt="Flag"
+        class="rounded border"
+      />
+      <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+      <li>
+        <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
+          <img src="assets/flags/tr.svg" width="24" height="16" alt="TR" class="rounded border" />
+          {{ 'LANG.TURKISH' | translate }}
         </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
-              <span class="flag-icon flag-icon-tr"></span> {{ 'LANG.TURKISH' | translate }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
-              <span class="flag-icon flag-icon-us"></span> {{ 'LANG.ENGLISH' | translate }}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+      </li>
+      <li>
+        <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
+          <img src="assets/flags/us.svg" width="24" height="16" alt="US" class="rounded border" />
+          {{ 'LANG.ENGLISH' | translate }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
 
     <div class="card p-4 shadow w-100" style="max-width: 400px;">
       <h3 class="text-center mb-4">{{ 'LOGIN.TITLE' | translate }}</h3>

@@ -1,28 +1,35 @@
 <div class="container-fluid min-vh-100 d-flex flex-column flex-md-row p-0">
   <!-- Sağ Taraf (Form) -->
-  <div class="order-1 order-md-2 col-12 col-md-6 d-flex align-items-center justify-content-center bg-light p-4 position-relative">
-    
+  <div
+    class="order-1 order-md-2 col-12 col-md-6 d-flex align-items-center justify-content-center bg-light p-4 position-relative">
+
     <!-- Dil Dropdown -->
     <div class="position-absolute top-0 end-0 p-3 z-3">
       <div class="dropdown">
-        <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6" href="#" role="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="flag-icon" [ngClass]="'flag-icon-' + (currentLang === 'en' ? 'us' : currentLang)"></span>
+        <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6" href="#" role="button"
+          id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <img [src]="'assets/flags/' + (currentLang === 'en' ? 'us' : 'tr') + '.svg'" width="24" height="16" alt="Flag"
+            class="rounded border" />
           <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
           <li>
             <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
-              <span class="flag-icon flag-icon-tr"></span> {{ 'LANG.TURKISH' | translate }}
+              <img src="assets/flags/tr.svg" width="24" height="16" alt="TR" class="rounded border" />
+              {{ 'LANG.TURKISH' | translate }}
             </a>
           </li>
           <li>
             <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
-              <span class="flag-icon flag-icon-us"></span> {{ 'LANG.ENGLISH' | translate }}
+              <img src="assets/flags/us.svg" width="24" height="16" alt="US" class="rounded border" />
+              {{ 'LANG.ENGLISH' | translate }}
             </a>
           </li>
         </ul>
       </div>
     </div>
+
+
 
     <!-- Form Kartı -->
     <div class="card p-4 shadow w-100" style="max-width: 500px;">
@@ -84,12 +91,35 @@
               </mat-error>
             </mat-form-field>
           </div>
-
-          <!-- Phone -->
+                    <!-- Country -->
           <div class="col-md-6">
             <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.COUNTRY' | translate }}</mat-label>
+
+              <mat-select formControlName="countryId" (selectionChange)="onCountryChange($event.value)"
+                [formControl]="countryControl" [disableOptionCentering]="true">
+                <!-- Arama kutusu -->
+                <ngx-mat-select-search [formControl]="countryFilterControl"
+                  placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
+                  noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}"></ngx-mat-select-search>
+
+                <!-- Seçenekler -->
+                <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
+                  {{ country.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error
+                *ngIf="signupForm.get('countryId')?.touched && signupForm.get('countryId')?.hasError('required')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Phone -->
+          <div class="col-md-6"> <mat-form-field appearance="outline" class="w-100">
               <mat-label>{{ 'SIGNUP.PHONE' | translate }}</mat-label>
-              <input matInput formControlName="phoneNumber" required />
+              <input matInput type="text" formControlName="phoneNumber" [prefix]="selectedDialCode + ' '"
+                mask="(000) 000 00 00" placeholder="(5__) ___ __ __" />
               <mat-error *ngIf="signupForm.get('phoneNumber')?.hasError('required')">
                 {{ 'VALIDATION.REQUIRED' | translate }}
               </mat-error>
@@ -110,7 +140,7 @@
           </div>
 
           <!-- Gender -->
-          <div class="col-md-6">
+          <div class="col-12">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>{{ 'SIGNUP.GENDER' | translate }}</mat-label>
               <mat-select formControlName="gender" required>
@@ -124,30 +154,8 @@
             </mat-form-field>
           </div>
 
-          <!-- Country -->
-     <div class="col-12">
-  <mat-form-field appearance="outline" class="w-100">
-  <mat-label>{{ 'SIGNUP.COUNTRY' | translate }}</mat-label>
 
-  <mat-select formControlName="countryId" [formControl]="countryControl" [disableOptionCentering]="true">
-    <!-- Arama kutusu -->
-    <ngx-mat-select-search
-      [formControl]="countryFilterControl"
-      placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
-      noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}"
-    ></ngx-mat-select-search>
 
-    <!-- Seçenekler -->
-    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
-      {{ country.name }}
-    </mat-option>
-  </mat-select>
-
-  <mat-error *ngIf="signupForm.get('countryId')?.touched && signupForm.get('countryId')?.hasError('required')">
-    {{ 'VALIDATION.REQUIRED' | translate }}
-  </mat-error>
-</mat-form-field>
-</div>
 
 
 
@@ -168,7 +176,8 @@
   </div>
 
   <!-- Sol Taraf (Görsel) -->
-  <div class="order-2 order-md-1 col-12 col-md-6 d-flex flex-column align-items-center justify-content-center bg-primary text-white text-center p-4">
+  <div
+    class="order-2 order-md-1 col-12 col-md-6 d-flex flex-column align-items-center justify-content-center bg-primary text-white text-center p-4">
     <h2 class="mb-3">EMBEDDEDACADEMY</h2>
     <p class="mb-4">Learn. Build. Innovate.</p>
     <img src="assets/circuit.svg" alt="circuit" class="img-fluid" style="max-width: 300px;" />
