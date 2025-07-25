@@ -18,6 +18,7 @@ const routes: Routes = [
   path: '',
   component: DashboardComponent,
   canActivate: [AuthGuard],
+  data: { roles: ['Admin', 'Client'] },
   children: [
     { path: '', component: HomeComponent }, // 🔥 boş alt path → home
     { path: 'dashboard', redirectTo: '', pathMatch: 'full' }, // 🔁 yönlendirme

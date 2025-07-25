@@ -9,22 +9,26 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return this.router.parseUrl('/login');
-    }
+  const token = localStorage.getItem('token');
 
-    try {
-      const decoded: any = jwtDecode(token);
-      const allowedRoles = route.data['roles'] as Array<string | number> | undefined;
-
-      if (allowedRoles && !allowedRoles.includes(decoded.roleId)) {
-        return this.router.parseUrl('/unauthorized');
-      }
-
-      return true;
-    } catch {
-      return this.router.parseUrl('/login');
-    }
+  if (!token) {
+    return this.router.parseUrl('/login');
   }
+
+  try {
+    const decoded: any = jwtDecode(token);
+
+    // ❌ BURAYI SİL → interceptor zaten expired token'ı yenileyecek
+
+    const allowedRoles = route.data['roles'] as Array<string | number> | undefined;
+
+    if (allowedRoles && !allowedRoles.includes(decoded.roleId)) {
+      return this.router.parseUrl('/unauthorized');
+    }
+
+    return true;
+  } catch {
+    return this.router.parseUrl('/login');
+  }
+}
 }

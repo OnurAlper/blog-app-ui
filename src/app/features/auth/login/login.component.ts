@@ -43,22 +43,27 @@ export class LoginComponent implements OnInit {
     this.translate.use(lang);
   }
 
- onSubmit(): void {
+onSubmit(): void {
   if (this.loginForm.invalid) return;
-  this.loading = true;
 
+  this.loading = true;
   const { usernameOrEmail, password, staySignedIn } = this.loginForm.value;
 
   this.userService.login({ usernameOrEmail, password, staySignedIn }).subscribe({
     next: (res) => {
       const token = res?.data?.token;
       const refreshToken = res?.data?.refreshToken;
+      const userId = res?.data?.id;
 
-      if (token) {
+      if (token && userId) {
         localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId.toString());
 
+        // 🧠 refreshToken sadece "beni hatırla" aktifse saklanır, aksi halde silinir
         if (staySignedIn && refreshToken) {
           localStorage.setItem('refreshToken', refreshToken);
+        } else {
+          localStorage.removeItem('refreshToken');
         }
 
         this.router.navigate(['/dashboard']);

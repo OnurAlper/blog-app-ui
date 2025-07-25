@@ -13,20 +13,17 @@ export class LoginGuard implements CanActivate {
 
     if (token) {
       try {
-        const decoded: any = jwtDecode(token);
-        const now = Math.floor(Date.now() / 1000);
+        jwtDecode(token); // sadece token varsa ve çözümlenebiliyorsa yeter
 
-        if (decoded.exp && decoded.exp > now) {
-          // Token hâlâ geçerli → login/signup sayfalarına erişmesin
-          this.router.navigate(['/dashboard']);
-          return false;
-        }
+        // Token varsa → login/signup sayfasına giremesin
+        this.router.navigate(['/dashboard']);
+        return false;
       } catch {
-        // Token bozuksa → erişime izin ver
+        // Token bozuksa → login sayfasına erişebilir
         return true;
       }
     }
 
-    return true; // Token yoksa erişime izin ver
+    return true; // Token yoksa → login sayfasına erişebilir
   }
 }

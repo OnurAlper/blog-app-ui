@@ -4,6 +4,13 @@
     <mat-card-content>
       <p>This is your dashboard home screen.</p>
       <p>Buraya özet bilgiler, kısa istatistikler, haberler, grafikler vs. koyabilirsin.</p>
+
+      <div *ngIf="user">
+        <h4>Hoş geldin, {{ user.name }} {{ user.surname }}</h4>
+        <p><strong>Kullanıcı Adı:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Telefon:</strong> {{ user.phoneNumber }}</p>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
