@@ -73,7 +73,16 @@
     "SAVE": "Kaydet",
     "UPDATE_SUCCESS": "Profil başarıyla güncellendi",
     "UPDATE_FAILED": "Profil güncellenemedi",
-    "COUNTRY_FETCH_ERROR": "Ülkeler alınırken hata oluştu"
+    "COUNTRY_FETCH_ERROR": "Ülkeler alınırken hata oluştu",
+    "CHANGE_PASSWORD": "Şifre Güncelleme",
+    "CURRENT_PASSWORD": "Mevcut Şifre",
+    "NEW_PASSWORD": "Yeni Şifre",
+    "NEW_PASSWORD_REPEAT": "Yeni Şifre (Tekrar)",
+    "PASSWORD_RULE": "Şifreniz en az 10 karakter olmalı. 1 büyük harf, 1 küçük harf ve rakam içermelidir.",
+    "PASSWORD_NOT_MATCH": "Yeni şifreler uyuşmuyor.",
+    "UPDATE_PASSWORD": "Şifreyi Güncelle",
+    "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla güncellendi.",
+    "PASSWORD_UPDATE_FAILED": "Şifre güncellenemedi."
   }
   
 }

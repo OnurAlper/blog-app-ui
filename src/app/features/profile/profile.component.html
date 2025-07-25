@@ -1,69 +1,143 @@
-<div class="profile-wrapper">
-  <mat-card class="profile-card mat-elevation-z8">
-    <mat-card-header>
-      <mat-card-title>{{ 'PROFILE.TITLE' | translate }}</mat-card-title>
-    </mat-card-header>
+<div class="container py-4">
+  <div class="row">
+    <!-- Sol Sütun: Profil Bilgileri -->
+    <div class="col-12 col-md-6 mb-4">
+      <div class="profile-wrapper">
+        <mat-card class="profile-card mat-elevation-z8">
+          <mat-card-header>
+            <mat-card-title>{{ 'PROFILE.TITLE' | translate }}</mat-card-title>
+          </mat-card-header>
 
-    <mat-card-content>
-      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+          <mat-card-content>
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
 
-        <!-- GRID'li alanlar -->
-        <div class="form-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.NAME' | translate }}</mat-label>
-            <input matInput formControlName="name" />
-          </mat-form-field>
+              <!-- Profil Resmi -->
+              <div class="profile-header d-flex flex-column align-items-center mb-4">
+                <div class="profile-image-container">
+                  <label class="profile-image-label">
+                    <img [src]="profileImagePreview || defaultImage" alt="profile" class="profile-image" />
+                    <div class="edit-overlay">
+                      <mat-icon>edit</mat-icon>
+                    </div>
+                    <input type="file" (change)="onFileSelected($event)" hidden />
+                  </label>
+                </div>
+              </div>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.SURNAME' | translate }}</mat-label>
-            <input matInput formControlName="surname" />
-          </mat-form-field>
+              <div class="form-grid">
+                <!-- Ad -->
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'PROFILE.NAME' | translate }}</mat-label>
+                  <input matInput formControlName="name" />
+                </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.USERNAME' | translate }}</mat-label>
-            <input matInput formControlName="username" />
-          </mat-form-field>
+                <!-- Soyad -->
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'PROFILE.SURNAME' | translate }}</mat-label>
+                  <input matInput formControlName="surname" />
+                </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.EMAIL' | translate }}</mat-label>
-            <input matInput formControlName="email" />
-          </mat-form-field>
+                <!-- Kullanıcı Adı -->
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'PROFILE.USERNAME' | translate }}</mat-label>
+                  <input matInput formControlName="username" />
+                </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
-            <input matInput formControlName="phoneNumber" />
-          </mat-form-field>
+                <!-- E-Mail -->
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'PROFILE.EMAIL' | translate }}</mat-label>
+                  <input matInput formControlName="email" />
+                </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.BIRTHDATE' | translate }}</mat-label>
-            <input matInput formControlName="birthDate" type="date" />
-          </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.GENDER' | translate }}</mat-label>
-            <mat-select formControlName="gender">
-              <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                {{ gender.label | translate }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+                <!-- Ülke -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
+                  <mat-select formControlName="countryId" [formControl]="countryControl" [disableOptionCentering]="true"
+                    (selectionChange)="onCountryChange($event.value)">
+                    <ngx-mat-select-search [formControl]="countryFilterControl"
+                      placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
+                      noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}"></ngx-mat-select-search>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
-            <mat-select [formControl]="countryControl">
-              <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
-                {{ country.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+                    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-select>
 
-        <div class="button-container">
-          <button mat-flat-button color="primary" type="submit">
-            {{ 'PROFILE.SAVE' | translate }}
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+                </mat-form-field>
+                <!-- Telefon -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
+                  <input matInput type="text" formControlName="phoneNumber" [prefix]="selectedDialCode + ' '"
+                    mask="(000) 000 00 00" placeholder="(5__) ___ __ __" />
+                  <mat-error *ngIf="profileForm.get('phoneNumber')?.hasError('required')">
+                    {{ 'VALIDATION.REQUIRED' | translate }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Doğum Tarihi -->
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'PROFILE.BIRTHDATE' | translate }}</mat-label>
+                  <input matInput formControlName="birthDate" [matDatepicker]="birthPicker" />
+                  <mat-datepicker-toggle matSuffix [for]="birthPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #birthPicker></mat-datepicker>
+                </mat-form-field>
+
+                <!-- Cinsiyet -->
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'PROFILE.GENDER' | translate }}</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                      {{ gender.label | translate }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <div class="button-container text-end mt-3">
+                <button mat-flat-button color="primary" type="submit">
+                  {{ 'PROFILE.SAVE' | translate }}
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Sağ Sütun: Şifre Güncelleme -->
+    <div class="col-12 col-md-6 mb-4">
+      <mat-card class="password-card mat-elevation-z8">
+        <mat-card-header>
+          <mat-card-title>{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form [formGroup]="passwordForm" (ngSubmit)="onPasswordChange()">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'PROFILE.CURRENT_PASSWORD' | translate }}</mat-label>
+              <input matInput formControlName="currentPassword" type="password" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'PROFILE.NEW_PASSWORD' | translate }}</mat-label>
+              <input matInput formControlName="newPassword" type="password" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'PROFILE.NEW_PASSWORD_REPEAT' | translate }}</mat-label>
+              <input matInput formControlName="confirmPassword" type="password" />
+            </mat-form-field>
+
+            <div class="text-end mt-3">
+              <button mat-raised-button color="accent" type="submit">
+                {{ 'PROFILE.UPDATE_PASSWORD' | translate }}
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>

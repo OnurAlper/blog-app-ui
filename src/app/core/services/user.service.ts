@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseApiService } from './base-api.service';
 import { Observable } from 'rxjs';
 import {
+  ChangePasswordDto,
   GetUserDto,
   LoginRequestDto,
   LoginResponseDto,
@@ -29,5 +30,7 @@ export class UserService extends BaseApiService {
   updateProfile(data: UpdateProfileDto): Observable<BaseResponse<UpdateResponseDto>> {
     return this.put<BaseResponse<UpdateResponseDto>>('User/UpdateProfile', data);
   }
-
+ changePassword(data: ChangePasswordDto): Observable<BaseResponse<UpdateResponseDto>> {
+    return this.put<BaseResponse<UpdateResponseDto>>('User/ChangePassword', data);
+  }
 }

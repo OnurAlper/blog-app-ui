@@ -1,56 +1,56 @@
-.profile-card {
-  width: 700px;
-  max-width: 95vw;
-  margin: auto;
-  padding: 16px;
-  border-radius: 16px;
-}
-
 .profile-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
+  margin-bottom: 16px;
 
-.close-btn {
-  position: relative;
-  top: -8px;
-  right: -8px;
-}
-
-.profile-image-container {
-  display: flex;
-  justify-content: center;
-  margin: 16px 0;
-
-  .profile-image-label {
+  .profile-image-container {
     position: relative;
-    display: inline-block;
-    border-radius: 50%;
-    overflow: hidden;
+    margin-right: 16px;
     cursor: pointer;
 
     .profile-image {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
+      width: 90px;  /* Profil resmini küçülttük */
+      height: 90px; /* Aynı oranda boyutlandırdık */
       border-radius: 50%;
+      object-fit: cover;
       border: 2px solid #ccc;
+      margin-top: 10px; /* Profil resmini biraz aşağıya kaydırdık */
     }
 
     .edit-overlay {
       position: absolute;
-      bottom: 0;
-      right: 0;
-      background-color: rgba(63, 81, 181, 0.8);
+      bottom: -9px;  /* İkonu biraz daha profil resminin dışına kaydırdık */
+      right: -9px;   /* Sağ tarafa doğru yerleştirdik */
       border-radius: 50%;
       padding: 4px;
-      color: #fff;
+      color: black;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 24px;   /* İkonun etrafındaki daireyi küçülttük */
+      height: 24px;  /* İkonun etrafındaki daireyi küçülttük */
+
+      mat-icon {
+        font-size: 16px; /* İkon boyutunu küçülttük */
+      }
     }
   }
+
+  .profile-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Bilgileri daha düzgün yerleştirelim */
+  }
+}
+
+.profile-card,
+.password-card {
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  padding: 16px;
+  border-radius: 16px;
 }
 
 .form-grid {
@@ -63,4 +63,29 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 24px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .profile-card,
+  .password-card {
+    padding: 12px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr; /* Form alanlarını tek sütuna alıyoruz */
+  }
+
+  .profile-header {
+    flex-direction: column; /* Profil resmi ve form alanlarını üst üste koyuyoruz */
+    align-items: center; /* Resim ve form alanlarını ortalayacağız */
+  }
+
+  .profile-image-container {
+    margin-right: 0; /* Mobilde gereksiz boşlukları kaldırıyoruz */
+    margin-bottom: 16px; /* Profil resminin altına mesafe ekliyoruz */
+  }
 }

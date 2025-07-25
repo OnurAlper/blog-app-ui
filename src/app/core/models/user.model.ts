@@ -57,3 +57,8 @@ export interface UpdateProfileDto {
   countryId: number;
   profileImageUrl?: string;
 }
+
+export interface ChangePasswordDto {
+  currentPassword: string;
+  newPassword: string;
+}

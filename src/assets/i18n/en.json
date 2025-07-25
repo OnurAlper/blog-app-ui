@@ -72,7 +72,16 @@
     "SAVE": "Save",
     "UPDATE_SUCCESS": "Profile updated successfully",
     "UPDATE_FAILED": "Failed to update profile",
-    "COUNTRY_FETCH_ERROR": "An error occurred while fetching countries"
+    "COUNTRY_FETCH_ERROR": "An error occurred while fetching countries",
+    "CHANGE_PASSWORD": "Change Password",
+    "CURRENT_PASSWORD": "Current Password",
+    "NEW_PASSWORD": "New Password",
+    "NEW_PASSWORD_REPEAT": "Confirm New Password",
+    "PASSWORD_RULE": "Your password must be at least 10 characters long and contain 1 uppercase, 1 lowercase, and 1 number.",
+    "PASSWORD_NOT_MATCH": "New passwords do not match.",
+    "UPDATE_PASSWORD": "Update Password",
+    "PASSWORD_UPDATE_SUCCESS": "Password updated successfully.",
+    "PASSWORD_UPDATE_FAILED": "Password update failed."
   }
 
 }
