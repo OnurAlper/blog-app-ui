@@ -29,8 +29,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   countries: GetCountryDto[] = [];
   filteredCountries: GetCountryDto[] = [];
 
-  countryControl = new FormControl();
-  countryFilterControl = new FormControl();
+countrySearchTerm: string = '';
+
 
   selectedDialCode: string = '+90'; // ✅ Varsayılan kod (Türkiye)
 
@@ -63,22 +63,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     });
 
     this.fetchCountries();
-
-    this.countryFilterControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((search: string) => {
-        const term = search?.toLowerCase() || '';
-        this.filteredCountries = this.countries.filter(c =>
-          c.name.toLowerCase().includes(term)
-        );
-      });
-
-    this.countryControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(val => {
-        this.signupForm.get('countryId')?.setValue(val);
-        this.onCountryChange(val); // ✅ Ülke değişince kod güncelle
-      });
   }
 
   fetchCountries(): void {
@@ -99,6 +83,13 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.translate.use(lang);
     this.fetchCountries();
   }
+
+  onCountrySearch(search: string): void {
+  const term = search?.toLowerCase() || '';
+  this.filteredCountries = this.countries.filter(c =>
+    c.name.toLowerCase().includes(term)
+  );
+}
 
   onCountryChange(countryId: number): void {
     const selected = this.countries.find(c => c.id === countryId);

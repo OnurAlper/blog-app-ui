@@ -32,8 +32,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   countries: GetCountryDto[] = [];
   filteredCountries: GetCountryDto[] = [];
-  countryControl = new FormControl();
-  countryFilterControl = new FormControl();
+countrySearchTerm: string = '';
+
   selectedDialCode: string = '+90';
 
   profileImagePreview: string | null = null;
@@ -54,31 +54,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const lang = (localStorage.getItem('language') as 'tr' | 'en') || 'tr';
-    this.translate.use(lang);
+  const lang = (localStorage.getItem('language') as 'tr' | 'en') || 'tr';
+  this.translate.use(lang);
 
-    this.initProfileForm();
-    this.initPasswordForm();
+  this.initProfileForm();
+  this.initPasswordForm();
 
-    this.loadUser();
-    this.fetchCountries();
+  this.loadUser();
+  this.fetchCountries();
+}
 
-    this.countryFilterControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((search: string) => {
-        const term = search?.toLowerCase() || '';
-        this.filteredCountries = this.countries.filter(c =>
-          c.name.toLowerCase().includes(term)
-        );
-      });
-
-    this.countryControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(val => {
-        this.profileForm.get('countryId')?.setValue(val);
-        this.onCountryChange(val);
-      });
-  }
 
   initProfileForm(): void {
     this.profileForm = this.fb.group({
@@ -93,6 +78,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
       profileImageUrl: ['']
     });
   }
+  onCountrySearch(search: string): void {
+  const term = search?.toLowerCase() || '';
+  this.filteredCountries = this.countries.filter(c =>
+    c.name.toLowerCase().includes(term)
+  );
+}
+
 
   initPasswordForm(): void {
     this.passwordForm = this.fb.group({
@@ -120,7 +112,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           birthDate: data.birthDate?.substring(0, 10)
         });
 
-        this.countryControl.setValue(data.countryId);
+      this.onCountryChange(data.countryId);
         this.onCountryChange(data.countryId);
       },
       error: err => {
@@ -160,11 +152,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
   }
 
-
-  getCountryName(countryId: number): string {
-    const country = this.countries.find(c => c.id === countryId);
-    return country ? country.name : '';
-  }
 
   onSubmit(): void {
     if (this.profileForm.invalid) return;

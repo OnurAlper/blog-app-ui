@@ -51,20 +51,30 @@
 
 
                 <!-- Ülke -->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
-                  <mat-select formControlName="countryId" [formControl]="countryControl" [disableOptionCentering]="true"
-                    (selectionChange)="onCountryChange($event.value)">
-                    <ngx-mat-select-search [formControl]="countryFilterControl"
-                      placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
-                      noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}"></ngx-mat-select-search>
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
+  <mat-select formControlName="countryId"
+              [disableOptionCentering]="true"
+              (selectionChange)="onCountryChange($event.value)">
 
-                    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
-                      {{ country.name }}
-                    </mat-option>
-                  </mat-select>
+    <!-- 🔍 Arama Kutusu -->
+    <mat-option>
+      <ngx-mat-select-search
+        [(ngModel)]="countrySearchTerm"
+         [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="onCountrySearch($event)"
+        placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
+        noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}">
+      </ngx-mat-select-search>
+    </mat-option>
 
-                </mat-form-field>
+    <!-- 🌍 Ülke Seçenekleri -->
+    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
+      {{ country.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
                 <!-- Telefon -->
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>

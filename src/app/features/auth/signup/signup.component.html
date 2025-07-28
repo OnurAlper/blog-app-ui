@@ -91,19 +91,24 @@
               </mat-error>
             </mat-form-field>
           </div>
-                    <!-- Country -->
+          <!-- Country -->
           <div class="col-md-6">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>{{ 'SIGNUP.COUNTRY' | translate }}</mat-label>
 
               <mat-select formControlName="countryId" (selectionChange)="onCountryChange($event.value)"
-                [formControl]="countryControl" [disableOptionCentering]="true">
-                <!-- Arama kutusu -->
-                <ngx-mat-select-search [formControl]="countryFilterControl"
-                  placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
-                  noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}"></ngx-mat-select-search>
+                [disableOptionCentering]="true">
 
-                <!-- Seçenekler -->
+                <!-- 🔍 Arama Kutusu -->
+                <mat-option>
+                  <ngx-mat-select-search [(ngModel)]="countrySearchTerm" [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="onCountrySearch($event)"
+                    placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
+                    noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}">
+                  </ngx-mat-select-search>
+                </mat-option>
+
+                <!-- 🌍 Seçenekler -->
                 <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
                   {{ country.name }}
                 </mat-option>
@@ -114,6 +119,7 @@
                 {{ 'VALIDATION.REQUIRED' | translate }}
               </mat-error>
             </mat-form-field>
+
           </div>
           <!-- Phone -->
           <div class="col-md-6"> <mat-form-field appearance="outline" class="w-100">
