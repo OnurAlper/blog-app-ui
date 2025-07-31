@@ -2,6 +2,7 @@
   height: 100vh;
 }
 
+/* Üst bar */
 .topbar {
   display: flex;
   align-items: center;
@@ -20,10 +21,88 @@
   }
 }
 
+/* SİDEBAR: topbar ile aynı stil - arka plan #3f51b5, yazı ve iconlar beyaz */
 .dashboard-sidenav {
-  width: 220px;
+  width: 240px;
+  
+  /* Topbar ile aynı arka plan rengi */
+  background: #3f51b5;
+  color: #fff;
+  
+  /* Scroll'u kaldır */
+  overflow: hidden !important;
+
+  /* Nav list genel ayarları */
+.mat-mdc-nav-list {
+  overflow: hidden !important;
+}
+
+  /* List item'lar - tüm yazı ve iconlar beyaz */
+  .mat-mdc-list-item {
+    /* Yazı renkleri beyaz */
+    --mdc-list-list-item-label-text-color: #fff;
+    --mdc-list-list-item-supporting-text-color: #fff;
+    
+    /* Icon renkleri beyaz */
+    --mdc-list-list-item-leading-icon-color: #fff;
+    --mdc-list-list-item-trailing-icon-color: #fff;
+
+    /* Spacing ve border radius */
+    border-radius: 8px;
+    margin: 4px 8px;
+    
+    /* Yazı rengi override */
+    color: #fff;
+    
+    /* Icon için ekstra beyaz renk */
+    .mat-icon {
+      color: #fff;
+    }
+    
+    /* List item title için beyaz renk */
+    .mdc-list-item__primary-text {
+      color: #fff;
+    }
+  }
+
+  /* Hover efekti - topbar ile uyumlu */
+  .mat-mdc-list-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Aktif link - topbar ile uyumlu */
+  .active-link {
+    background: rgba(255, 255, 255, 0.12);
+    position: relative;
+    
+    /* Sol tarafta beyaz çizgi */
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 3px;
+      border-radius: 2px;
+      background: #fff;
+    }
+  }
+
+  /* Link'ler için genel beyaz renk */
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
 }
 
 .dashboard-content {
   padding: 20px;
+}
+
+/* Küçük ekran optimizasyonları */
+@media (max-width: 767.98px) {
+  .dashboard-sidenav {
+    width: 80vw;
+    max-width: 320px;
+  }
 }

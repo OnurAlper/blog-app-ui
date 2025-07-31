@@ -1,26 +1,36 @@
 <mat-sidenav-container class="dashboard-container">
-  <!-- Sol Menü -->
+  <!-- SOL SİDEBAR -->
   <mat-sidenav
     #sidenav
-    mode="side"
-    [opened]="isScreenLarge"
     class="dashboard-sidenav"
+    [mode]="isScreenLarge ? 'side' : 'over'"
+    [opened]="isScreenLarge"
     fixedInViewport
-    [fixedTopGap]="64"
+
   >
-    <mat-toolbar>Menü</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
-      <a mat-list-item routerLink="/profile" routerLinkActive="active-link">Profil</a>
-      <a mat-list-item routerLink="/settings" routerLinkActive="active-link">Ayarlar</a>
-      <!-- Sağ üstte artık kullanıcı menüsü olduğu için burayı silebiliriz -->
-      <!-- <a mat-list-item routerLink="/logout">Çıkış</a> -->
+    <!-- Üst başlık kaldırıldı (Menü yok) -->
+
+    <mat-nav-list (click)="onNavListClick(sidenav)">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Dashboard</span>
+      </a>
+
+      <a mat-list-item routerLink="/profile" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>person</mat-icon>
+        <span matListItemTitle>Profil</span>
+      </a>
+
+      <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle>Ayarlar</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 
-  <!-- Ana İçerik -->
+  <!-- ANA İÇERİK -->
   <mat-sidenav-content>
-    <!-- Üst Toolbar -->
+    <!-- ÜST TOOLBAR -->
     <mat-toolbar color="primary" class="topbar">
       <button
         type="button"
@@ -32,15 +42,16 @@
         <mat-icon>menu</mat-icon>
       </button>
 
+      <!-- En üst başlık: Dashboard -->
       <span class="toolbar-title">Dashboard</span>
 
       <span class="spacer"></span>
 
-      <!-- Kullanıcı menü component'i -->
+      <!-- Kullanıcı menüsü -->
       <app-user-menu></app-user-menu>
     </mat-toolbar>
 
-    <!-- Sayfa İçeriği -->
+    <!-- Sayfa içeriği -->
     <div class="dashboard-content">
       <router-outlet></router-outlet>
     </div>

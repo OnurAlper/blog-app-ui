@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +16,14 @@ export class DashboardComponent implements OnInit {
 
   @HostListener('window:resize')
   checkScreen() {
-    this.isScreenLarge = window.innerWidth >= 768; // 768px ve üstü geniş ekran sayılır
+    // 768px ve üstü geniş ekran
+    this.isScreenLarge = window.innerWidth >= 768;
+  }
+
+  // Küçük ekranda nav item’a tıklanınca menüyü kapat
+  onNavListClick(sidenav: MatSidenav) {
+    if (!this.isScreenLarge && sidenav.opened) {
+      sidenav.close();
+    }
   }
 }
