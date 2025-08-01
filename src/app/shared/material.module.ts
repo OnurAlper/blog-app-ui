@@ -15,6 +15,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu'; // ✅ Eksikti, eklendi
 import { MatDividerModule } from '@angular/material/divider'; // (Opsiyonel)
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -34,7 +39,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCheckboxModule,
     MatMenuModule,         // ✅ Gerekli
     MatDividerModule,  
-    MatDialogModule        
+    MatDialogModule,
+    MatButtonToggleModule,
+    MatProgressBarModule,
+    MatTooltipModule,
+    MatChipsModule,
+    MatPaginatorModule   
   ],
 })
 export class MaterialModule {}

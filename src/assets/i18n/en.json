@@ -9,7 +9,7 @@
     "SIGN_UP": "Sign up",
     "SUCCESS": "Login successful!",
     "FAILURE": "Login failed",
-    "REMEMBER_ME":"Remember me"
+    "REMEMBER_ME": "Remember me"
   },
   "VALIDATION": {
     "REQUIRED": "This field is required.",
@@ -25,35 +25,54 @@
     "LANGUAGE": "Language",
     "LOGOUT": "Logout",
     "DASHBOARD": "Dashboard",
-    "CLOSE": "Close"
+    "CLOSE": "Close",
+    "SEARCH": "Search",
+    "REFRESH": "Refresh",
+    "OPEN": "Open",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "PAGE_SIZE": "Page Size",
+    "PAGINATION": "Pagination",
+
+    "OK": "OK",
+    "ERROR": "An error occurred.",
+    "LOADING": "Loading...",
+    "MORE": "More",
+
+    "ITEMS_PER_PAGE": "Items per page",
+    "OF": "of",
+    "FIRST": "First",
+    "PREV": "Previous",
+    "NEXT": "Next",
+    "LAST": "Last"
   },
-    "LANG": {
+  "LANG": {
     "TURKISH": "Turkish",
     "ENGLISH": "English"
   },
   "SIGNUP": {
-  "TITLE": "Create an Account",
-  "NAME": "First Name",
-  "SURNAME": "Last Name",
-  "USERNAME": "Username",
-  "EMAIL": "Email",
-  "PASSWORD": "Password",
-  "PHONE": "Phone Number",
-  "BIRTHDATE": "Birth Date",
-  "GENDER": "Gender",
-  "COUNTRY": "Country",
-  "BUTTON": "Sign Up",
-  "LOADING": "Creating...",
-  "SUCCESS": "Registration successful!",
-  "FAILURE": "Registration failed.",
-  "HAVE_ACCOUNT": "Already have an account?",
-  "LOGIN": "Login",
-  "SEARCH_COUNTRY": "Search country..."
-},
-"GENDER": {
-  "MALE": "Male",
-  "FEMALE": "Female"
-},
+    "TITLE": "Create an Account",
+    "NAME": "First Name",
+    "SURNAME": "Last Name",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "PHONE": "Phone Number",
+    "BIRTHDATE": "Birth Date",
+    "GENDER": "Gender",
+    "COUNTRY": "Country",
+    "BUTTON": "Sign Up",
+    "LOADING": "Creating...",
+    "SUCCESS": "Registration successful!",
+    "FAILURE": "Registration failed.",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "LOGIN": "Login",
+    "SEARCH_COUNTRY": "Search country..."
+  },
+  "GENDER": {
+    "MALE": "Male",
+    "FEMALE": "Female"
+  },
   "UserMenu": {
     "Profile": "My Profile",
     "Logout": "Logout"
@@ -82,6 +101,21 @@
     "UPDATE_PASSWORD": "Update Password",
     "PASSWORD_UPDATE_SUCCESS": "Password updated successfully.",
     "PASSWORD_UPDATE_FAILED": "Password update failed."
+  },
+  "BLOG": {
+    "TITLE": "Blog Posts",
+    "SEARCH_PLACEHOLDER": "Search by title, content, or author…",
+    "CATEGORY": "Category",
+    "STATUS": "Status",
+    "SORT_FIELD": {
+      "CREATED_AT": "Created Date",
+      "TITLE": "Title",
+      "AUTHOR": "Author"
+    },
+    "STATUS_PUBLISHED": "Published",
+    "STATUS_DRAFT": "Draft"
+  },
+  "EMPTY": {
+    "NO_RECORDS": "No records found."
   }
-
 }

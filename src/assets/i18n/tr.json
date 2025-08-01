@@ -22,12 +22,30 @@
     "UNKNOWN": "Bilinmeyen bir hata oluştu."
   },
   "COMMON": {
-    "LANGUAGE": "Dil",
-    "LOGOUT": "Çıkış Yap",
-    "DASHBOARD": "Kontrol Paneli",
-    "CLOSE": "Kapat"
+  "LANGUAGE": "Dil",
+  "LOGOUT": "Çıkış Yap",
+  "DASHBOARD": "Kontrol Paneli",
+  "CLOSE": "Kapat",
+  "SEARCH": "Ara",
+  "REFRESH": "Yenile",
+  "OPEN": "Aç",
+  "EDIT": "Düzenle",
+  "DELETE": "Sil",
+  "PAGE_SIZE": "Sayfa Boyutu",
+  "PAGINATION": "Sayfalar",
 
-  },
+  "OK": "Tamam",
+  "ERROR": "Bir hata oluştu.",
+  "LOADING": "Yükleniyor...",
+  "MORE": "Daha fazla",
+
+  "ITEMS_PER_PAGE": "Sayfa Başına",
+  "OF": " / Toplam ",
+  "FIRST": "İlk",
+  "PREV": "Önceki",
+  "NEXT": "Sonraki",
+  "LAST": "Son"
+},
   "LANG": {
     "TURKISH": "Türkçe",
     "ENGLISH": "İngilizce"
@@ -83,6 +101,22 @@
     "UPDATE_PASSWORD": "Şifreyi Güncelle",
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla güncellendi.",
     "PASSWORD_UPDATE_FAILED": "Şifre güncellenemedi."
+  },
+ "BLOG": {
+  "TITLE": "Blog Yazıları",
+  "SEARCH_PLACEHOLDER": "Başlık, içerik veya yazar ara…",
+  "CATEGORY": "Kategori",
+  "STATUS": "Durum",
+  "SORT_FIELD": {
+    "CREATED_AT": "Oluşturma Tarihi",
+    "TITLE": "Başlık",
+    "AUTHOR": "Yazar"
+  },
+  "STATUS_PUBLISHED": "Yayında",
+  "STATUS_DRAFT": "Taslak"
+},
+  "EMPTY": {
+    "NO_RECORDS": "Kayıt bulunamadı."
   }
   
 }

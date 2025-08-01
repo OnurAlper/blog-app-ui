@@ -1,6 +1,9 @@
+// services/base-api.service.ts
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+type QueryObject = Record<string, string | number | boolean | null | undefined>;
 
 @Injectable({ providedIn: 'root' })
 export class BaseApiService {
@@ -8,17 +11,38 @@ export class BaseApiService {
 
   constructor(protected http: HttpClient) {}
 
-  get<T>(url: string, options: {
-    params?: HttpParams,
-    headers?: { [key: string]: string }
-  } = {}): Observable<T> {
+  // Düz obje -> HttpParams çevirici
+  protected toHttpParams(query?: QueryObject): HttpParams {
+    let params = new HttpParams();
+    if (!query) return params;
+
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && `${value}` !== '') {
+        params = params.set(key, String(value));
+      }
+    });
+    return params;
+  }
+
+  get<T>(
+    url: string,
+    options: {
+      params?: HttpParams | QueryObject,
+      headers?: { [key: string]: string }
+    } = {}
+  ): Observable<T> {
     const defaultHeaders = new HttpHeaders({
       'accept-language': localStorage.getItem('language') || 'tr-TR',
       ...options.headers
     });
 
+    const params =
+      options.params instanceof HttpParams
+        ? options.params
+        : this.toHttpParams(options.params as QueryObject);
+
     return this.http.get<T>(`${this.baseUrl}/${url}`, {
-      params: options.params,
+      params,
       headers: defaultHeaders
     });
   }

@@ -1,17 +1,12 @@
 <mat-sidenav-container class="dashboard-container">
   <!-- SOL SİDEBAR -->
-  <mat-sidenav
-    #sidenav
-    class="dashboard-sidenav"
-    [mode]="isScreenLarge ? 'side' : 'over'"
-    [opened]="isScreenLarge"
-    fixedInViewport
-
-  >
+  <mat-sidenav #sidenav class="dashboard-sidenav" [mode]="isScreenLarge ? 'side' : 'over'" [opened]="isScreenLarge"
+    fixedInViewport>
     <!-- Üst başlık kaldırıldı (Menü yok) -->
 
     <mat-nav-list (click)="onNavListClick(sidenav)">
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon matListItemIcon>dashboard</mat-icon>
         <span matListItemTitle>Dashboard</span>
       </a>
@@ -20,7 +15,10 @@
         <mat-icon matListItemIcon>person</mat-icon>
         <span matListItemTitle>Profil</span>
       </a>
-
+      <a mat-list-item routerLink="/blog" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>article</mat-icon>
+        <span matListItemTitle>Blog</span>
+      </a>
       <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>Ayarlar</span>
@@ -32,13 +30,7 @@
   <mat-sidenav-content>
     <!-- ÜST TOOLBAR -->
     <mat-toolbar color="primary" class="topbar">
-      <button
-        type="button"
-        mat-icon-button
-        (click)="sidenav.toggle()"
-        class="menu-button"
-        aria-label="Toggle sidenav"
-      >
+      <button type="button" mat-icon-button (click)="sidenav.toggle()" class="menu-button" aria-label="Toggle sidenav">
         <mat-icon>menu</mat-icon>
       </button>
 

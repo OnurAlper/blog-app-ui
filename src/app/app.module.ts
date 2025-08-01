@@ -24,6 +24,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { UserMenuComponent } from './shared/components/user-menu/user-menu.component';
 import { ProfileComponent } from './features/profile/profile.component';
 import { HomeComponent } from './features/dashboard/home/home.component';
+import { BlogViewComponent } from './features/blog/blog-view/blog-view.component';
 
 
 // 🔁 Çeviri dosyalarının yolu
@@ -39,7 +40,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DashboardComponent,
     UserMenuComponent,
     ProfileComponent,
-    HomeComponent
+    HomeComponent,
+    BlogViewComponent   
   ],
   imports: [
     BrowserModule,
