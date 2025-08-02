@@ -15,7 +15,7 @@
         <mat-icon matListItemIcon>person</mat-icon>
         <span matListItemTitle>Profil</span>
       </a>
-      <a mat-list-item routerLink="/blog" routerLinkActive="active-link">
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/blog" routerLinkActive="active-link">
         <mat-icon matListItemIcon>article</mat-icon>
         <span matListItemTitle>Blog</span>
       </a>

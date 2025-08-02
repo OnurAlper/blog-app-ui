@@ -1,34 +1,48 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate, CanActivateChild, Router, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-  const token = localStorage.getItem('token');
-
-  if (!token) {
-    return this.router.parseUrl('/login');
+    return this.checkAccess(route);
   }
 
-  try {
-    const decoded: any = jwtDecode(token);
+  canActivateChild(childRoute: ActivatedRouteSnapshot): boolean | UrlTree {
+    return this.checkAccess(childRoute);
+  }
 
-    // ❌ BURAYI SİL → interceptor zaten expired token'ı yenileyecek
+  private checkAccess(route: ActivatedRouteSnapshot): boolean | UrlTree {
+    const token = localStorage.getItem('token');
+    if (!token) return this.router.parseUrl('/login');
 
-    const allowedRoles = route.data['roles'] as Array<string | number> | undefined;
+    try {
+      const decoded: any = jwtDecode(token);
 
-    if (allowedRoles && !allowedRoles.includes(decoded.roleId)) {
-      return this.router.parseUrl('/unauthorized');
+      const roleMap: Record<number, string> = {
+        1: 'Admin',
+        2: 'Client'
+      };
+      const userRole = roleMap[decoded.roleId] || decoded.roleId;
+
+      // Burada any[] veya string[] tipini zorla
+      const allowedRoles = route.data['roles'] as (string | number)[] | undefined;
+
+      if (
+        allowedRoles &&
+        !allowedRoles.includes(userRole) &&
+        !allowedRoles.includes(decoded.roleId)
+      ) {
+        return this.router.parseUrl('/unauthorized');
+      }
+
+      return true;
+    } catch {
+      return this.router.parseUrl('/login');
     }
-
-    return true;
-  } catch {
-    return this.router.parseUrl('/login');
   }
-}
 }

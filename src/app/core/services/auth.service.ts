@@ -63,5 +63,18 @@ export class AuthService {
     return null;
   }
 }
+getCurrentUserRole(): string | null {
+  const user = this.getCurrentUser();
+  return user?.roleId || null; 
+}
+
+isAdmin(): boolean {
+  return this.getCurrentUserRole() === 'Admin';
+}
+
+isClient(): boolean {
+  return this.getCurrentUserRole() === 'Client';
+}
+
 
 }

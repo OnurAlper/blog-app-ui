@@ -9,7 +9,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginGuard } from './shared/guards/loginGuard'; // ✅ Bunu ekledik
 import { ProfileComponent } from './features/profile/profile.component';
 import { HomeComponent } from './features/dashboard/home/home.component';
-import { BlogViewComponent } from './features/blog/blog-view/blog-view.component';
+import { BlogViewComponent } from './features/admin/blog/blog-view/blog-view.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -19,13 +19,14 @@ const routes: Routes = [
   path: '',
   component: DashboardComponent,
   canActivate: [AuthGuard],
+  canActivateChild: [AuthGuard],
   data: { roles: ['Admin', 'Client'] },
   children: [
     { path: '', component: HomeComponent }, // 🔥 boş alt path → home
     { path: 'dashboard', redirectTo: '', pathMatch: 'full' }, // 🔁 yönlendirme
     { path: 'profile', component: ProfileComponent },
 
-    { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin', 'Client'] } },
+    { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
   ]
 },
 
