@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { finalize } from 'rxjs/operators';
 import { BlogService, BlogPostQuery, OrderDirection } from 'src/app/core/services/blog.service';
 import { GetBlogPostDto } from 'src/app/core/models/blog.model';
-import { BaseResponse, ListResponse } from 'src/app/core/models/base-response.model';
 import { TranslateService } from '@ngx-translate/core';
-import { PageableService } from 'src/app/core/services/pageable.service';
-import { NotificationService } from 'src/app/shared/notification.service'; // ✅ Notification Service
-import { Router } from '@angular/router'; // ✅ Ekledik
+import { NotificationService } from 'src/app/shared/notification.service';
+import { Router } from '@angular/router';
+
 type BlogPostUI = GetBlogPostDto & { _imgErr?: boolean };
 
 @Component({
@@ -16,116 +18,103 @@ type BlogPostUI = GetBlogPostDto & { _imgErr?: boolean };
   standalone: false
 })
 export class BlogViewComponent implements OnInit {
-  items: BlogPostUI[] = [];
+  displayedColumns: string[] = ['title', 'createdAt', 'authorFullName', 'categoryName', 'status', 'actions'];
+  dataSource = new MatTableDataSource<BlogPostUI>([]);
+  viewMode: 'table' | 'card' = 'table';
   loading = false;
 
+  searchTerm = '';
   orderBy: string = 'CreatedAt';
   orderDirection: OrderDirection = 'desc';
-  searchTerm: string = '';
+
+  pageSize = 10;
+  totalCount = 0;
+
+  private searchDebounce!: any; // ⬅ Debounce için eklendi
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private readonly blogService: BlogService,
     public readonly i18n: TranslateService,
-    public readonly pageable: PageableService,
     private readonly notify: NotificationService,
     private readonly router: Router
   ) {}
-
- goToCreate(): void {
-  this.router.navigate(['/blog/blog-create']);
-}
-
 
   ngOnInit(): void {
     this.load();
   }
 
-  /** Listeyi yükler */
   load(): void {
     const query: BlogPostQuery = {
-      pageNumber: this.pageable.pageNumber,
-      pageSize: this.pageable.pageSize,
+      pageNumber: this.paginator ? this.paginator.pageIndex + 1 : 1,
+      pageSize: this.pageSize,
       orderBy: this.orderBy,
       orderDirection: this.orderDirection,
-      searchTerm: this.searchTerm?.trim() || undefined
+      searchTerm: this.searchTerm.trim() || undefined
     };
 
     this.loading = true;
     this.blogService.getAll(query)
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe({
-        next: (res: ListResponse<GetBlogPostDto>) => {
-          const oldById = new Map(this.items.map(i => [i.id, i]));
-          this.items = (res.data || []).map(d => {
-            const prev = oldById.get(d.id);
-            return { ...d, _imgErr: prev?._imgErr };
-          });
-
-          this.pageable.updateTotal(res.totalPage ?? 0);
-        },
-        error: (err) => {
-          this.notify.error(err?.error?.message || this.i18n.instant('COMMON.ERROR'));
-        }
+      .subscribe(res => {
+        this.dataSource.data = (res.data || []).map(d => ({ ...d, _imgErr: false }));
+        this.totalCount = res.totalPage ?? 0;
       });
   }
 
-  /** Kapak görseli hatası */
+  // ⬅ Yeni: Arama input değiştiğinde debounce ile çalışacak
+  onSearchInput(value: string): void {
+    this.searchTerm = value;
+    clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      if (this.paginator) this.paginator.firstPage();
+      this.load();
+    }, 300);
+  }
+
+  // Mevcut: Butona basınca anında çalışır
+  onSearch(): void {
+    if (this.paginator) this.paginator.firstPage();
+    this.load();
+  }
+
+  onSortChange(sort: Sort): void {
+    this.orderBy = sort.active.charAt(0).toUpperCase() + sort.active.slice(1);
+    this.orderDirection = (sort.direction || 'asc') as OrderDirection;
+    this.load();
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.load();
+  }
+
   onImgError(post: BlogPostUI): void {
     post._imgErr = true;
   }
 
-  /** Arama / filtreleme */
-  onSearch(): void {
-    this.pageable.goFirst();
-    this.load();
+  goToCreate(): void {
+    this.router.navigate(['/blog/blog-create']);
   }
 
-  onFilterChange(): void {
-    this.pageable.goFirst();
-    this.load();
-  }
-
-  onPageSizeChange(): void {
-    this.pageable.goFirst();
-    this.load();
-  }
-
-  /** Sıralama */
-  toggleSort(field: string): void {
-    if (this.orderBy === field) {
-      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.orderBy = field;
-      this.orderDirection = 'asc';
-    }
-    this.pageable.goFirst();
-    this.load();
-  }
-
-  /** Aksiyonlar */
   open(post: BlogPostUI): void {
-    this.notify.info(this.i18n.instant('COMMON.OPEN') + ` #${post.id}`);
+    this.notify.info(`${this.i18n.instant('COMMON.OPEN')} #${post.id}`);
   }
 
   edit(post: BlogPostUI): void {
-    this.notify.info(this.i18n.instant('COMMON.EDIT') + ` #${post.id}`);
+    this.notify.info(`${this.i18n.instant('COMMON.EDIT')} #${post.id}`);
   }
 
   remove(id: number): void {
-    const ok = confirm(this.i18n.instant('COMMON.DELETE') + ` #${id}?`);
-    if (!ok) return;
-
+    if (!confirm(`${this.i18n.instant('COMMON.DELETE')} #${id}?`)) return;
     this.loading = true;
     this.blogService.remove(id)
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe({
-        next: (res: BaseResponse<any>) => {
-          this.notify.success(res?.message || this.i18n.instant('COMMON.DELETE') + ' OK');
-          this.load();
-        },
-        error: (err) => {
-          this.notify.error(err?.error?.message || this.i18n.instant('COMMON.ERROR'));
-        }
+      .subscribe(() => {
+        this.notify.success(this.i18n.instant('COMMON.DELETE') + ' OK');
+        this.load();
       });
   }
 }

@@ -19,9 +19,10 @@ export interface GetBlogPostDto {
 export interface CreateBlogPostDto {
   title: string;
   content: string;
-  coverImageUrl?: string | null;
+  coverImage?: File | null; // FormData ile dosya göndermek için File tipi
   categoryId?: number | null;
 }
+
 
 // Backend: Business.DTOs.BlogPost.UpdateBlogPostDto
 export interface UpdateBlogPostDto {

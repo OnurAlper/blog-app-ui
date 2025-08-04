@@ -14,6 +14,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class BlogCreateComponent {
   form: FormGroup;
   loading = false;
+  selectedFile: File | null = null;
+  previewImage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -25,7 +27,6 @@ export class BlogCreateComponent {
     this.form = this.fb.group({
       title: ['', Validators.required],
       content: ['', Validators.required],
-      coverImageUrl: [''],
       categoryId: [null]
     });
   }
@@ -35,14 +36,34 @@ export class BlogCreateComponent {
     return !!(control?.invalid && (control.dirty || control.touched));
   }
 
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.selectedFile = file;
+
+      // Preview göstermek için
+      const reader = new FileReader();
+      reader.onload = e => this.previewImage = e.target?.result as string;
+      reader.readAsDataURL(file);
+    }
+  }
+
   onSubmit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.selectedFile) {
       this.form.markAllAsTouched();
+      this.notify.error(this.i18n.instant('BLOG.VALIDATION.REQUIRED_IMAGE'));
       return;
     }
-
+  
+    const dto = {
+      title: this.form.get('title')?.value,
+      content: this.form.get('content')?.value,
+      categoryId: this.form.get('categoryId')?.value,
+      coverImage: this.selectedFile // 📌 Dikkat: burada File tipinde
+    };
+  
     this.loading = true;
-    this.blogService.create(this.form.value)
+    this.blogService.create(dto) // ✅ Artık CreateBlogPostDto tipinde
       .subscribe({
         next: (res) => {
           this.notify.success(res.message || this.i18n.instant('BLOG.CREATE_SUCCESS'));
@@ -52,5 +73,5 @@ export class BlogCreateComponent {
           this.notify.error(err?.error?.message || this.i18n.instant('COMMON.ERROR'));
         }
       }).add(() => this.loading = false);
-  }
+  }  
 }

@@ -47,8 +47,23 @@ export class BlogService extends BaseApiService {
   }
 
   create(input: CreateBlogPostDto): Observable<BaseResponse<CreateResponseDto>> {
-    return this.post<BaseResponse<CreateResponseDto>>(this.resource, input);
+    const formData = new FormData();
+  
+    // 📌 Text alanları ekle
+    formData.append('title', input.title);
+    formData.append('content', input.content);
+    if (input.categoryId != null) {
+      formData.append('categoryId', input.categoryId.toString());
+    }
+  
+    // 📌 Dosya ekle
+    if (input.coverImage instanceof File) {
+      formData.append('coverImage', input.coverImage, input.coverImage.name);
+    }
+  
+    return this.post<BaseResponse<CreateResponseDto>>(this.resource, formData);
   }
+  
 
   update(input: UpdateBlogPostDto): Observable<BaseResponse<UpdateResponseDto>> {
     // Eğer BE endpoint'iniz PUT BlogPost/{id} ise şu satırı kullanın:

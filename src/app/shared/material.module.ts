@@ -20,8 +20,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
-
+import { MatTableModule } from '@angular/material/table'; 
+import { MatSortModule } from '@angular/material/sort';   
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   exports: [
@@ -37,14 +38,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatToolbarModule,
     MatListModule,
     MatCheckboxModule,
-    MatMenuModule,         // ✅ Gerekli
+    MatMenuModule,      
     MatDividerModule,  
     MatDialogModule,
     MatButtonToggleModule,
     MatProgressBarModule,
     MatTooltipModule,
     MatChipsModule,
-    MatPaginatorModule   
+    MatPaginatorModule,
+    MatTableModule,    
+    MatSortModule,
+    MatProgressSpinnerModule      
   ],
 })
 export class MaterialModule {}
