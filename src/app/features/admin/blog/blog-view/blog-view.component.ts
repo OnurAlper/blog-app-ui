@@ -6,7 +6,7 @@ import { BaseResponse, ListResponse } from 'src/app/core/models/base-response.mo
 import { TranslateService } from '@ngx-translate/core';
 import { PageableService } from 'src/app/core/services/pageable.service';
 import { NotificationService } from 'src/app/shared/notification.service'; // ✅ Notification Service
-
+import { Router } from '@angular/router'; // ✅ Ekledik
 type BlogPostUI = GetBlogPostDto & { _imgErr?: boolean };
 
 @Component({
@@ -27,8 +27,14 @@ export class BlogViewComponent implements OnInit {
     private readonly blogService: BlogService,
     public readonly i18n: TranslateService,
     public readonly pageable: PageableService,
-    private readonly notify: NotificationService // ✅ buradan snackbar
+    private readonly notify: NotificationService,
+    private readonly router: Router
   ) {}
+
+ goToCreate(): void {
+  this.router.navigate(['/blog/blog-create']);
+}
+
 
   ngOnInit(): void {
     this.load();

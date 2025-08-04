@@ -10,6 +10,8 @@ import { LoginGuard } from './shared/guards/loginGuard'; // ✅ Bunu ekledik
 import { ProfileComponent } from './features/profile/profile.component';
 import { HomeComponent } from './features/dashboard/home/home.component';
 import { BlogViewComponent } from './features/admin/blog/blog-view/blog-view.component';
+import { BlogCreateComponent } from './features/admin/blog/blog-create/blog-create.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -27,6 +29,7 @@ const routes: Routes = [
     { path: 'profile', component: ProfileComponent },
 
     { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
+    { path: 'blog/blog-create', component: BlogCreateComponent, data: { roles: ['Admin'] } },
   ]
 },
 

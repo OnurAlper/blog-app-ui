@@ -32,6 +32,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { registerLocaleData } from '@angular/common';
 import localeTr from '@angular/common/locales/tr';
 import localeEn from '@angular/common/locales/en';
+import { BlogCreateComponent } from './features/admin/blog/blog-create/blog-create.component';
 
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
@@ -51,7 +52,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserMenuComponent,
     ProfileComponent,
     HomeComponent,
-    BlogViewComponent
+    BlogViewComponent,
+    BlogCreateComponent
   ],
   imports: [
     BrowserModule,
