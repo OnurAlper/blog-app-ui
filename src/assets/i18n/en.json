@@ -1,7 +1,7 @@
 {
   "LOGIN": {
     "TITLE": "Login",
-    "USERNAME": "Email or Username",
+    "USERNAME": "Email or username",
     "PASSWORD": "Password",
     "BUTTON": "Login",
     "LOADING": "Logging in...",
@@ -13,12 +13,12 @@
   },
   "VALIDATION": {
     "REQUIRED": "This field is required.",
-    "EMAIL": "Please enter a valid email.",
-    "PASSWORD_MIN": "Password must be at least 6 characters."
+    "EMAIL": "Please enter a valid email address.",
+    "PASSWORD_MIN": "Password must be at least 6 characters long."
   },
   "ERRORS": {
-    "UNAUTHORIZED": "Incorrect login credentials.",
-    "SERVER": "Server error occurred.",
+    "UNAUTHORIZED": "Invalid login credentials.",
+    "SERVER": "A server error occurred.",
     "UNKNOWN": "An unknown error occurred."
   },
   "COMMON": {
@@ -32,15 +32,17 @@
     "EDIT": "Edit",
     "DELETE": "Delete",
     "PAGE_SIZE": "Page Size",
-    "PAGINATION": "Pagination",
+    "PAGINATION": "Pages",
     "ACTIONS": "Actions",
+    "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "CREATE": "Create",
     "OK": "OK",
     "ERROR": "An error occurred.",
     "LOADING": "Loading...",
     "MORE": "More",
-
     "ITEMS_PER_PAGE": "Items per page",
-    "OF": "of",
+    "OF": " / Total ",
     "FIRST": "First",
     "PREV": "Previous",
     "NEXT": "Next",
@@ -51,20 +53,20 @@
     "ENGLISH": "English"
   },
   "SIGNUP": {
-    "TITLE": "Create an Account",
+    "TITLE": "Create Account",
     "NAME": "First Name",
     "SURNAME": "Last Name",
     "USERNAME": "Username",
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "PHONE": "Phone Number",
-    "BIRTHDATE": "Birth Date",
+    "BIRTHDATE": "Date of Birth",
     "GENDER": "Gender",
     "COUNTRY": "Country",
     "BUTTON": "Sign Up",
     "LOADING": "Creating...",
-    "SUCCESS": "Registration successful!",
-    "FAILURE": "Registration failed.",
+    "SUCCESS": "Signup successful!",
+    "FAILURE": "Signup failed.",
     "HAVE_ACCOUNT": "Already have an account?",
     "LOGIN": "Login",
     "SEARCH_COUNTRY": "Search country..."
@@ -83,20 +85,20 @@
     "SURNAME": "Last Name",
     "USERNAME": "Username",
     "EMAIL": "Email",
-    "PHONE": "Phone Number",
-    "BIRTHDATE": "Birth Date",
+    "PHONE": "Phone",
+    "BIRTHDATE": "Date of Birth",
     "GENDER": "Gender",
     "COUNTRY": "Country",
     "SEARCH_COUNTRY": "Search country...",
     "SAVE": "Save",
     "UPDATE_SUCCESS": "Profile updated successfully",
-    "UPDATE_FAILED": "Failed to update profile",
+    "UPDATE_FAILED": "Profile update failed",
     "COUNTRY_FETCH_ERROR": "An error occurred while fetching countries",
     "CHANGE_PASSWORD": "Change Password",
     "CURRENT_PASSWORD": "Current Password",
     "NEW_PASSWORD": "New Password",
-    "NEW_PASSWORD_REPEAT": "Confirm New Password",
-    "PASSWORD_RULE": "Your password must be at least 10 characters long and contain 1 uppercase, 1 lowercase, and 1 number.",
+    "NEW_PASSWORD_REPEAT": "New Password (Repeat)",
+    "PASSWORD_RULE": "Your password must be at least 10 characters long and contain 1 uppercase letter, 1 lowercase letter, and a number.",
     "PASSWORD_NOT_MATCH": "New passwords do not match.",
     "UPDATE_PASSWORD": "Update Password",
     "PASSWORD_UPDATE_SUCCESS": "Password updated successfully.",
@@ -104,14 +106,23 @@
   },
   "BLOG": {
     "TITLE": "Blog Posts",
-    "SEARCH_PLACEHOLDER": "Search by title, content, or author…",
+    "SEARCH_PLACEHOLDER": "Search title, content or author…",
     "CATEGORY": "Category",
     "STATUS": "Status",
+    "CREATE_TITLE": "Create New Blog Post",
+    "CONTENT": "Content",
+    "COVER_IMAGE": "Cover Image",
     "SORT_FIELD": {
       "CREATED_AT": "Created Date",
       "TITLE": "Title",
       "AUTHOR": "Author"
     },
+    "VALIDATION": {
+      "REQUIRED_TITLE": "Title is required.",
+      "REQUIRED_CONTENT": "Content is required.",
+      "REQUIRED_IMAGE": "Cover image is required."
+    },
+    "CREATE_SUCCESS": "Blog post created successfully!",
     "STATUS_PUBLISHED": "Published",
     "STATUS_DRAFT": "Draft"
   },

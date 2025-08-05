@@ -22,59 +22,60 @@
     "UNKNOWN": "Bilinmeyen bir hata oluştu."
   },
   "COMMON": {
-  "LANGUAGE": "Dil",
-  "LOGOUT": "Çıkış Yap",
-  "DASHBOARD": "Kontrol Paneli",
-  "CLOSE": "Kapat",
-  "SEARCH": "Ara",
-  "REFRESH": "Yenile",
-  "OPEN": "Aç",
-  "EDIT": "Düzenle",
-  "DELETE": "Sil",
-  "PAGE_SIZE": "Sayfa Boyutu",
-  "PAGINATION": "Sayfalar",
-  "ACTIONS": "Aksiyonlar",
-
-  "OK": "Tamam",
-  "ERROR": "Bir hata oluştu.",
-  "LOADING": "Yükleniyor...",
-  "MORE": "Daha fazla",
-
-  "ITEMS_PER_PAGE": "Sayfa Başına",
-  "OF": " / Toplam ",
-  "FIRST": "İlk",
-  "PREV": "Önceki",
-  "NEXT": "Sonraki",
-  "LAST": "Son"
-},
+    "LANGUAGE": "Dil",
+    "LOGOUT": "Çıkış Yap",
+    "DASHBOARD": "Kontrol Paneli",
+    "CLOSE": "Kapat",
+    "SEARCH": "Ara",
+    "REFRESH": "Yenile",
+    "OPEN": "Aç",
+    "EDIT": "Düzenle",
+    "DELETE": "Sil",
+    "PAGE_SIZE": "Sayfa Boyutu",
+    "PAGINATION": "Sayfalar",
+    "ACTIONS": "Aksiyonlar",
+    "CANCEL": "İptal",
+    "SAVE": "Kaydet",
+    "CREATE": "Ekle",
+    "OK": "Tamam",
+    "ERROR": "Bir hata oluştu.",
+    "LOADING": "Yükleniyor...",
+    "MORE": "Daha fazla",
+    "ITEMS_PER_PAGE": "Sayfa Başına",
+    "OF": " / Toplam ",
+    "FIRST": "İlk",
+    "PREV": "Önceki",
+    "NEXT": "Sonraki",
+    "LAST": "Son"
+  },
   "LANG": {
     "TURKISH": "Türkçe",
     "ENGLISH": "İngilizce"
   },
- "SIGNUP": {
-  "TITLE": "Hesap Oluştur",
-  "NAME": "Ad",
-  "SURNAME": "Soyad",
-  "USERNAME": "Kullanıcı Adı",
-  "EMAIL": "E-posta",
-  "PASSWORD": "Şifre",
-  "PHONE": "Telefon Numarası",
-  "BIRTHDATE": "Doğum Tarihi",
-  "GENDER": "Cinsiyet",
-  "COUNTRY": "Ülke",
-  "BUTTON": "Kayıt Ol",
-  "LOADING": "Oluşturuluyor...",
-  "SUCCESS": "Kayıt başarılı!",
-  "FAILURE": "Kayıt başarısız.",
-  "HAVE_ACCOUNT": "Zaten bir hesabın var mı?",
-  "LOGIN": "Giriş Yap",
-  "SEARCH_COUNTRY": "Ülke ara..."
-},
-"GENDER": {
-  "MALE": "Erkek",
-  "FEMALE": "Kadın"
-},
- "UserMenu": {
+  "SIGNUP": {
+    "TITLE": "Hesap Oluştur",
+    "NAME": "Ad",
+    "SURNAME": "Soyad",
+    "USERNAME": "Kullanıcı Adı",
+    "EMAIL": "E-posta",
+    "PASSWORD": "Şifre",
+    "PHONE": "Telefon Numarası",
+    "BIRTHDATE": "Doğum Tarihi",
+    "GENDER": "Cinsiyet",
+    "COUNTRY": "Ülke",
+    "BUTTON": "Kayıt Ol",
+    "LOADING": "Oluşturuluyor...",
+    "SUCCESS": "Kayıt başarılı!",
+    "FAILURE": "Kayıt başarısız.",
+    "HAVE_ACCOUNT": "Zaten bir hesabın var mı?",
+    "LOGIN": "Giriş Yap",
+    "SEARCH_COUNTRY": "Ülke ara..."
+  },
+  "GENDER": {
+    "MALE": "Erkek",
+    "FEMALE": "Kadın"
+  },
+  "UserMenu": {
     "Profile": "Profilim",
     "Logout": "Çıkış Yap"
   },
@@ -103,21 +104,29 @@
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla güncellendi.",
     "PASSWORD_UPDATE_FAILED": "Şifre güncellenemedi."
   },
- "BLOG": {
-  "TITLE": "Blog Yazıları",
-  "SEARCH_PLACEHOLDER": "Başlık, içerik veya yazar ara…",
-  "CATEGORY": "Kategori",
-  "STATUS": "Durum",
-  "SORT_FIELD": {
-    "CREATED_AT": "Oluşturma Tarihi",
-    "TITLE": "Başlık",
-    "AUTHOR": "Yazar"
+  "BLOG": {
+    "TITLE": "Blog Yazıları",
+    "SEARCH_PLACEHOLDER": "Başlık, içerik veya yazar ara…",
+    "CATEGORY": "Kategori",
+    "STATUS": "Durum",
+    "CREATE_TITLE": "Yeni Blog Yazısı Oluştur",
+    "CONTENT": "İçerik",
+    "COVER_IMAGE": "Kapak Görseli",
+    "SORT_FIELD": {
+      "CREATED_AT": "Oluşturma Tarihi",
+      "TITLE": "Başlık",
+      "AUTHOR": "Yazar"
+    },
+    "VALIDATION": {
+      "REQUIRED_TITLE": "Başlık zorunludur.",
+      "REQUIRED_CONTENT": "İçerik zorunludur.",
+      "REQUIRED_IMAGE": "Kapak görseli yüklenmelidir."
+    },
+    "CREATE_SUCCESS": "Blog yazısı başarıyla oluşturuldu!",
+    "STATUS_PUBLISHED": "Yayında",
+    "STATUS_DRAFT": "Taslak"
   },
-  "STATUS_PUBLISHED": "Yayında",
-  "STATUS_DRAFT": "Taslak"
-},
   "EMPTY": {
     "NO_RECORDS": "Kayıt bulunamadı."
   }
-  
 }

@@ -80,11 +80,29 @@ export class BlogViewComponent implements OnInit {
     this.load();
   }
 
-  onSortChange(sort: Sort): void {
-    this.orderBy = sort.active.charAt(0).toUpperCase() + sort.active.slice(1);
-    this.orderDirection = (sort.direction || 'asc') as OrderDirection;
-    this.load();
+onSortChange(sort: Sort): void {
+  const fieldMap: Record<string, string> = {
+    title: 'Title',
+    createdAt: 'CreatedAt',
+    authorFullName: 'Author.Name',
+    categoryName: 'Category.Name',
+    status: 'IsPublished'
+  };
+
+  const selectedField = fieldMap[sort.active] || sort.active.charAt(0).toUpperCase() + sort.active.slice(1);
+
+  // Aynı kolona tekrar tıklandıysa: ASC → DESC → ASC
+  if (this.orderBy === selectedField) {
+    this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+  } else {
+    // Yeni kolona tıklandıysa varsayılan olarak ASC başlat
+    this.orderBy = selectedField;
+    this.orderDirection = 'asc';
   }
+
+  this.load();
+}
+
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
