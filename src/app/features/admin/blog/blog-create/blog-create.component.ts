@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { debounceTime, startWith, switchMap, map } from 'rxjs/operators';
 import { BlogService } from 'src/app/core/services/blog.service';
+import { CategoryService } from 'src/app/core/services/category.service';
+import { TagService } from 'src/app/core/services/tag.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CategoryService } from 'src/app/core/services/category.service';
-import { TagService } from 'src/app/core/services/tag.service';
 
 @Component({
   selector: 'app-blog-create',
@@ -19,8 +21,11 @@ export class BlogCreateComponent implements OnInit {
   selectedFile: File | null = null;
   previewImage: string | null = null;
 
-  categories: { id: number; name: string }[] = [];
-  tags: { id: number; name: string }[] = [];
+  categoryFilterCtrl = new FormControl('');
+  tagFilterCtrl = new FormControl('');
+
+  filteredCategories!: Observable<{ id: number; name: string }[]>;
+  filteredTags!: Observable<{ id: number; name: string }[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -35,27 +40,32 @@ export class BlogCreateComponent implements OnInit {
       title: ['', Validators.required],
       content: ['', Validators.required],
       categoryId: [null, Validators.required],
-      tagIds: [[]] // Çoklu seçim için boş array
+      tagIds: [[]]
     });
   }
 
   ngOnInit(): void {
-    this.loadCategories();
-    this.loadTags();
-  }
+    this.filteredCategories = this.categoryFilterCtrl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      map(value => value ?? ''), // ✅ null -> ''
+      switchMap(search =>
+        this.categoryService.getCategories(search).pipe(
+          map(res => res.data || [])
+        )
+      )
+    );
 
-  loadCategories(): void {
-    this.categoryService.getCategories().subscribe({
-      next: res => this.categories = res.data || [],
-      error: () => this.notify.error(this.i18n.instant('COMMON.ERROR'))
-    });
-  }
-
-  loadTags(): void {
-    this.tagService.getAllTags().subscribe({
-      next: res => this.tags = res.data || [],
-      error: () => this.notify.error(this.i18n.instant('COMMON.ERROR'))
-    });
+    this.filteredTags = this.tagFilterCtrl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      map(value => value ?? ''), // ✅ null -> ''
+      switchMap(search =>
+        this.tagService.getAllTags(1, 2147483647, 'Name', 'asc', search).pipe(
+          map(res => res.data || [])
+        )
+      )
+    );
   }
 
   isInvalid(controlName: string): boolean {
@@ -64,15 +74,24 @@ export class BlogCreateComponent implements OnInit {
   }
 
   onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.selectedFile = file;
-
-      const reader = new FileReader();
-      reader.onload = e => this.previewImage = e.target?.result as string;
-      reader.readAsDataURL(file);
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    
+    if (!allowedTypes.includes(file.type)) {
+      this.notify.error(this.i18n.instant('BLOG.VALIDATION.INVALID_IMAGE_TYPE') || 'Sadece PNG veya JPG dosyaları yükleyebilirsiniz.');
+      (event.target as HTMLInputElement).value = ''; // input temizlenir
+      return;
     }
+
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = e => this.previewImage = e.target?.result as string;
+    reader.readAsDataURL(file);
   }
+}
+
 
   onSubmit(): void {
     if (this.form.invalid || !this.selectedFile) {

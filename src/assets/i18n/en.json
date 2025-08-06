@@ -126,7 +126,8 @@
     "VALIDATION": {
       "REQUIRED_TITLE": "Title is required.",
       "REQUIRED_CONTENT": "Content is required.",
-      "REQUIRED_IMAGE": "Cover image is required."
+      "REQUIRED_IMAGE": "Cover image is required.",
+      "INVALID_IMAGE_TYPE": "Only PNG or JPG image formats are allowed."
     },
     "CREATE_SUCCESS": "Blog post created successfully!",
     "STATUS_PUBLISHED": "Published",

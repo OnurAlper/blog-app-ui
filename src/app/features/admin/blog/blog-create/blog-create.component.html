@@ -32,24 +32,42 @@
       </div>
 
       <!-- Category -->
-      <mat-form-field appearance="outline" class="w-100 mb-3">
-        <mat-label>{{ 'BLOG.CATEGORY' | translate }}</mat-label>
-        <mat-select formControlName="categoryId">
-          <mat-option *ngFor="let category of categories" [value]="category.id">
-            {{ category.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+<!-- CATEGORY -->
+<mat-form-field appearance="outline" class="w-100 mb-3">
+  <mat-label>{{ 'BLOG.CATEGORY' | translate }}</mat-label>
+  <mat-select formControlName="categoryId">
+    <mat-option>
+      <ngx-mat-select-search
+        [formControl]="categoryFilterCtrl"
+        [placeholderLabel]="'COMMON.SEARCH' | translate"
+        [noEntriesFoundLabel]="'EMPTY.NO_RECORDS' | translate">
+      </ngx-mat-select-search>
+    </mat-option>
 
-      <!-- Tags -->
-      <mat-form-field appearance="outline" class="w-100 mb-3">
-        <mat-label>{{ 'BLOG.TAGS' | translate }}</mat-label>
-        <mat-select formControlName="tagIds" multiple>
-          <mat-option *ngFor="let tag of tags" [value]="tag.id">
-            {{ tag.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-option *ngFor="let category of filteredCategories | async" [value]="category.id">
+      {{ category.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- TAGS -->
+<mat-form-field appearance="outline" class="w-100 mb-3">
+  <mat-label>{{ 'BLOG.TAGS' | translate }}</mat-label>
+  <mat-select formControlName="tagIds" multiple>
+    <mat-option>
+      <ngx-mat-select-search
+        [formControl]="tagFilterCtrl"
+        [placeholderLabel]="'COMMON.SEARCH' | translate"
+        [noEntriesFoundLabel]="'EMPTY.NO_RECORDS' | translate">
+      </ngx-mat-select-search>
+    </mat-option>
+
+    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.id">
+      {{ tag.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 
       <!-- Actions -->
       <div class="d-flex gap-2 mt-4">

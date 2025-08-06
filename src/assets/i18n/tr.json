@@ -126,7 +126,8 @@
     "VALIDATION": {
       "REQUIRED_TITLE": "Başlık zorunludur.",
       "REQUIRED_CONTENT": "İçerik zorunludur.",
-      "REQUIRED_IMAGE": "Kapak görseli yüklenmelidir."
+      "REQUIRED_IMAGE": "Kapak görseli yüklenmelidir.",
+      "INVALID_IMAGE_TYPE": "Sadece PNG veya JPG formatında görseller yükleyebilirsiniz."
     },
     "CREATE_SUCCESS": "Blog yazısı başarıyla oluşturuldu!",
     "STATUS_PUBLISHED": "Yayında",
