@@ -55,7 +55,11 @@ export class BlogService extends BaseApiService {
     if (input.categoryId != null) {
       formData.append('categoryId', input.categoryId.toString());
     }
-  
+    if (input.tagIds && input.tagIds.length > 0) {
+    input.tagIds.forEach(tagId => {
+      formData.append('tagIds', tagId.toString());
+    });
+  }
     // 📌 Dosya ekle
     if (input.coverImage instanceof File) {
       formData.append('coverImage', input.coverImage, input.coverImage.name);

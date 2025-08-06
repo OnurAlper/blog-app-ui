@@ -18,7 +18,18 @@ type BlogPostUI = GetBlogPostDto & { _imgErr?: boolean };
   standalone: false
 })
 export class BlogViewComponent implements OnInit {
-  displayedColumns: string[] = ['title', 'createdAt', 'authorFullName', 'categoryName', 'status', 'actions'];
+displayedColumns: string[] = [
+  'title',
+  'tags',
+  'createdAt',
+  'authorFullName',
+  'categoryName',
+  'stats', 
+  'status',
+  'actions'
+];
+
+  
   dataSource = new MatTableDataSource<BlogPostUI>([]);
   viewMode: 'table' | 'card' = 'table';
   loading = false;
@@ -30,7 +41,7 @@ export class BlogViewComponent implements OnInit {
   pageSize = 10;
   totalCount = 0;
 
-  private searchDebounce!: any; // ⬅ Debounce için eklendi
+  private searchDebounce!: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -64,7 +75,6 @@ export class BlogViewComponent implements OnInit {
       });
   }
 
-  // ⬅ Yeni: Arama input değiştiğinde debounce ile çalışacak
   onSearchInput(value: string): void {
     this.searchTerm = value;
     clearTimeout(this.searchDebounce);
@@ -74,35 +84,36 @@ export class BlogViewComponent implements OnInit {
     }, 300);
   }
 
-  // Mevcut: Butona basınca anında çalışır
   onSearch(): void {
     if (this.paginator) this.paginator.firstPage();
     this.load();
   }
 
-onSortChange(sort: Sort): void {
-  const fieldMap: Record<string, string> = {
-    title: 'Title',
-    createdAt: 'CreatedAt',
-    authorFullName: 'Author.Name',
-    categoryName: 'Category.Name',
-    status: 'IsPublished'
-  };
+  onSortChange(sort: Sort): void {
+    const fieldMap: Record<string, string> = {
+      title: 'Title',
+      createdAt: 'CreatedAt',
+      authorFullName: 'Author.Name',
+      categoryName: 'Category.Name',
+      tags: 'Tags',
+      commentCount: 'CommentCount',
+      likeCount: 'LikeCount',
+      viewCount: 'ViewCount',
+      estimatedReadMinutes: 'EstimatedReadMinutes',
+      status: 'IsPublished'
+    };
 
-  const selectedField = fieldMap[sort.active] || sort.active.charAt(0).toUpperCase() + sort.active.slice(1);
+    const selectedField = fieldMap[sort.active] || sort.active.charAt(0).toUpperCase() + sort.active.slice(1);
 
-  // Aynı kolona tekrar tıklandıysa: ASC → DESC → ASC
-  if (this.orderBy === selectedField) {
-    this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
-  } else {
-    // Yeni kolona tıklandıysa varsayılan olarak ASC başlat
-    this.orderBy = selectedField;
-    this.orderDirection = 'asc';
+    if (this.orderBy === selectedField) {
+      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.orderBy = selectedField;
+      this.orderDirection = 'asc';
+    }
+
+    this.load();
   }
-
-  this.load();
-}
-
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;

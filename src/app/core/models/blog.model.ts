@@ -13,6 +13,12 @@ export interface GetBlogPostDto {
 
   categoryId?: number | null;
   categoryName?: string | null;
+
+  commentCount: number;
+  likeCount: number;
+  viewCount: number;
+  tags: string[]; // ✅ burası
+  estimatedReadMinutes: number;
 }
 
 // Backend: Business.DTOs.BlogPost.CreateBlogPostDto
@@ -21,6 +27,7 @@ export interface CreateBlogPostDto {
   content: string;
   coverImage?: File | null; // FormData ile dosya göndermek için File tipi
   categoryId?: number | null;
+  tagIds?: number[]; // 📌 Etiket ID listesi
 }
 
 

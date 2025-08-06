@@ -34,7 +34,21 @@
       <!-- Category -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>{{ 'BLOG.CATEGORY' | translate }}</mat-label>
-        <input matInput type="number" formControlName="categoryId" />
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Tags -->
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>{{ 'BLOG.TAGS' | translate }}</mat-label>
+        <mat-select formControlName="tagIds" multiple>
+          <mat-option *ngFor="let tag of tags" [value]="tag.id">
+            {{ tag.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <!-- Actions -->
