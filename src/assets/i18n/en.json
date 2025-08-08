@@ -46,7 +46,8 @@
     "FIRST": "First",
     "PREV": "Previous",
     "NEXT": "Next",
-    "LAST": "Last"
+    "LAST": "Last",
+    "UNSAVED_CHANGES": "You have unsaved changes. Are you sure you want to leave?"
   },
   "LANG": {
     "TURKISH": "Turkish",
@@ -118,6 +119,8 @@
     "CREATE_TITLE": "Create New Blog Post",
     "CONTENT": "Content",
     "COVER_IMAGE": "Cover Image",
+    "EDIT_TITLE": "Edit Blog Post",
+    "PREVIEW": "Preview",
     "SORT_FIELD": {
       "CREATED_AT": "Created Date",
       "TITLE": "Title",
@@ -137,23 +140,22 @@
     "NO_RECORDS": "No records found."
   },
   "Dashboard": {
-  "TotalVisits": "Total Visits",
-  "NewUsers": "New Users",
-  "PublishedPosts": "Published Posts",
-  "Comments": "Comments",
-  "TotalLikes": "Total Likes",
-  "AverageEngagement": "Average Engagement",
-  "MonthlyTraffic": "Monthly Traffic",
-  "Last12Months": "Last 12 Months",
-  "PostsByCategory": "Posts by Category",
-  "ThisYear": "This Year",
-  "PublishStatus": "Publish Status",
-  "Total": "Total",
-  "MonthlyUserRegistrations": "Monthly User Registrations",
-  "TopViewedPosts": "Top Viewed Posts",
-  "TopLikedPosts": "Top Liked Posts",
-  "TopCommentedPosts": "Top Commented Posts",
-  "TopAuthors": "Top Authors"
-}
-
+    "TotalVisits": "Total Visits",
+    "NewUsers": "New Users",
+    "PublishedPosts": "Published Posts",
+    "Comments": "Comments",
+    "TotalLikes": "Total Likes",
+    "AverageEngagement": "Average Engagement",
+    "MonthlyTraffic": "Monthly Traffic",
+    "Last12Months": "Last 12 Months",
+    "PostsByCategory": "Posts by Category",
+    "ThisYear": "This Year",
+    "PublishStatus": "Publish Status",
+    "Total": "Total",
+    "MonthlyUserRegistrations": "Monthly User Registrations",
+    "TopViewedPosts": "Top Viewed Posts",
+    "TopLikedPosts": "Top Liked Posts",
+    "TopCommentedPosts": "Top Commented Posts",
+    "TopAuthors": "Top Authors"
+  }
 }

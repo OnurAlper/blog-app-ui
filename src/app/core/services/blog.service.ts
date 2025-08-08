@@ -70,10 +70,29 @@ export class BlogService extends BaseApiService {
   
 
   update(input: UpdateBlogPostDto): Observable<BaseResponse<UpdateResponseDto>> {
-    // Eğer BE endpoint'iniz PUT BlogPost/{id} ise şu satırı kullanın:
-    // return this.put<BaseResponse<UpdateResponseDto>>(`${this.resource}/${input.id}`, input);
-    return this.put<BaseResponse<UpdateResponseDto>>(this.resource, input);
+  const formData = new FormData();
+
+  formData.append('id', String(input.id));
+  formData.append('title', input.title);
+  formData.append('content', input.content);
+  formData.append('isPublished', String(input.isPublished));
+
+  if (input.categoryId != null) {
+    formData.append('categoryId', String(input.categoryId));
   }
+
+  if (input.tagIds && input.tagIds.length > 0) {
+    input.tagIds.forEach(tagId => {
+      formData.append('tagIds', String(tagId));
+    });
+  }
+
+  if (input.coverImage instanceof File) {
+    formData.append('coverImage', input.coverImage, input.coverImage.name);
+  }
+
+  return this.put<BaseResponse<UpdateResponseDto>>(this.resource, formData);
+}
 
   /** İSİM DEĞİŞTİ: Base'in delete<T>(url) metoduyla çakışmamak için */
   remove(id: number): Observable<BaseResponse<DeleteResponseDto>> {

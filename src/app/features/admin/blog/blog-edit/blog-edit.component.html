@@ -1,0 +1,131 @@
+<!-- Yan yana düzen -->
+<div class="edit-container two-col">
+    <!-- Sol: Form -->
+    <form [formGroup]="form" (ngSubmit)="save()" class="editor">
+        <mat-card>
+            <!-- Üst başlık: sadece başlık + toggle -->
+            <mat-card-title class="d-flex justify-content-between align-items-center">
+                <span>{{ 'BLOG.EDIT_TITLE' | translate }}</span>
+
+                <mat-slide-toggle class="status-toggle fancy" formControlName="isPublished" color="primary"
+                    (change)="onPublishToggle($event)" aria-label="Publish toggle"
+                    matTooltip="{{ form.get('isPublished')?.value ? ('BLOG.STATUS_PUBLISHED'|translate) : ('BLOG.STATUS_DRAFT'|translate) }}">
+                    <span class="toggle-label">
+                        <mat-icon class="state-icon" *ngIf="form.get('isPublished')?.value">task_alt</mat-icon>
+                        <mat-icon class="state-icon" *ngIf="!form.get('isPublished')?.value">remove_circle</mat-icon>
+                        {{ form.get('isPublished')?.value ? ('BLOG.STATUS_PUBLISHED' | translate) : ('BLOG.STATUS_DRAFT'
+                        | translate) }}
+                    </span>
+                </mat-slide-toggle>
+
+
+            </mat-card-title>
+
+            <!-- İçerik -->
+            <mat-card-content>
+                <div class="form-grid">
+                    <!-- Title -->
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ 'BLOG.TITLE' | translate }}</mat-label>
+                        <input matInput formControlName="title" />
+                        <mat-error *ngIf="form.get('title')?.hasError('required')">
+                            {{ 'VALIDATION.REQUIRED' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- Category -->
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ 'BLOG.CATEGORY' | translate }}</mat-label>
+                        <mat-select formControlName="categoryId">
+                            <mat-option [value]="null">—</mat-option>
+                            <mat-option *ngFor="let c of categories; trackBy: trackById" [value]="c.id">
+                                {{ c.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Tags -->
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ 'BLOG.TAGS' | translate }}</mat-label>
+                        <mat-select formControlName="tagIds" multiple>
+                            <mat-option *ngFor="let t of tags; trackBy: trackById" [value]="t.id">
+                                {{ t.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Cover -->
+                    <div class="cover-field">
+                        <label class="form-label d-block mb-2">{{ 'BLOG.COVER_IMAGE' | translate }}</label>
+                        <input type="file" accept="image/png,image/jpeg,image/jpg"
+                            (change)="onCoverImageChange($event)" />
+                        <button *ngIf="coverPreview" mat-button color="warn" type="button" class="ms-2"
+                            (click)="clearCoverImage()">
+                            <mat-icon>close</mat-icon>
+                            {{ 'COMMON.DELETE' | translate }}
+                        </button>
+                    </div>
+
+                    <!-- Content -->
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ 'BLOG.CONTENT' | translate }}</mat-label>
+                        <textarea matInput rows="10" formControlName="content" placeholder="…"></textarea>
+                        <mat-hint align="end">
+                            {{ (form.get('content')?.value?.length || 0) }} / 100000
+                        </mat-hint>
+                        <mat-error *ngIf="form.get('content')?.hasError('required')">
+                            {{ 'VALIDATION.REQUIRED' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+
+            <!-- Alt: Kaydet butonu -->
+            <mat-card-actions align="end" class="editor-actions">
+                <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || saving">
+                    <mat-icon class="me-1">save</mat-icon>
+                    {{ saving ? ('COMMON.LOADING' | translate) : ('COMMON.SAVE' | translate) }}
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+
+    <!-- Sağ: Önizleme -->
+    <aside class="preview-pane">
+        <mat-card class="preview-card">
+            <mat-card-title>{{ 'BLOG.PREVIEW' | translate }}</mat-card-title>
+            <mat-card-content>
+                <div class="preview">
+                    <img *ngIf="coverPreview" [src]="coverPreview" alt="cover" />
+
+                    <h3>
+                        {{ form.get('title')?.value || ('BLOG.TITLE' | translate) }}
+                    </h3>
+
+                    <div class="meta">
+                        <span class="badge"
+                            [ngClass]="form.get('isPublished')?.value ? 'badge-published' : 'badge-draft'">
+                            {{
+                            form.get('isPublished')?.value
+                            ? ('BLOG.STATUS_PUBLISHED' | translate)
+                            : ('BLOG.STATUS_DRAFT' | translate)
+                            }}
+                        </span>
+
+                        <span class="text-muted" *ngIf="selectedCategoryName">
+                            • {{ selectedCategoryName }}
+                        </span>
+                    </div>
+
+                    <div class="preview-content" [innerHTML]="form.get('content')?.value | safeHtml"></div>
+
+                    <div class="tags" *ngIf="selectedTagNames.length">
+                        <mat-chip-set>
+                            <mat-chip *ngFor="let tagName of selectedTagNames">{{ tagName }}</mat-chip>
+                        </mat-chip-set>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </aside>
+</div>

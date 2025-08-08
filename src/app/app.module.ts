@@ -34,6 +34,8 @@ import localeTr from '@angular/common/locales/tr';
 import localeEn from '@angular/common/locales/en';
 import { BlogCreateComponent } from './features/admin/blog/blog-create/blog-create.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { BlogEditComponent } from './features/admin/blog/blog-edit/blog-edit.component';
+import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -53,7 +55,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileComponent,
     HomeComponent,
     BlogViewComponent,
-    BlogCreateComponent
+    BlogCreateComponent,
+    BlogEditComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,

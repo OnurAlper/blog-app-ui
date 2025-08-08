@@ -128,13 +128,11 @@ displayedColumns: string[] = [
     this.router.navigate(['/blog/blog-create']);
   }
 
-  open(post: BlogPostUI): void {
-    this.notify.info(`${this.i18n.instant('COMMON.OPEN')} #${post.id}`);
-  }
 
-  edit(post: BlogPostUI): void {
-    this.notify.info(`${this.i18n.instant('COMMON.EDIT')} #${post.id}`);
-  }
+edit(post: BlogPostUI): void {
+  this.router.navigate(['/blog/blog-edit', post.id]);
+}
+
 
   remove(id: number): void {
     if (!confirm(`${this.i18n.instant('COMMON.DELETE')} #${id}?`)) return;

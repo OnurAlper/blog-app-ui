@@ -46,7 +46,8 @@
     "FIRST": "İlk",
     "PREV": "Önceki",
     "NEXT": "Sonraki",
-    "LAST": "Son"
+    "LAST": "Son",
+    "UNSAVED_CHANGES": "Kaydedilmemiş değişiklikler var. Çıkmak istediğine emin misin?"
   },
   "LANG": {
     "TURKISH": "Türkçe",
@@ -118,6 +119,8 @@
     "CREATE_TITLE": "Yeni Blog Yazısı Oluştur",
     "CONTENT": "İçerik",
     "COVER_IMAGE": "Kapak Görseli",
+    "EDIT_TITLE": "Blog Yazısını Düzenle",
+    "PREVIEW": "Önizleme",
     "SORT_FIELD": {
       "CREATED_AT": "Oluşturma Tarihi",
       "TITLE": "Başlık",
@@ -137,23 +140,22 @@
     "NO_RECORDS": "Kayıt bulunamadı."
   },
   "Dashboard": {
-  "TotalVisits": "Toplam Ziyaret",
-  "NewUsers": "Yeni Kullanıcılar",
-  "PublishedPosts": "Yayınlanan Yazılar",
-  "Comments": "Yorumlar",
-  "TotalLikes": "Toplam Beğeni",
-  "AverageEngagement": "Ortalama Etkileşim",
-  "MonthlyTraffic": "Aylık Trafik",
-  "Last12Months": "Son 12 Ay",
-  "PostsByCategory": "Kategoriye Göre Yazılar",
-  "ThisYear": "Bu Yıl",
-  "PublishStatus": "Yayın Durumu",
-  "Total": "Toplam",
-  "MonthlyUserRegistrations": "Aylık Kullanıcı Kayıtları",
-  "TopViewedPosts": "En Çok Görüntülenen Yazılar",
-  "TopLikedPosts": "En Çok Beğenilen Yazılar",
-  "TopCommentedPosts": "En Çok Yorum Alan Yazılar",
-  "TopAuthors": "En Aktif Yazarlar"
-}
-
+    "TotalVisits": "Toplam Ziyaret",
+    "NewUsers": "Yeni Kullanıcılar",
+    "PublishedPosts": "Yayınlanan Yazılar",
+    "Comments": "Yorumlar",
+    "TotalLikes": "Toplam Beğeni",
+    "AverageEngagement": "Ortalama Etkileşim",
+    "MonthlyTraffic": "Aylık Trafik",
+    "Last12Months": "Son 12 Ay",
+    "PostsByCategory": "Kategoriye Göre Yazılar",
+    "ThisYear": "Bu Yıl",
+    "PublishStatus": "Yayın Durumu",
+    "Total": "Toplam",
+    "MonthlyUserRegistrations": "Aylık Kullanıcı Kayıtları",
+    "TopViewedPosts": "En Çok Görüntülenen Yazılar",
+    "TopLikedPosts": "En Çok Beğenilen Yazılar",
+    "TopCommentedPosts": "En Çok Yorum Alan Yazılar",
+    "TopAuthors": "En Aktif Yazarlar"
+  }
 }

@@ -32,11 +32,16 @@ export interface CreateBlogPostDto {
 
 
 // Backend: Business.DTOs.BlogPost.UpdateBlogPostDto
+
 export interface UpdateBlogPostDto {
   id: number;
   title: string;
   content: string;
-  coverImageUrl?: string | null;
   isPublished: boolean;
   categoryId?: number | null;
+
+  // yeni:
+  coverImage?: File | null;   // form-data ile gönderilecek
+  tagIds?: number[];          // seçilen etiket ID'leri
 }
+

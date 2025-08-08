@@ -11,6 +11,8 @@ import { ProfileComponent } from './features/profile/profile.component';
 import { HomeComponent } from './features/dashboard/home/home.component';
 import { BlogViewComponent } from './features/admin/blog/blog-view/blog-view.component';
 import { BlogCreateComponent } from './features/admin/blog/blog-create/blog-create.component';
+import { BlogEditComponent } from './features/admin/blog/blog-edit/blog-edit.component';
+import { PendingChangesGuard } from './shared/guards/pending-changes.guard';
 
 
 const routes: Routes = [
@@ -30,6 +32,7 @@ const routes: Routes = [
 
     { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
     { path: 'blog/blog-create', component: BlogCreateComponent, data: { roles: ['Admin'] } },
+    { path: 'blog/blog-edit/:id', component: BlogEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard]  }
   ]
 },
 
