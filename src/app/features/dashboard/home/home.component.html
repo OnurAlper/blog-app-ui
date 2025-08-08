@@ -1,16 +1,158 @@
-<div class="dashboard-home-wrapper">
-  <mat-card class="welcome-card mat-elevation-z3">
-    <mat-card-title>Welcome 👋</mat-card-title>
-    <mat-card-content>
-      <p>This is your dashboard home screen.</p>
-      <p>Buraya özet bilgiler, kısa istatistikler, haberler, grafikler vs. koyabilirsin.</p>
+<div class="container-fluid dashboard-home-wrapper">
 
-      <div *ngIf="user">
-        <h4>Hoş geldin, {{ user.name }} {{ user.surname }}</h4>
-        <p><strong>Kullanıcı Adı:</strong> {{ user.username }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Telefon:</strong> {{ user.phoneNumber }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <!-- KPI'lar -->
+  <div class="row g-3">
+    <div class="col-6 col-lg-2" *ngFor="let kpi of [
+      { title: 'Dashboard.TotalVisits', value: totalVisits | number },
+      { title: 'Dashboard.NewUsers', value: newUsers },
+      { title: 'Dashboard.PublishedPosts', value: publishedPosts },
+      { title: 'Dashboard.Comments', value: comments },
+      { title: 'Dashboard.TotalLikes', value: totalLikes },
+      { title: 'Dashboard.AverageEngagement', value: averageEngagement }
+    ]">
+      <mat-card class="kpi-card h-100">
+        <div class="kpi-title">{{ kpi.title | translate }}</div>
+        <div class="kpi-value">{{ kpi.value }}</div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Chartlar -->
+  <div class="row g-3 mt-1">
+    <!-- Aylık Trafik -->
+    <div class="col-12 col-xl-6">
+      <mat-card class="chart-card h-100">
+        <div class="chart-header">
+          <h3>{{ 'Dashboard.MonthlyTraffic' | translate }}</h3>
+          <small>{{ 'Dashboard.Last12Months' | translate }}</small>
+        </div>
+        <apx-chart
+          [series]="areaSeries"
+          [chart]="areaChart"
+          [xaxis]="areaXaxis"
+          [yaxis]="areaYaxis"
+          [dataLabels]="dataLabels"
+          [stroke]="areaStroke"
+          [fill]="areaFill"
+          [tooltip]="tooltip">
+        </apx-chart>
+      </mat-card>
+    </div>
+
+    <!-- Kategoriye Göre Yazılar -->
+    <div class="col-12 col-xl-6">
+      <mat-card class="chart-card h-100">
+        <div class="chart-header">
+          <h3>{{ 'Dashboard.PostsByCategory' | translate }}</h3>
+          <small>{{ 'Dashboard.ThisYear' | translate }}</small>
+        </div>
+        <apx-chart
+          [series]="barSeries"
+          [chart]="barChart"
+          [xaxis]="barXaxis"
+          [plotOptions]="barPlot"
+          [dataLabels]="dataLabels"
+          [tooltip]="tooltip">
+        </apx-chart>
+      </mat-card>
+    </div>
+
+    <!-- Yayın Durumu -->
+    <div class="col-12 col-xl-6">
+      <mat-card class="chart-card h-100">
+        <div class="chart-header">
+          <h3>{{ 'Dashboard.PublishStatus' | translate }}</h3>
+          <small>{{ 'Dashboard.Total' | translate }}</small>
+        </div>
+        <apx-chart
+          [series]="donutSeries"
+          [chart]="donutChart"
+          [labels]="donutLabels"
+          [legend]="donutLegend"
+          [responsive]="donutResponsive">
+        </apx-chart>
+      </mat-card>
+    </div>
+
+    <!-- Aylık Kullanıcı Kayıtları -->
+    <div class="col-12 col-xl-6">
+      <mat-card class="chart-card h-100">
+        <div class="chart-header">
+          <h3>{{ 'Dashboard.MonthlyUserRegistrations' | translate }}</h3>
+          <small>{{ 'Dashboard.Last12Months' | translate }}</small>
+        </div>
+        <apx-chart
+          [series]="userSeries"
+          [chart]="userChart"
+          [xaxis]="userXaxis"
+          [dataLabels]="dataLabels"
+          [stroke]="areaStroke"
+          [tooltip]="tooltip">
+        </apx-chart>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Top 5 Listeler -->
+  <div class="row g-3 mt-1">
+    <!-- En Çok Görüntülenen -->
+    <div class="col-12 col-md-6 col-xl-3">
+      <mat-card class="list-card h-100">
+        <div class="list-header">
+          <h4>{{ 'Dashboard.TopViewedPosts' | translate }}</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let item of topViewedPosts; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ i+1 }}. {{ item.title }}</span>
+            <span class="badge bg-primary rounded-pill">{{ item.count }}</span>
+          </li>
+        </ul>
+      </mat-card>
+    </div>
+
+    <!-- En Çok Beğenilen -->
+    <div class="col-12 col-md-6 col-xl-3">
+      <mat-card class="list-card h-100">
+        <div class="list-header">
+          <h4>{{ 'Dashboard.TopLikedPosts' | translate }}</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let item of topLikedPosts; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ i+1 }}. {{ item.title }}</span>
+            <span class="badge bg-primary rounded-pill">{{ item.count }}</span>
+          </li>
+        </ul>
+      </mat-card>
+    </div>
+
+    <!-- En Çok Yorum Alan -->
+    <div class="col-12 col-md-6 col-xl-3">
+      <mat-card class="list-card h-100">
+        <div class="list-header">
+          <h4>{{ 'Dashboard.TopCommentedPosts' | translate }}</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let item of topCommentedPosts; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ i+1 }}. {{ item.title }}</span>
+            <span class="badge bg-primary rounded-pill">{{ item.count }}</span>
+          </li>
+        </ul>
+      </mat-card>
+    </div>
+
+    <!-- En Çok Post Yazan Yazarlar -->
+    <div class="col-12 col-md-6 col-xl-3">
+      <mat-card class="list-card h-100">
+        <div class="list-header">
+          <h4>{{ 'Dashboard.TopAuthors' | translate }}</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let author of topAuthors; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ i+1 }}. {{ author.authorName }}</span>
+            <span class="badge bg-primary rounded-pill">{{ author.postCount }}</span>
+          </li>
+        </ul>
+      </mat-card>
+    </div>
+  </div>
 </div>

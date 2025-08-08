@@ -1,11 +1,154 @@
+/* =========================
+   Dashboard Ana Container
+========================= */
 .dashboard-home-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
+  padding: 12px;
+  background-color: #f7f8fa;
 }
 
-.welcome-card {
-  max-width: 600px;
+/* =========================
+   KPI Kartları
+========================= */
+.kpi-card {
+  border-radius: 12px;
+  padding: 14px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-height: 96px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .kpi-title {
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+  }
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1976d2;
+  }
+  .kpi-trend {
+    font-size: 12px;
+    &.up {
+      color: #2e7d32;
+    }
+    &.down {
+      color: #c62828;
+    }
+  }
+}
+
+/* =========================
+   Chart Kartları
+========================= */
+.chart-card {
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    small {
+      color: #888;
+      font-size: 12px;
+    }
+  }
+}
+
+/* Apex chart container – responsive yükseklik */
+apx-chart {
+  display: block;
   width: 100%;
-  text-align: center;
+  min-height: 280px;
+}
+
+/* =========================
+   Top List Kartları
+========================= */
+.list-card {
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .list-header {
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .list-group-item {
+    font-size: 14px;
+    padding: 8px 12px;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:nth-child(even) {
+      background: #fafafa;
+    }
+  }
+
+  .badge {
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
+
+/* =========================
+   Responsive Ayarlar
+========================= */
+@media (max-width: 1200px) {
+  apx-chart {
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  apx-chart {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 576px) {
+  .kpi-card {
+    min-height: 80px;
+    .kpi-title {
+      font-size: 12px;
+    }
+    .kpi-value {
+      font-size: 22px;
+    }
+  }
 }

@@ -135,5 +135,25 @@
   },
   "EMPTY": {
     "NO_RECORDS": "Kayıt bulunamadı."
-  }
+  },
+  "Dashboard": {
+  "TotalVisits": "Toplam Ziyaret",
+  "NewUsers": "Yeni Kullanıcılar",
+  "PublishedPosts": "Yayınlanan Yazılar",
+  "Comments": "Yorumlar",
+  "TotalLikes": "Toplam Beğeni",
+  "AverageEngagement": "Ortalama Etkileşim",
+  "MonthlyTraffic": "Aylık Trafik",
+  "Last12Months": "Son 12 Ay",
+  "PostsByCategory": "Kategoriye Göre Yazılar",
+  "ThisYear": "Bu Yıl",
+  "PublishStatus": "Yayın Durumu",
+  "Total": "Toplam",
+  "MonthlyUserRegistrations": "Aylık Kullanıcı Kayıtları",
+  "TopViewedPosts": "En Çok Görüntülenen Yazılar",
+  "TopLikedPosts": "En Çok Beğenilen Yazılar",
+  "TopCommentedPosts": "En Çok Yorum Alan Yazılar",
+  "TopAuthors": "En Aktif Yazarlar"
+}
+
 }

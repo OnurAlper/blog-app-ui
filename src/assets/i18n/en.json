@@ -135,5 +135,25 @@
   },
   "EMPTY": {
     "NO_RECORDS": "No records found."
-  }
+  },
+  "Dashboard": {
+  "TotalVisits": "Total Visits",
+  "NewUsers": "New Users",
+  "PublishedPosts": "Published Posts",
+  "Comments": "Comments",
+  "TotalLikes": "Total Likes",
+  "AverageEngagement": "Average Engagement",
+  "MonthlyTraffic": "Monthly Traffic",
+  "Last12Months": "Last 12 Months",
+  "PostsByCategory": "Posts by Category",
+  "ThisYear": "This Year",
+  "PublishStatus": "Publish Status",
+  "Total": "Total",
+  "MonthlyUserRegistrations": "Monthly User Registrations",
+  "TopViewedPosts": "Top Viewed Posts",
+  "TopLikedPosts": "Top Liked Posts",
+  "TopCommentedPosts": "Top Commented Posts",
+  "TopAuthors": "Top Authors"
+}
+
 }
