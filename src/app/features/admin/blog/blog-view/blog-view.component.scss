@@ -1,96 +1,65 @@
 .page-header {
-  h2 {
-    font-weight: 600;
-    color: #333;
-  }
-
-  mat-button-toggle-group {
-    margin-right: 12px;
-  }
+  h2 { font-weight: 600; color: #333; }
+  mat-button-toggle-group { margin-right: 12px; }
 }
-  // 📊 Blog istatistikleri (ikon + tooltip)
+
+/* ----------------- Ortak: İstatistik rozetleri (TABLO = KART) ----------------- */
 .stats-cell {
-  vertical-align: middle; // td içeriğini dikey ortalar
+  /* inline-block ile aynı görünüm; satır dolunca aşağı kayar */
   height: 100%;
+  vertical-align: middle;
 
   .stat-item {
-    display: inline-block;       // flex yerine inline-block
-    vertical-align: middle;      // ortalama
-    margin-right: 10px;           // gap yerine margin
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
     padding: 5px 10px;
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
     line-height: 1;
-    height: 28px;                 // sabit yükseklik
-    transition: all 0.2s ease;
+    height: 28px;
     cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    transition: all .2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
 
     mat-icon {
       font-size: 16px;
       height: 16px;
       width: 16px;
-      vertical-align: middle; // ikon da ortalansın
-      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
       margin-right: 4px;
+      vertical-align: middle;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,.1));
     }
 
-    &:hover {
-      transform: scale(1.05);
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-    }
+    &:hover { transform: scale(1.05); box-shadow: 0 3px 6px rgba(0,0,0,.15); }
 
-    &.comments {
-      background: linear-gradient(135deg, rgba(33,150,243,0.15), rgba(33,150,243,0.25));
-      color: #1976d2;
-      mat-icon { color: #1976d2; }
-    }
-
-    &.likes {
-      background: linear-gradient(135deg, rgba(233,30,99,0.15), rgba(233,30,99,0.25));
-      color: #d81b60;
-      mat-icon { color: #d81b60; }
-    }
-
-    &.views {
-      background: linear-gradient(135deg, rgba(255,152,0,0.15), rgba(255,152,0,0.25));
-      color: #ef6c00;
-      mat-icon { color: #ef6c00; }
-    }
-
-    &.read-time {
-      background: linear-gradient(135deg, rgba(156,39,176,0.15), rgba(156,39,176,0.25));
-      color: #8e24aa;
-      mat-icon { color: #8e24aa; }
-    }
+    &.comments { background: linear-gradient(135deg, rgba(33,150,243,.15), rgba(33,150,243,.25)); color:#1976d2; mat-icon{color:#1976d2;} }
+    &.likes    { background: linear-gradient(135deg, rgba(233,30,99,.15), rgba(233,30,99,.25)); color:#d81b60; mat-icon{color:#d81b60;} }
+    &.views    { background: linear-gradient(135deg, rgba(255,152,0,.15), rgba(255,152,0,.25)); color:#ef6c00; mat-icon{color:#ef6c00;} }
+    &.read-time{ background: linear-gradient(135deg, rgba(156,39,176,.15), rgba(156,39,176,.25)); color:#8e24aa; mat-icon{color:#8e24aa;} }
   }
 
-  .stat-item:last-child {
-    margin-right: 0; // sonuncuda boşluk olmasın
-  }
+  .stat-item:last-child { margin-right: 0; }
 }
 
-
-
-// ✅ Table görünümü
+/* ----------------- Tablo ----------------- */
 .table-responsive-wrapper {
   width: 100%;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; // mobil scroll akıcı olsun
+  -webkit-overflow-scrolling: touch;
   border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 6px rgba(0,0,0,.02);
 
   table {
-    min-width: 900px;
+    min-width: 780px;                /* 900 -> 780: daha esnek */
     border-collapse: collapse;
     width: 100%;
     font-size: 14px;
 
-    th,
-    td {
-      white-space: nowrap;
+    th, td {
+      white-space: normal;           /* satırlar sarılsın -> taşma biter */
       padding: 12px 16px;
       vertical-align: middle;
     }
@@ -105,112 +74,78 @@
 
     tr {
       border-bottom: 1px solid #eee;
-
-      &:hover {
-        background-color: #f7f9fc;
-      }
+      &:hover { background-color: #f7f9fc; }
     }
   }
 }
 
-// ✅ Thumbnail görüntüsü (table için)
-.blog-thumb {
-  width: 80px;
-  height: 60px;
-  background-color: #f3f3f3;
-  border-radius: 6px;
+/* Başlık/açıklama kibar kısaltma (tabloda) */
+.table-responsive-wrapper .fw-semibold {
+  display: -webkit-box; line-clamp: 2;   -webkit-box-orient: vertical; overflow: hidden;
+}
+.table-responsive-wrapper .d-flex small.text-muted {
+  display: -webkit-box; line-clamp: 1;   -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Etiketler (chips) – hem tabloda hem kartta sarılsın */
+td mat-chip-listbox,
+.post-card mat-chip-listbox {
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
-  }
-
-  mat-icon {
-    font-size: 32px;
-    color: #bbb;
-  }
+  flex-wrap: wrap;
+  gap: 6px;
+}
+td mat-chip,
+.post-card mat-chip {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-// ✅ Durum rozetleri
+/* Thumbnail */
+.blog-thumb {
+  width: 80px; height: 60px; background:#f3f3f3; border-radius: 6px;
+  display:flex; align-items:center; justify-content:center;
+  img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
+  mat-icon { font-size:32px; color:#bbb; }
+}
+
+/* Durum rozetleri */
 .status-pill {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-  display: inline-block;
-
-  background: #e6f4ea;
-  color: #2e7d32;
-
-  &.unpublished {
-    background: #f3f4f6;
-    color: #757575;
-  }
+  padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; display: inline-block;
+  background:#e6f4ea; color:#2e7d32;
+  &.unpublished { background:#f3f4f6; color:#757575; }
 }
 
-// ✅ Card görünümü
+/* ----------------- Kart görünümü ----------------- */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* biraz daha ferah */
   gap: 16px;
 }
 
-// ✅ Her bir kart
 .post-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   border-radius: 8px;
   overflow: hidden;
-  transition: box-shadow 0.2s ease;
-
-  &:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  }
+  transition: box-shadow .2s ease;
+  &:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
 
   .card-image {
     position: relative;
     height: 180px;
-    background-color: #f3f3f3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:#f3f3f3;
+    display:flex; align-items:center; justify-content:center;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    mat-icon {
-      font-size: 48px;
-      color: #ccc;
-    }
+    img { width:100%; height:100%; object-fit:cover; }
+    mat-icon { font-size:48px; color:#ccc; }
 
     .status-badge {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-weight: 600;
-
-      &.published {
-        background: #e6f4ea;
-        color: #2e7d32;
-      }
-
-      &.draft {
-        background: #f3f4f6;
-        color: #757575;
-      }
+      position:absolute; top:8px; left:8px;
+      font-size:12px; padding:4px 10px; border-radius:12px; font-weight:600;
+      &.published { background:#e6f4ea; color:#2e7d32; }
+      &.draft     { background:#f3f4f6; color:#757575; }
     }
   }
 
@@ -218,30 +153,28 @@
     padding: 12px 16px;
 
     h5 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 4px;
+      display:-webkit-box; line-clamp: 2;   -webkit-box-orient:vertical; overflow:hidden;
     }
-
-    p {
-      font-size: 0.9rem;
-      color: #444;
-      margin-bottom: 8px;
+    p  {
+      font-size:.9rem; color:#444; margin-bottom:8px;
+      display:-webkit-box; line-clamp: 2;   -webkit-box-orient:vertical; overflow:hidden;
     }
-
-    small {
-      font-size: 0.75rem;
-      color: #888;
-    }
+    small { font-size:.75rem; color:#888; }
   }
+
+  /* kartta da aynı stats-cell'i kullanıyoruz (hiç farklı kural yok) */
+  .stats-cell { margin-top: 8px; }
 
   .card-actions {
-    display: flex;
-    justify-content: flex-end;
-    padding: 8px 12px 12px;
-    gap: 4px;
+    margin-top: auto;
+    display:flex; justify-content:flex-end;
+    padding: 8px 12px 12px; gap: 4px;
   }
+}
 
-
-
+/* Küçük ekran ufak iyileştirme */
+@media (max-width: 992px) {
+  .blog-thumb { width: 64px; height: 48px; }
+  .table-responsive-wrapper table { font-size: 13px; }
 }
