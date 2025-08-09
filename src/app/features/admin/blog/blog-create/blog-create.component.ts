@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { debounceTime, startWith, switchMap, map } from 'rxjs/operators';
+import { debounceTime, startWith, switchMap, map, finalize } from 'rxjs/operators';
 import { BlogService } from 'src/app/core/services/blog.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { TagService } from 'src/app/core/services/tag.service';
@@ -48,7 +48,7 @@ export class BlogCreateComponent implements OnInit {
     this.filteredCategories = this.categoryFilterCtrl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
-      map(value => value ?? ''), // ✅ null -> ''
+      map(value => value ?? ''),
       switchMap(search =>
         this.categoryService.getCategories(search).pipe(
           map(res => res.data || [])
@@ -59,7 +59,7 @@ export class BlogCreateComponent implements OnInit {
     this.filteredTags = this.tagFilterCtrl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
-      map(value => value ?? ''), // ✅ null -> ''
+      map(value => value ?? ''),
       switchMap(search =>
         this.tagService.getAllTags(1, 2147483647, 'Name', 'asc', search).pipe(
           map(res => res.data || [])
@@ -74,24 +74,26 @@ export class BlogCreateComponent implements OnInit {
   }
 
   onFileSelected(event: Event): void {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-    
-    if (!allowedTypes.includes(file.type)) {
-      this.notify.error(this.i18n.instant('BLOG.VALIDATION.INVALID_IMAGE_TYPE') || 'Sadece PNG veya JPG dosyaları yükleyebilirsiniz.');
-      (event.target as HTMLInputElement).value = ''; // input temizlenir
-      return;
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+
+      if (!allowedTypes.includes(file.type)) {
+        this.notify.error(
+          this.i18n.instant('BLOG.VALIDATION.INVALID_IMAGE_TYPE') ||
+          'Sadece PNG veya JPG dosyaları yükleyebilirsiniz.'
+        );
+        (event.target as HTMLInputElement).value = ''; // input temizlenir
+        return;
+      }
+
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = e => this.previewImage = e.target?.result as string;
+      reader.readAsDataURL(file);
     }
-
-    this.selectedFile = file;
-
-    const reader = new FileReader();
-    reader.onload = e => this.previewImage = e.target?.result as string;
-    reader.readAsDataURL(file);
   }
-}
-
 
   onSubmit(): void {
     if (this.form.invalid || !this.selectedFile) {
@@ -106,19 +108,23 @@ export class BlogCreateComponent implements OnInit {
       title: this.form.get('title')?.value,
       content: this.form.get('content')?.value,
       categoryId: this.form.get('categoryId')?.value,
-      tagIds: this.form.get('tagIds')?.value,
+      tagIds: Array.isArray(this.form.get('tagIds')?.value) ? this.form.get('tagIds')?.value : [],
       coverImage: this.selectedFile
     };
 
     this.loading = true;
-    this.blogService.create(dto).subscribe({
-      next: (res) => {
-        this.notify.success(res.message || this.i18n.instant('BLOG.CREATE_SUCCESS'));
-        this.router.navigate(['/blog']);
-      },
-      error: (err) => {
-        this.notify.error(err?.error?.message || this.i18n.instant('COMMON.ERROR'));
-      }
-    }).add(() => this.loading = false);
+    this.blogService.create(dto)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (res) => {
+          const backendMsg = res?.message;
+          this.notify.success(backendMsg || this.i18n.instant('BLOG.CREATE_SUCCESS'));
+          this.router.navigate(['/blog']);
+        },
+        error: (err) => {
+          const backendMsg = err?.error?.Message || err?.error?.message;
+          this.notify.error(backendMsg || this.i18n.instant('COMMON.ERROR'));
+        }
+      });
   }
 }

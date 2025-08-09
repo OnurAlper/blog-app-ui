@@ -1,0 +1,83 @@
+<!-- Başlık + Ekle -->
+<div class="page-header d-flex justify-content-between align-items-center mb-3">
+  <h2>{{ 'NAV.TAG_MANAGEMENT' | translate }}</h2>
+  <button mat-fab color="primary" (click)="openCreate()" matTooltip="{{ 'COMMON.CREATE' | translate }}">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<!-- Arama -->
+<div class="row justify-content-center mb-3">
+  <div class="col-12 col-md-6">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'COMMON.SEARCH' | translate }}</mat-label>
+      <input
+        matInput
+        [ngModel]="searchTerm"
+        (ngModelChange)="onSearchInput($event)"
+        [placeholder]="'TAGS.SEARCH_PLACEHOLDER' | translate">
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="onSearch()"
+        [disabled]="loading"
+        matTooltip="{{ 'COMMON.SEARCH' | translate }}">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+
+<!-- Yükleniyor -->
+<div class="text-center text-muted my-3" *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<!-- Tablo -->
+<div class="table-responsive-wrapper" *ngIf="!loading">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)" class="mat-elevation-z2">
+
+    <!-- Id -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMON.ID' | translate }}</th>
+      <td mat-cell *matCellDef="let tag">{{ tag.id }}</td>
+    </ng-container>
+
+    <!-- Ad -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'TAGS.NAME' | translate }}</th>
+      <td mat-cell *matCellDef="let tag">{{ tag.name }}</td>
+    </ng-container>
+
+    <!-- İşlemler -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.ACTIONS' | translate }}</th>
+      <td mat-cell *matCellDef="let tag">
+        <button mat-icon-button [matMenuTriggerFor]="rowMenu" matTooltip="{{ 'COMMON.ACTIONS' | translate }}">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #rowMenu="matMenu">
+          <button mat-menu-item (click)="openEdit(tag)">
+            <mat-icon>edit</mat-icon>{{ 'COMMON.EDIT' | translate }}
+          </button>
+          <button mat-menu-item (click)="remove(tag.id)">
+            <mat-icon color="warn">delete</mat-icon>{{ 'COMMON.DELETE' | translate }}
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <!-- Paginator (default Angular Material) -->
+  <mat-paginator
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    showFirstLastButtons
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

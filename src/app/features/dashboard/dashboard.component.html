@@ -1,49 +1,48 @@
 <mat-sidenav-container class="dashboard-container">
-  <!-- SOL SİDEBAR -->
-  <mat-sidenav #sidenav class="dashboard-sidenav" [mode]="isScreenLarge ? 'side' : 'over'" [opened]="isScreenLarge"
-    fixedInViewport>
-    <!-- Üst başlık kaldırıldı (Menü yok) -->
-
+  <mat-sidenav #sidenav class="dashboard-sidenav" [mode]="isScreenLarge ? 'side' : 'over'" [opened]="isScreenLarge" fixedInViewport>
     <mat-nav-list (click)="onNavListClick(sidenav)">
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon matListItemIcon>dashboard</mat-icon>
-        <span matListItemTitle>Dashboard</span>
+        <span matListItemTitle>{{ 'NAV.DASHBOARD' | translate }}</span>
       </a>
 
       <a mat-list-item routerLink="/profile" routerLinkActive="active-link">
         <mat-icon matListItemIcon>person</mat-icon>
-        <span matListItemTitle>Profil</span>
+        <span matListItemTitle>{{ 'NAV.PROFILE' | translate }}</span>
       </a>
+
+      <!-- Blog (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/blog" routerLinkActive="active-link">
         <mat-icon matListItemIcon>article</mat-icon>
-        <span matListItemTitle>Blog</span>
+        <span matListItemTitle>{{ 'NAV.BLOG' | translate }}</span>
       </a>
+
+      <!-- Etiketler (Sadece Admin) -->
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/tags" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>label</mat-icon>
+        <span matListItemTitle>{{ 'NAV.TAGS' | translate }}</span>
+      </a>
+
       <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
         <mat-icon matListItemIcon>settings</mat-icon>
-        <span matListItemTitle>Ayarlar</span>
+        <span matListItemTitle>{{ 'NAV.SETTINGS' | translate }}</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
-  <!-- ANA İÇERİK -->
   <mat-sidenav-content>
-    <!-- ÜST TOOLBAR -->
     <mat-toolbar color="primary" class="topbar">
       <button type="button" mat-icon-button (click)="sidenav.toggle()" class="menu-button" aria-label="Toggle sidenav">
         <mat-icon>menu</mat-icon>
       </button>
 
-      <!-- En üst başlık: Dashboard -->
-      <span class="toolbar-title">Dashboard</span>
+      <!-- Toolbar title -->
+      <span class="toolbar-title">{{ 'NAV.DASHBOARD' | translate }}</span>
 
       <span class="spacer"></span>
-
-      <!-- Kullanıcı menüsü -->
       <app-user-menu></app-user-menu>
     </mat-toolbar>
 
-    <!-- Sayfa içeriği -->
     <div class="dashboard-content">
       <router-outlet></router-outlet>
     </div>

@@ -58,22 +58,30 @@ displayedColumns: string[] = [
   }
 
   load(): void {
-    const query: BlogPostQuery = {
-      pageNumber: this.paginator ? this.paginator.pageIndex + 1 : 1,
-      pageSize: this.pageSize,
-      orderBy: this.orderBy,
-      orderDirection: this.orderDirection,
-      searchTerm: this.searchTerm.trim() || undefined
-    };
+  const query: BlogPostQuery = {
+    pageNumber: this.paginator ? this.paginator.pageIndex + 1 : 1,
+    pageSize: this.pageSize,
+    orderBy: this.orderBy,
+    orderDirection: this.orderDirection,
+    searchTerm: this.searchTerm.trim() || undefined
+  };
 
-    this.loading = true;
-    this.blogService.getAll(query)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(res => {
+  this.loading = true;
+  this.blogService.getAll(query)
+    .pipe(finalize(() => (this.loading = false)))
+    .subscribe({
+      next: res => {
         this.dataSource.data = (res.data || []).map(d => ({ ...d, _imgErr: false }));
         this.totalCount = res.totalPage ?? 0;
-      });
-  }
+      },
+      error: err => {
+        const backendMsg = err?.error?.Message || err?.error?.message;
+        this.notify.error(backendMsg || this.i18n.instant('COMMON.ERROR'));
+        this.dataSource.data = [];
+        this.totalCount = 0;
+      }
+    });
+}
 
   onSearchInput(value: string): void {
     this.searchTerm = value;
@@ -134,14 +142,23 @@ edit(post: BlogPostUI): void {
 }
 
 
-  remove(id: number): void {
-    if (!confirm(`${this.i18n.instant('COMMON.DELETE')} #${id}?`)) return;
-    this.loading = true;
-    this.blogService.remove(id)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(() => {
-        this.notify.success(this.i18n.instant('COMMON.DELETE') + ' OK');
+ remove(id: number): void {
+  if (!confirm(`${this.i18n.instant('COMMON.DELETE')} #${id}?`)) return;
+
+  this.loading = true;
+  this.blogService.remove(id)
+    .pipe(finalize(() => (this.loading = false)))
+    .subscribe({
+      next: (res: any) => {
+        const backendMsg = res?.message || res?.Message;
+        this.notify.success(backendMsg || this.i18n.instant('COMMON.DELETE_SUCCESS'));
         this.load();
-      });
-  }
+      },
+      error: err => {
+        const backendMsg = err?.error?.Message || err?.error?.message;
+        this.notify.error(backendMsg || this.i18n.instant('COMMON.DELETE_FAILED'));
+      }
+    });
+}
+
 }

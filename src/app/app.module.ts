@@ -36,6 +36,9 @@ import { BlogCreateComponent } from './features/admin/blog/blog-create/blog-crea
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BlogEditComponent } from './features/admin/blog/blog-edit/blog-edit.component';
 import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
+import { TagListComponent } from './features/admin/tag/tag-list/tag-list.component';
+import { TagCreateComponent } from './features/admin/tag/tag-create/tag-create.component';
+import { TagEditComponent } from './features/admin/tag/tag-edit/tag-edit.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -57,6 +60,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     BlogViewComponent,
     BlogCreateComponent,
     BlogEditComponent,
+    TagListComponent,
+    TagCreateComponent,
+    TagEditComponent,
     SafeHtmlPipe
   ],
   imports: [

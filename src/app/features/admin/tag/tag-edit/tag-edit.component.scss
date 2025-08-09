@@ -1,0 +1,15 @@
+:host { display:block; padding:16px; }
+
+.form-card{
+  background:#fff;
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,.06);
+
+  .actions{
+    display:flex;
+    gap:12px;
+    justify-content:flex-end;
+    margin-top:12px;
+  }
+}

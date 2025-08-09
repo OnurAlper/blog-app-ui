@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, Subscription } from 'rxjs';
+import { finalize, forkJoin, Subscription } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,6 +11,7 @@ import { CategoryService } from 'src/app/core/services/category.service';
 import { TagService } from 'src/app/core/services/tag.service';
 import { GetCategoryDto } from 'src/app/core/models/category.model';
 import { GetTagDto } from 'src/app/core/models/tag.model';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-blog-edit',
@@ -47,8 +48,9 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     private tagService: TagService,
     private route: ActivatedRoute,
     private router: Router,
-    private i18n: TranslateService
-  ) {}
+    private i18n: TranslateService,
+    private notify: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -76,45 +78,58 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   onBeforeUnload(e: BeforeUnloadEvent) {
     if (this.hasUnsavedChanges) {
       e.preventDefault();
-      e.returnValue = this.i18n.instant('CONFIRM.UNSAVED_CHANGES') || '';
+      e.returnValue = this.i18n.instant('COMMON.UNSAVED_CHANGES') || '';
     }
   }
 
+
   private loadData(): void {
     const categories$ = this.categoryService.getCategories();
-    const tags$ = this.tagService.getAllTags();
+    const tags$ = this.tagService.getAllTags(); // default paramlarla gelir
     const post$ = this.blogService.getById(this.postId);
 
+    this.saving = false; // güvenlik
     this.subs.add(
-      forkJoin([categories$, tags$, post$]).subscribe(([catRes, tagRes, postRes]) => {
-        this.categories = catRes.data ?? [];
-        this.tags = tagRes.data ?? [];
+      forkJoin([categories$, tags$, post$])
+        .pipe()
+        .subscribe({
+          next: ([catRes, tagRes, postRes]) => {
+            this.categories = catRes.data ?? [];
+            this.tags = tagRes.data ?? [];
 
-        const post: GetBlogPostDto = postRes.data;
+            const post: GetBlogPostDto = postRes.data;
 
-        const tagIdsFromNames =
-          (post.tags ?? [])
-            .map(name => this.tags.find(t => t.name?.toLowerCase() === String(name).toLowerCase())?.id)
-            .filter((id): id is number => !!id) || [];
+            const tagIdsFromNames =
+              (post.tags ?? [])
+                .map(name =>
+                  this.tags.find(t => t.name?.toLowerCase() === String(name).toLowerCase())?.id
+                )
+                .filter((id): id is number => !!id) || [];
 
-        this.form.patchValue({
-          title: post.title,
-          content: post.content,
-          categoryId: post.categoryId ?? null,
-          tagIds: tagIdsFromNames,
-          isPublished: post.isPublished
-        });
+            this.form.patchValue({
+              title: post.title,
+              content: post.content,
+              categoryId: post.categoryId ?? null,
+              tagIds: tagIdsFromNames,
+              isPublished: post.isPublished
+            });
 
-        this.coverPreview = post.coverImageUrl || null;
-        this.selectedCoverFile = null;
+            this.coverPreview = post.coverImageUrl || null;
+            this.selectedCoverFile = null;
 
-        // ⬇️ İlk yüklemeden sonra dirty olmasın
-        this.form.markAsPristine();
-
-        this.updateSelectedMeta();
-      })
+            // ilk yüklemeden sonra dirty olmasın
+            this.form.markAsPristine();
+            this.updateSelectedMeta();
+          },
+          error: (err) => {
+            const backendMsg = err?.error?.Message || err?.error?.message;
+            this.notify.error(backendMsg || this.i18n.instant('COMMON.ERROR'));
+            this.router.navigate(['/blog']);
+          }
+        })
     );
   }
+
 
   private updateSelectedMeta(): void {
     const cid = this.form.get('categoryId')?.value as number | null;
@@ -157,7 +172,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid || this.saving) return;
 
     const val = this.form.value;
     const dto: UpdateBlogPostDto = {
@@ -172,19 +187,23 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
     this.saving = true;
     this.subs.add(
-      this.blogService.update(dto).subscribe({
-        next: () => {
-          this.saving = false;
-          // ✅ Kaydettikten sonra unsaved kalmasın
-          this.form.markAsPristine();
-          this.router.navigate(['/blog']);
-        },
-        error: () => {
-          this.saving = false;
-        }
-      })
+      this.blogService.update(dto)
+        .pipe(finalize(() => (this.saving = false)))
+        .subscribe({
+          next: (res: any) => {
+            const backendMsg = res?.Message || res?.message;
+            this.notify.success(backendMsg || this.i18n.instant('COMMON.UPDATE_SUCCESS'));
+            this.form.markAsPristine(); // unsaved uyarısı kalmasın
+            this.router.navigate(['/blog']);
+          },
+          error: (err) => {
+            const backendMsg = err?.error?.Message || err?.error?.message;
+            this.notify.error(backendMsg || this.i18n.instant('COMMON.UPDATE_FAILED'));
+          }
+        })
     );
   }
+
 
   trackById(_: number, item: { id: number }): number {
     return item.id;

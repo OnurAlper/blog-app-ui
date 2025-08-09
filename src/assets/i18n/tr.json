@@ -47,7 +47,8 @@
     "PREV": "Önceki",
     "NEXT": "Sonraki",
     "LAST": "Son",
-    "UNSAVED_CHANGES": "Kaydedilmemiş değişiklikler var. Çıkmak istediğine emin misin?"
+    "UNSAVED_CHANGES": "Kaydedilmemiş değişiklikler var. Çıkmak istediğine emin misin?",
+    "ID": "ID"
   },
   "LANG": {
     "TURKISH": "Türkçe",
@@ -103,7 +104,12 @@
     "PASSWORD_NOT_MATCH": "Yeni şifreler uyuşmuyor.",
     "UPDATE_PASSWORD": "Şifreyi Güncelle",
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla güncellendi.",
-    "PASSWORD_UPDATE_FAILED": "Şifre güncellenemedi."
+    "PASSWORD_UPDATE_FAILED": "Şifre güncellenemedi.",
+    "CREATE_SUCCESS": "Kayıt başarıyla oluşturuldu.",
+    "CREATE_FAILED": "Kayıt oluşturulamadı.",
+    "DELETE_SUCCESS": "Kayıt başarıyla silindi.",
+    "DELETE_FAILED": "Kayıt silinemedi.",
+    "CONFIRM_DELETE": "Bu kaydı silmek istediğine emin misin?"
   },
   "BLOG": {
     "TITLE": "Blog Yazıları",
@@ -157,5 +163,21 @@
     "TopLikedPosts": "En Çok Beğenilen Yazılar",
     "TopCommentedPosts": "En Çok Yorum Alan Yazılar",
     "TopAuthors": "En Aktif Yazarlar"
+  },
+  "NAV": {
+    "DASHBOARD": "Panel",
+    "PROFILE": "Profil",
+    "BLOG": "Blog",
+    "TAGS": "Etiketler",
+    "SETTINGS": "Ayarlar",
+    "TAG_MANAGEMENT": "Etiket Yönetimi"
+  },
+  "TAGS": {
+    "CREATE_TITLE": "Yeni Etiket Oluştur",
+    "EDIT_TITLE": "Etiketi Düzenle",
+    "NAME": "Etiket Adı",
+    "SEARCH_PLACEHOLDER": "Etiket adı ile ara...",
+    "ENTER_NEW": "Yeni etiket adı",
+    "ENTER_NEW_NAME": "Etiket adını güncelle"
   }
 }

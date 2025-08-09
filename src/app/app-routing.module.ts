@@ -13,6 +13,9 @@ import { BlogViewComponent } from './features/admin/blog/blog-view/blog-view.com
 import { BlogCreateComponent } from './features/admin/blog/blog-create/blog-create.component';
 import { BlogEditComponent } from './features/admin/blog/blog-edit/blog-edit.component';
 import { PendingChangesGuard } from './shared/guards/pending-changes.guard';
+import { TagListComponent } from './features/admin/tag/tag-list/tag-list.component';
+import { TagCreateComponent } from './features/admin/tag/tag-create/tag-create.component';
+import { TagEditComponent } from './features/admin/tag/tag-edit/tag-edit.component';
 
 
 const routes: Routes = [
@@ -20,21 +23,26 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent, canActivate: [LoginGuard] },
 
   {
-  path: '',
-  component: DashboardComponent,
-  canActivate: [AuthGuard],
-  canActivateChild: [AuthGuard],
-  data: { roles: ['Admin', 'Client'] },
-  children: [
-    { path: '', component: HomeComponent }, // 🔥 boş alt path → home
-    { path: 'dashboard', redirectTo: '', pathMatch: 'full' }, // 🔁 yönlendirme
-    { path: 'profile', component: ProfileComponent },
+    path: '',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    data: { roles: ['Admin', 'Client'] },
+    children: [
+      { path: '', component: HomeComponent }, // 🔥 boş alt path → home
+      { path: 'dashboard', redirectTo: '', pathMatch: 'full' }, // 🔁 yönlendirme
+      { path: 'profile', component: ProfileComponent },
 
-    { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
-    { path: 'blog/blog-create', component: BlogCreateComponent, data: { roles: ['Admin'] } },
-    { path: 'blog/blog-edit/:id', component: BlogEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard]  }
-  ]
-},
+      { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
+      { path: 'blog/blog-create', component: BlogCreateComponent, data: { roles: ['Admin'] } },
+      { path: 'blog/blog-edit/:id', component: BlogEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
+
+      { path: 'tags', component: TagListComponent, data: { roles: ['Admin'] } },
+      { path: 'tags/create', component: TagCreateComponent, data: { roles: ['Admin'] } },
+      { path: 'tags/edit/:id', component: TagEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
+
+    ]
+  },
 
 
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -46,4 +54,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
