@@ -16,12 +16,18 @@ import { PendingChangesGuard } from './shared/guards/pending-changes.guard';
 import { TagListComponent } from './features/admin/tag/tag-list/tag-list.component';
 import { TagCreateComponent } from './features/admin/tag/tag-create/tag-create.component';
 import { TagEditComponent } from './features/admin/tag/tag-edit/tag-edit.component';
+import { VerifyComponent } from './features/auth/verify/verify.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'signup', component: SignupComponent, canActivate: [LoginGuard] },
+  { path: 'verify', component: VerifyComponent }, 
 
+  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [LoginGuard] },
+  { path: 'reset-password',  component: ResetPasswordComponent },
   {
     path: '',
     component: DashboardComponent,

@@ -4,39 +4,30 @@
 
     <!-- Sağ üstte bayrak dropdown -->
     <div class="position-absolute top-0 end-0 p-3 z-3">
-  <div class="dropdown">
-    <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6"
-       href="#"
-       role="button"
-       id="langDropdown"
-       data-bs-toggle="dropdown"
-       aria-expanded="false">
-      <img
-        [src]="'assets/flags/' + (currentLang === 'en' ? 'us' : currentLang) + '.svg'"
-        width="24"
-        height="16"
-        alt="Flag"
-        class="rounded border"
-      />
-      <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
-    </a>
+      <div class="dropdown">
+        <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6" href="#" role="button"
+          id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <img [src]="'assets/flags/' + (currentLang === 'en' ? 'us' : currentLang) + '.svg'" width="24" height="16"
+            alt="Flag" class="rounded border" />
+          <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
+        </a>
 
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-      <li>
-        <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
-          <img src="assets/flags/tr.svg" width="24" height="16" alt="TR" class="rounded border" />
-          {{ 'LANG.TURKISH' | translate }}
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
-          <img src="assets/flags/us.svg" width="24" height="16" alt="US" class="rounded border" />
-          {{ 'LANG.ENGLISH' | translate }}
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
+              <img src="assets/flags/tr.svg" width="24" height="16" alt="TR" class="rounded border" />
+              {{ 'LANG.TURKISH' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
+              <img src="assets/flags/us.svg" width="24" height="16" alt="US" class="rounded border" />
+              {{ 'LANG.ENGLISH' | translate }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
 
 
     <div class="card p-4 shadow w-100" style="max-width: 400px;">
@@ -59,9 +50,14 @@
           </mat-error>
         </mat-form-field>
 
+        <div class="d-flex justify-content-end mb-2">
+          <a class="small text-decoration-none" routerLink="/forgot-password">
+            {{ 'LOGIN.FORGOT_PASSWORD' | translate }}
+          </a>
+        </div>
         <mat-checkbox formControlName="staySignedIn" class="mb-3">
-  {{ 'LOGIN.REMEMBER_ME' | translate }}
-</mat-checkbox>
+          {{ 'LOGIN.REMEMBER_ME' | translate }}
+        </mat-checkbox>
 
         <button mat-raised-button color="primary" class="w-100" [disabled]="loginForm.invalid || loading">
           {{ loading ? ('LOGIN.LOADING' | translate) : ('LOGIN.BUTTON' | translate) }}

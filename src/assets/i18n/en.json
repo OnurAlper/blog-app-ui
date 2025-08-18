@@ -9,7 +9,8 @@
     "SIGN_UP": "Sign up",
     "SUCCESS": "Login successful!",
     "FAILURE": "Login failed",
-    "REMEMBER_ME": "Remember me"
+    "REMEMBER_ME": "Remember me",
+    "FORGOT_PASSWORD": "Forgot your password?"
   },
   "VALIDATION": {
     "REQUIRED": "This field is required.",
@@ -178,5 +179,34 @@
     "SEARCH_PLACEHOLDER": "Search by tag name...",
     "ENTER_NEW": "New tag name",
     "ENTER_NEW_NAME": "Update tag name"
+  },
+  "Auth": {
+    "Verify": {
+      "Title": "Email Verification",
+      "Verifying": "Verification in progress...",
+      "DoneInfo": "Verification process completed.",
+      "InvalidLink": "Invalid verification link.",
+      "Success": "Email has been successfully verified!",
+      "Fail": "Email verification failed.",
+      "Redirecting": "Redirecting to the login page..."
+    },
+    "Forgot": {
+      "Title": "Forgot Password",
+      "Email": "Email address",
+      "Send": "Send reset link",
+      "Info": "We'll send you a password reset link if the address matches an account.",
+      "Success": "Password reset link has been sent to your email.",
+      "Fail": "Couldn't send the password reset link."
+    },
+    "Reset": {
+      "Title": "Set a New Password",
+      "NewPassword": "New password",
+      "ConfirmPassword": "Confirm new password",
+      "Submit": "Update password",
+      "InvalidLink": "Invalid or expired reset link.",
+      "PasswordsDontMatch": "Passwords don't match.",
+      "Success": "Your password has been updated successfully.",
+      "Fail": "Couldn't update the password."
+    }
   }
 }

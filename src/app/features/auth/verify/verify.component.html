@@ -1,0 +1,34 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <mat-card class="p-4 shadow-lg" style="max-width:480px;width:100%;border-radius:14px;">
+    <mat-card-header>
+      <mat-card-title class="w-100 text-center">
+        <h3>{{ 'Auth.Verify.Title' | translate }}</h3>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="text-center">
+      <!-- Loading State -->
+      <div *ngIf="loading">
+        <p class="text-muted">{{ 'Auth.Verify.Verifying' | translate }}</p>
+        <div class="d-flex justify-content-center my-3">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      </div>
+
+      <!-- Success State -->
+      <div *ngIf="!loading && verified">
+        <p class="text-success fw-bold">
+          {{ 'Auth.Verify.DoneInfo' | translate }}
+        </p>
+        <p class="small text-muted">
+          {{ 'Auth.Verify.Redirecting' | translate }}
+        </p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!loading && !verified && errorMsg">
+        <p class="text-danger fw-bold">{{ errorMsg }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

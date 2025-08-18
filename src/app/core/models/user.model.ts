@@ -62,3 +62,10 @@ export interface ChangePasswordDto {
   currentPassword: string;
   newPassword: string;
 }
+
+export interface PasswordResetConfirmDto
+{
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+}

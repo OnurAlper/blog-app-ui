@@ -6,6 +6,7 @@ import {
   GetUserDto,
   LoginRequestDto,
   LoginResponseDto,
+  PasswordResetConfirmDto,
   SignupRequestDto,
   UpdateProfileDto
 } from '../models/user.model';
@@ -32,5 +33,19 @@ export class UserService extends BaseApiService {
   }
  changePassword(data: ChangePasswordDto): Observable<BaseResponse<UpdateResponseDto>> {
     return this.put<BaseResponse<UpdateResponseDto>>('User/ChangePassword', data);
+  }
+    verifyEmail(token: string): Observable<BaseResponse<UpdateResponseDto>> {
+    return this.get<BaseResponse<UpdateResponseDto>>(`User/VerifyEmail?token=${token}`);
+  }
+
+  sendPasswordResetToken(email: string): Observable<BaseResponse<UpdateResponseDto>> {
+    return this.post<BaseResponse<UpdateResponseDto>>(
+      `User/SendPasswordResetToken?email=${encodeURIComponent(email)}`,
+      null
+    );
+  }
+
+  confirmPasswordReset(data: PasswordResetConfirmDto): Observable<BaseResponse<UpdateResponseDto>> {
+    return this.post<BaseResponse<UpdateResponseDto>>('User/ConfirmPasswordReset', data);
   }
 }

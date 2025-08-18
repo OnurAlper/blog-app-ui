@@ -39,6 +39,9 @@ import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
 import { TagListComponent } from './features/admin/tag/tag-list/tag-list.component';
 import { TagCreateComponent } from './features/admin/tag/tag-create/tag-create.component';
 import { TagEditComponent } from './features/admin/tag/tag-edit/tag-edit.component';
+import { VerifyComponent } from './features/auth/verify/verify.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -63,7 +66,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     TagListComponent,
     TagCreateComponent,
     TagEditComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    VerifyComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

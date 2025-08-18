@@ -9,7 +9,8 @@
     "SIGN_UP": "Kayıt ol",
     "SUCCESS": "Giriş başarılı!",
     "FAILURE": "Giriş başarısız",
-    "REMEMBER_ME": "Beni hatırla"
+    "REMEMBER_ME": "Beni hatırla",
+     "FORGOT_PASSWORD": "Şifreni mi unuttun?"
   },
   "VALIDATION": {
     "REQUIRED": "Bu alan zorunludur.",
@@ -179,5 +180,34 @@
     "SEARCH_PLACEHOLDER": "Etiket adı ile ara...",
     "ENTER_NEW": "Yeni etiket adı",
     "ENTER_NEW_NAME": "Etiket adını güncelle"
+  },
+  "Auth": {
+    "Verify": {
+      "Title": "E-posta Doğrulama",
+      "Verifying": "Doğrulama işlemi yapılıyor...",
+      "DoneInfo": "Doğrulama işlemi tamamlandı.",
+      "InvalidLink": "Geçersiz doğrulama bağlantısı.",
+      "Success": "E-posta başarıyla doğrulandı!",
+      "Fail": "E-posta doğrulama başarısız oldu.",
+      "Redirecting": "Giriş sayfasına yönlendiriliyorsunuz..."
+    },
+    "Forgot": {
+      "Title": "Şifre Sıfırlama",
+      "Email": "E-posta",
+      "Send": "Sıfırlama Bağlantısı Gönder",
+      "Info": "E-posta adresinize bir sıfırlama bağlantısı göndereceğiz.",
+      "Success": "Şifre sıfırlama bağlantısı e-postanıza gönderildi.",
+      "Fail": "Şifre sıfırlama bağlantısı gönderilemedi."
+    },
+    "Reset": {
+      "Title": "Yeni Şifre Belirle",
+      "NewPassword": "Yeni Şifre",
+      "ConfirmPassword": "Yeni Şifre (Tekrar)",
+      "Submit": "Şifreyi Güncelle",
+      "InvalidLink": "Geçersiz ya da süresi dolmuş bağlantı.",
+      "PasswordsDontMatch": "Şifreler uyuşmuyor.",
+      "Success": "Şifren başarıyla güncellendi!",
+      "Fail": "Şifre güncellenemedi."
+    }
   }
 }
