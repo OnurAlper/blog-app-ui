@@ -42,6 +42,7 @@ import { TagEditComponent } from './features/admin/tag/tag-edit/tag-edit.compone
 import { VerifyComponent } from './features/auth/verify/verify.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
+import { UserListComponent } from './features/admin/users/user-list/user-list.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -69,7 +70,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SafeHtmlPipe,
     VerifyComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

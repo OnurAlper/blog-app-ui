@@ -1,0 +1,267 @@
+<!-- Başlık + görünüm + aksiyonlar -->
+<div class="page-header d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+  <h2 class="m-0">{{ 'USERS.TITLE' | translate }}</h2>
+
+  <div class="d-flex align-items-center gap-2">
+    <mat-button-toggle-group [(ngModel)]="viewMode" aria-label="View mode">
+      <mat-button-toggle value="table" matTooltip="{{ 'USERS.VIEW.TABLE' | translate }}">
+        <mat-icon>table_chart</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="card" matTooltip="{{ 'USERS.VIEW.CARD' | translate }}">
+        <mat-icon>grid_view</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <button mat-stroked-button color="primary" (click)="refresh()" [disabled]="loading">
+      <mat-icon>refresh</mat-icon>
+      <span class="ms-1 d-none d-sm-inline">{{ 'COMMON.REFRESH' | translate }}</span>
+    </button>
+
+    <button mat-stroked-button (click)="exportCsv()" [disabled]="loading || !dataSource.data.length">
+      <mat-icon>file_download</mat-icon>
+      <span class="ms-1 d-none d-sm-inline">{{ 'USERS.EXPORT' | translate }}</span>
+    </button>
+  </div>
+</div>
+
+<!-- Arama + Filtreler -->
+<div class="row g-2 align-items-end mb-3">
+  <div class="col-12 col-md-5">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'COMMON.SEARCH' | translate }}</mat-label>
+      <input
+        matInput
+        [ngModel]="searchTerm"
+        (ngModelChange)="onSearchInput($event)"
+        [placeholder]="'USERS.SEARCH_PLACEHOLDER' | translate"
+      />
+      <button matSuffix mat-icon-button (click)="onSearch()" [disabled]="loading">
+        <mat-icon>search</mat-icon>
+      </button>
+      <button *ngIf="searchTerm" matSuffix mat-icon-button (click)="clearSearch()" [disabled]="loading">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="col-6 col-md-2">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'USERS.GENDER' | translate }}</mat-label>
+      <mat-select [(ngModel)]="genderFilter" (selectionChange)="applyFilters()">
+        <mat-option [value]="null">{{ 'COMMON.ALL' | translate }}</mat-option>
+        <mat-option [value]="1">{{ 'GENDER.MALE' | translate }}</mat-option>
+        <mat-option [value]="2">{{ 'GENDER.FEMALE' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+<div class="col-6 col-md-3">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>{{ 'USERS.COUNTRY' | translate }}</mat-label>
+
+    <mat-select [(ngModel)]="countryFilter" (selectionChange)="applyFilters()">
+      <!-- Arama kutusu -->
+      <ngx-mat-select-search
+        [formControl]="countryFilterCtrl"
+        [placeholderLabel]="t.instant('COMMON.SEARCH')"
+        [noEntriesFoundLabel]="t.instant('EMPTY.NO_RECORDS')">
+      </ngx-mat-select-search>
+
+      <mat-option [value]="null">{{ 'COMMON.ALL' | translate }}</mat-option>
+      <mat-option *ngFor="let c of filteredCountries" [value]="c.id">
+        {{ c.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+  <div class="col-12 col-md-2 d-flex align-items-center gap-2">
+    <mat-slide-toggle [(ngModel)]="showDeleted" (change)="toggleDeleted()">
+      {{ showDeleted ? ('USERS.STATUS_DELETED' | translate) : ('USERS.STATUS_ACTIVE' | translate) }}
+    </mat-slide-toggle>
+  </div>
+</div>
+
+<!-- Yükleniyor -->
+<div class="my-2" *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<!-- TABLO GÖRÜNÜMÜ -->
+<ng-container *ngIf="!loading && viewMode === 'table'">
+  <div class="table-responsive-wrapper">
+    <table mat-table
+           [dataSource]="dataSource"
+           matSort
+           [matSortActive]="sortActiveUi"
+           [matSortDirection]="sortDirectionUi"
+           matSortDisableClear
+           (matSortChange)="onSortChange($event)">
+
+      <!-- Kullanıcı -->
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'USERS.USER' | translate }}</th>
+        <td mat-cell *matCellDef="let u">
+          <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle overflow-hidden border" style="width:40px;height:40px;">
+              <img *ngIf="u.profileImageUrl && !u._imgErr"
+                   [src]="u.profileImageUrl"
+                   (error)="onImgError(u)"
+                   class="w-100 h-100 object-fit-cover" />
+              <div *ngIf="!u.profileImageUrl || u._imgErr"
+                   class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
+                <mat-icon>person</mat-icon>
+              </div>
+            </div>
+            <div>
+              <div class="fw-semibold">{{ u.name }} {{ u.surname }}</div>
+              <small class="text-muted">@{{ u.username }}</small>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Email -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'USERS.EMAIL' | translate }}</th>
+        <td mat-cell *matCellDef="let u">
+          <a [href]="'mailto:' + u.email">{{ u.email }}</a>
+        </td>
+      </ng-container>
+
+      <!-- Telefon -->
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef>{{ 'USERS.PHONE' | translate }}</th>
+        <td mat-cell *matCellDef="let u">{{ u.phoneNumber || '—' }}</td>
+      </ng-container>
+
+      <!-- Doğum Tarihi -->
+      <ng-container matColumnDef="birthDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'USERS.BIRTHDATE' | translate }}</th>
+        <td mat-cell *matCellDef="let u">{{ u.birthDate | date:'dd MMM yyyy' }}</td>
+      </ng-container>
+
+      <!-- Cinsiyet -->
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef>{{ 'USERS.GENDER' | translate }}</th>
+        <td mat-cell *matCellDef="let u">
+          <mat-chip [color]="u.gender === 1 ? 'primary' : 'accent'" selected>
+            {{ u.gender === 1 ? ('GENDER.MALE' | translate) : ('GENDER.FEMALE' | translate) }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <!-- Ülke -->
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef>{{ 'USERS.COUNTRY' | translate }}</th>
+        <td mat-cell *matCellDef="let u">
+          {{ countriesMap[u.countryId] ? countriesMap[u.countryId] : ('USERS.UNKNOWN_COUNTRY' | translate) }}
+        </td>
+      </ng-container>
+
+      <!-- Aksiyonlar -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.ACTIONS' | translate }}</th>
+        <td mat-cell *matCellDef="let u">
+          <button mat-icon-button [matMenuTriggerFor]="rowMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #rowMenu="matMenu">
+            <button mat-menu-item (click)="openProfile(u.id)">
+              <mat-icon>open_in_new</mat-icon>
+              <span>{{ 'COMMON.OPEN' | translate }}</span>
+            </button>
+
+            <button *ngIf="!showDeleted" mat-menu-item (click)="remove(u.id)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>{{ 'COMMON.DELETE' | translate }}</span>
+            </button>
+
+            <button *ngIf="showDeleted" mat-menu-item (click)="reactivate(u.id)">
+              <mat-icon>restore</mat-icon>
+              <span>{{ 'USERS.REACTIVATE' | translate }}</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator
+      [length]="totalCount"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5,10,20,50]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</ng-container>
+
+<!-- KART GÖRÜNÜMÜ -->
+<div *ngIf="!loading && viewMode === 'card'" class="card-grid">
+  <mat-card *ngFor="let u of dataSource.data" class="user-card">
+    <div class="d-flex align-items-center gap-3">
+      <div class="rounded-circle overflow-hidden border" style="width:56px;height:56px;">
+        <img *ngIf="u.profileImageUrl && !u._imgErr"
+             [src]="u.profileImageUrl"
+             (error)="onImgError(u)"
+             class="w-100 h-100 object-fit-cover" />
+        <div *ngIf="!u.profileImageUrl || u._imgErr"
+             class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
+          <mat-icon>person</mat-icon>
+        </div>
+      </div>
+      <div>
+        <h5 class="m-0">{{ u.name }} {{ u.surname }}</h5>
+        <small class="text-muted">@{{ u.username }}</small>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <div class="d-flex align-items-center gap-2">
+        <mat-icon>mail</mat-icon>
+        <a [href]="'mailto:' + u.email">{{ u.email }}</a>
+      </div>
+      <div class="d-flex align-items-center gap-2 mt-1">
+        <mat-icon>call</mat-icon>
+        <span>{{ u.phoneNumber || '—' }}</span>
+      </div>
+      <div class="d-flex align-items-center gap-2 mt-1">
+        <mat-icon>event</mat-icon>
+        <span>{{ u.birthDate | date:'dd MMM yyyy' }}</span>
+      </div>
+      <div class="d-flex align-items-center gap-2 mt-1">
+        <mat-icon>public</mat-icon>
+        <span>{{ countriesMap[u.countryId] ? countriesMap[u.countryId] : ('USERS.UNKNOWN_COUNTRY' | translate) }}</span>
+      </div>
+      <div class="mt-2">
+        <mat-chip [color]="u.gender === 1 ? 'primary' : 'accent'" selected>
+          {{ u.gender === 1 ? ('GENDER.MALE' | translate) : ('GENDER.FEMALE' | translate) }}
+        </mat-chip>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-1 mt-3">
+      <button mat-icon-button (click)="openProfile(u.id)" matTooltip="{{ 'COMMON.OPEN' | translate }}">
+        <mat-icon>open_in_new</mat-icon>
+      </button>
+
+      <button *ngIf="!showDeleted" mat-icon-button color="warn" (click)="remove(u.id)" matTooltip="{{ 'COMMON.DELETE' | translate }}">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button *ngIf="showDeleted" mat-icon-button (click)="reactivate(u.id)" matTooltip="{{ 'USERS.REACTIVATE' | translate }}">
+        <mat-icon>restore</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>
+
+<!-- Kayıt yok -->
+<div *ngIf="!loading && (!dataSource.data || !dataSource.data.length)" class="text-center text-muted py-5">
+  <mat-icon>group_off</mat-icon>
+  <div>{{ 'EMPTY.NO_RECORDS' | translate }}</div>
+</div>

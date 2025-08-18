@@ -170,6 +170,7 @@
     "PROFILE": "Profil",
     "BLOG": "Blog",
     "TAGS": "Etiketler",
+    "USERS": "Kullanıcılar",
     "SETTINGS": "Ayarlar",
     "TAG_MANAGEMENT": "Etiket Yönetimi"
   },
@@ -209,5 +210,35 @@
       "Success": "Şifren başarıyla güncellendi!",
       "Fail": "Şifre güncellenemedi."
     }
-  }
+  },
+  "USERS": {
+  "TITLE": "Kullanıcılar",
+  "VIEW": { "TABLE": "Tablo", "CARD": "Kart" },
+  "EXPORT": "Dışa Aktar",
+
+  "SEARCH_PLACEHOLDER": "Ad, kullanıcı adı veya e-posta ara…",
+  "SEARCH_COUNTRY": "Ülke ara...",
+  "NO_COUNTRY_FOUND": "Ülke bulunamadı.",
+
+  "USER": "Kullanıcı",
+  "EMAIL": "E-posta",
+  "PHONE": "Telefon",
+  "BIRTHDATE": "Doğum Tarihi",
+  "GENDER": "Cinsiyet",
+  "GENDER_MALE": "Erkek",
+  "GENDER_FEMALE": "Kadın",
+  "COUNTRY": "Ülke",
+  "UNKNOWN_COUNTRY": "Bilinmeyen ülke",
+
+  "STATUS_ACTIVE": "Aktif kullanıcılar",
+  "STATUS_DELETED": "Silinmiş kullanıcılar",
+
+  "REACTIVATE": "Yeniden Aktifleştir",
+  "REACTIVATE_SUCCESS": "Kullanıcı yeniden aktifleştirildi.",
+  "REACTIVATE_FAIL": "Kullanıcı aktifleştirilemedi.",
+
+  "DELETED_LIST_NOT_AVAILABLE": "Silinmiş kullanıcı listesi şu anda mevcut değil.",
+  "OPEN_PROFILE_INFO": "Profil sayfası yakında eklenecek."
+}
+
 }

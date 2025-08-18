@@ -1,7 +1,9 @@
 <mat-sidenav-container class="dashboard-container">
-  <mat-sidenav #sidenav class="dashboard-sidenav" [mode]="isScreenLarge ? 'side' : 'over'" [opened]="isScreenLarge" fixedInViewport>
+  <mat-sidenav #sidenav class="dashboard-sidenav" [mode]="isScreenLarge ? 'side' : 'over'" [opened]="isScreenLarge"
+    fixedInViewport>
     <mat-nav-list (click)="onNavListClick(sidenav)">
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon matListItemIcon>dashboard</mat-icon>
         <span matListItemTitle>{{ 'NAV.DASHBOARD' | translate }}</span>
       </a>
@@ -22,6 +24,13 @@
         <mat-icon matListItemIcon>label</mat-icon>
         <span matListItemTitle>{{ 'NAV.TAGS' | translate }}</span>
       </a>
+
+      <!-- Users (Sadece Admin) -->
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/users" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>group</mat-icon>
+        <span matListItemTitle>{{ 'NAV.USERS' | translate }}</span>
+      </a>
+
 
       <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
         <mat-icon matListItemIcon>settings</mat-icon>

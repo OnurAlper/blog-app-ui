@@ -7,11 +7,12 @@ import {
   LoginRequestDto,
   LoginResponseDto,
   PasswordResetConfirmDto,
+  ReactivateUserRequestDto,
   SignupRequestDto,
   UpdateProfileDto
 } from '../models/user.model';
 import { BaseResponse } from '../models/base-response.model'; // ✅ ekle
-import { CreateResponseDto, UpdateResponseDto } from '../models/general.model';
+import { CreateResponseDto, DeleteResponseDto, UpdateResponseDto } from '../models/general.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,36 @@ export class UserService extends BaseApiService {
 
   confirmPasswordReset(data: PasswordResetConfirmDto): Observable<BaseResponse<UpdateResponseDto>> {
     return this.post<BaseResponse<UpdateResponseDto>>('User/ConfirmPasswordReset', data);
+  }
+   getAllUsers(
+    pageNumber: number,
+    pageSize: number,
+    options?: {
+      orderByProperty?: string | null;
+      ascending?: 'asc' | 'desc' | null;  // BE param adı 'ascending'
+      searchTerm?: string | null;
+    }
+  ): Observable<BaseResponse<GetUserDto[]>> {
+    return this.get<BaseResponse<GetUserDto[]>>('User/GetAllUsers', {
+      params: {
+        pageNumber,
+        pageSize,
+        orderByProperty: options?.orderByProperty ?? 'Id',
+        ascending: options?.ascending ?? 'asc',
+        searchTerm: options?.searchTerm ?? ''
+      }
+    });
+  }
+
+  // 🔥 Admin: Hesap sil (soft delete)
+  // BE endpoint: DELETE User/DeleteAccount/{userId}
+  deleteAccount(userId: number): Observable<BaseResponse<DeleteResponseDto>> {
+    return this.delete<BaseResponse<DeleteResponseDto>>(`User/DeleteAccount/${userId}`);
+  }
+
+  // 🔥 Admin: Hesabı yeniden aktive et
+  // BE endpoint: PUT User/ReactivateUser   body: { userId: number }
+  reactivateUser(body: ReactivateUserRequestDto): Observable<BaseResponse<UpdateResponseDto>> {
+    return this.put<BaseResponse<UpdateResponseDto>>('User/ReactivateUser', body);
   }
 }

@@ -169,6 +169,7 @@
     "PROFILE": "Profile",
     "BLOG": "Blog",
     "TAGS": "Tags",
+    "USERS": "Users",
     "SETTINGS": "Settings",
     "TAG_MANAGEMENT": "Tag Management"
   },
@@ -208,5 +209,35 @@
       "Success": "Your password has been updated successfully.",
       "Fail": "Couldn't update the password."
     }
-  }
+  },
+  "USERS": {
+  "TITLE": "Users",
+  "VIEW": { "TABLE": "Table", "CARD": "Card" },
+  "EXPORT": "Export",
+
+  "SEARCH_PLACEHOLDER": "Search by name, username, or email…",
+  "SEARCH_COUNTRY": "Search country...",
+  "NO_COUNTRY_FOUND": "No country found.",
+
+  "USER": "User",
+  "EMAIL": "Email",
+  "PHONE": "Phone",
+  "BIRTHDATE": "Birthdate",
+  "GENDER": "Gender",
+  "GENDER_MALE": "Male",
+  "GENDER_FEMALE": "Female",
+  "COUNTRY": "Country",
+  "UNKNOWN_COUNTRY": "Unknown country",
+
+  "STATUS_ACTIVE": "Active users",
+  "STATUS_DELETED": "Deleted users",
+
+  "REACTIVATE": "Reactivate",
+  "REACTIVATE_SUCCESS": "User reactivated successfully.",
+  "REACTIVATE_FAIL": "Failed to reactivate user.",
+
+  "DELETED_LIST_NOT_AVAILABLE": "Deleted users list is not available yet.",
+  "OPEN_PROFILE_INFO": "Profile page will be available soon."
+}
+
 }

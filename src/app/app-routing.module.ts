@@ -19,6 +19,7 @@ import { TagEditComponent } from './features/admin/tag/tag-edit/tag-edit.compone
 import { VerifyComponent } from './features/auth/verify/verify.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
+import { UserListComponent } from './features/admin/users/user-list/user-list.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,8 @@ const routes: Routes = [
       { path: 'tags', component: TagListComponent, data: { roles: ['Admin'] } },
       { path: 'tags/create', component: TagCreateComponent, data: { roles: ['Admin'] } },
       { path: 'tags/edit/:id', component: TagEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
+
+      { path: 'users', component: UserListComponent, data: { roles: ['Admin'] } },
 
     ]
   },

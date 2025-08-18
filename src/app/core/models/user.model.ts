@@ -69,3 +69,6 @@ export interface PasswordResetConfirmDto
   newPassword: string;
   confirmPassword: string;
 }
+export interface ReactivateUserRequestDto {
+  userId: number;
+}
