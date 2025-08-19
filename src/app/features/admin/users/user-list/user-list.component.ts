@@ -28,7 +28,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   // UI state
   viewMode: 'table' | 'card' = 'table';
   loading = false;
-  showDeleted = false;
+  showDeleted = false; // false: aktif kullanıcılar, true: silinmiş kullanıcılar
 
   // data
   dataSource = new MatTableDataSource<Row>([]);
@@ -117,17 +117,16 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.userService
       .getAllUsers(pageNumber, pageSize, {
         orderByProperty: this.sortActive,
-        // ÖNEMLİ: ascending boolean olmalı
-       ascending: this.sortDirection, // ✔ 'asc' | 'desc'
+        ascending: this.sortDirection,                 // BE string bekliyor: 'asc' | 'desc'
         searchTerm: this.searchTerm?.trim() || '',
-        // backend destekliyorsa gender/country filtreleri buraya da eklenebilir
+        status: this.showDeleted ? 'deleted' : 'active' // toggle'a göre
       })
       .pipe(finalize(() => (this.loading = false)), takeUntil(this.destroy$))
       .subscribe({
         next: (res: BaseResponse<GetUserDto[]>) => {
           const rows = (res?.data || []).map(r => ({ ...r })) as Row[];
 
-          // (Şimdilik) client-side filtre
+          // (Şimdilik) client-side ek filtre
           const filtered = rows.filter(u => {
             let ok = true;
             if (this.genderFilter) ok = ok && u.gender === this.genderFilter;
@@ -137,7 +136,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
           this.dataSource.data = filtered;
 
-          // totalCount güvenli atama
+          // totalCount güvenli okuma
           this.totalCount = (res as any)?.totalCount ?? (res as any)?.totalPage ?? filtered.length;
         },
         error: (err: any) => {
@@ -203,11 +202,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   toggleDeleted(): void {
-    // Şimdilik BE’de silinmişleri listeleyecek endpoint yok.
-    if (this.showDeleted) {
-      this.notify.info(this.t.instant('USERS.DELETED_LIST_NOT_AVAILABLE'));
-      this.showDeleted = false;
-    }
+    // Artık BE destekliyor; sadece sayfayı başa alıp yenile
     this.pageIndex = 0;
     this.refresh();
   }
@@ -218,8 +213,8 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   // --- Actions ---
   openProfile(userId: number): void {
-    this.notify.info(this.t.instant('USERS.OPEN_PROFILE_INFO'));
-    // this.router.navigate(['/profile', userId]);
+    // this.notify.info(this.t.instant('USERS.OPEN_PROFILE_INFO'));
+    this.router.navigate(['/client-profile', userId]);
   }
 
   remove(userId: number): void {

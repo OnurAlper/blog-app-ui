@@ -48,7 +48,9 @@
     "PREV": "Previous",
     "NEXT": "Next",
     "LAST": "Last",
-    "UNSAVED_CHANGES": "You have unsaved changes. Are you sure you want to leave?"
+    "UNSAVED_CHANGES": "You have unsaved changes. Are you sure you want to leave?",
+    "ID": "ID",
+    "ALL": "ALL"
   },
   "LANG": {
     "TURKISH": "Turkish",

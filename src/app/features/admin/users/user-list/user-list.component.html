@@ -29,12 +29,8 @@
   <div class="col-12 col-md-5">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>{{ 'COMMON.SEARCH' | translate }}</mat-label>
-      <input
-        matInput
-        [ngModel]="searchTerm"
-        (ngModelChange)="onSearchInput($event)"
-        [placeholder]="'USERS.SEARCH_PLACEHOLDER' | translate"
-      />
+      <input matInput [ngModel]="searchTerm" (ngModelChange)="onSearchInput($event)"
+        [placeholder]="'USERS.SEARCH_PLACEHOLDER' | translate" />
       <button matSuffix mat-icon-button (click)="onSearch()" [disabled]="loading">
         <mat-icon>search</mat-icon>
       </button>
@@ -55,25 +51,32 @@
     </mat-form-field>
   </div>
 
-<div class="col-6 col-md-3">
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>{{ 'USERS.COUNTRY' | translate }}</mat-label>
+  <div class="col-6 col-md-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'USERS.COUNTRY' | translate }}</mat-label>
 
-    <mat-select [(ngModel)]="countryFilter" (selectionChange)="applyFilters()">
-      <!-- Arama kutusu -->
-      <ngx-mat-select-search
-        [formControl]="countryFilterCtrl"
-        [placeholderLabel]="t.instant('COMMON.SEARCH')"
-        [noEntriesFoundLabel]="t.instant('EMPTY.NO_RECORDS')">
-      </ngx-mat-select-search>
+      <mat-select [(ngModel)]="countryFilter" (selectionChange)="applyFilters()">
 
-      <mat-option [value]="null">{{ 'COMMON.ALL' | translate }}</mat-option>
-      <mat-option *ngFor="let c of filteredCountries" [value]="c.id">
-        {{ c.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+        <!-- Arama kutusu için özel option -->
+        <mat-option>
+          <ngx-mat-select-search [formControl]="countryFilterCtrl" [placeholderLabel]="t.instant('COMMON.SEARCH')"
+            [noEntriesFoundLabel]="t.instant('EMPTY.NO_RECORDS')">
+          </ngx-mat-select-search>
+        </mat-option>
+
+        <!-- Tümü seçeneği -->
+        <mat-option [value]="null">
+          {{ 'COMMON.ALL' | translate }}
+        </mat-option>
+
+        <!-- Ülkeler -->
+        <mat-option *ngFor="let c of filteredCountries" [value]="c.id">
+          {{ c.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
 
   <div class="col-12 col-md-2 d-flex align-items-center gap-2">
     <mat-slide-toggle [(ngModel)]="showDeleted" (change)="toggleDeleted()">
@@ -90,13 +93,8 @@
 <!-- TABLO GÖRÜNÜMÜ -->
 <ng-container *ngIf="!loading && viewMode === 'table'">
   <div class="table-responsive-wrapper">
-    <table mat-table
-           [dataSource]="dataSource"
-           matSort
-           [matSortActive]="sortActiveUi"
-           [matSortDirection]="sortDirectionUi"
-           matSortDisableClear
-           (matSortChange)="onSortChange($event)">
+    <table mat-table [dataSource]="dataSource" matSort [matSortActive]="sortActiveUi"
+      [matSortDirection]="sortDirectionUi" matSortDisableClear (matSortChange)="onSortChange($event)">
 
       <!-- Kullanıcı -->
       <ng-container matColumnDef="user">
@@ -104,12 +102,10 @@
         <td mat-cell *matCellDef="let u">
           <div class="d-flex align-items-center gap-2">
             <div class="rounded-circle overflow-hidden border" style="width:40px;height:40px;">
-              <img *ngIf="u.profileImageUrl && !u._imgErr"
-                   [src]="u.profileImageUrl"
-                   (error)="onImgError(u)"
-                   class="w-100 h-100 object-fit-cover" />
+              <img *ngIf="u.profileImageUrl && !u._imgErr" [src]="u.profileImageUrl" (error)="onImgError(u)"
+                class="w-100 h-100 object-fit-cover" />
               <div *ngIf="!u.profileImageUrl || u._imgErr"
-                   class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
+                class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
                 <mat-icon>person</mat-icon>
               </div>
             </div>
@@ -131,7 +127,7 @@
 
       <!-- Telefon -->
       <ng-container matColumnDef="phoneNumber">
-        <th mat-header-cell *matHeaderCellDef>{{ 'USERS.PHONE' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'USERS.PHONE' | translate }}</th>
         <td mat-cell *matCellDef="let u">{{ u.phoneNumber || '—' }}</td>
       </ng-container>
 
@@ -143,7 +139,7 @@
 
       <!-- Cinsiyet -->
       <ng-container matColumnDef="gender">
-        <th mat-header-cell *matHeaderCellDef>{{ 'USERS.GENDER' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'USERS.GENDER' | translate }}</th>
         <td mat-cell *matCellDef="let u">
           <mat-chip [color]="u.gender === 1 ? 'primary' : 'accent'" selected>
             {{ u.gender === 1 ? ('GENDER.MALE' | translate) : ('GENDER.FEMALE' | translate) }}
@@ -153,7 +149,7 @@
 
       <!-- Ülke -->
       <ng-container matColumnDef="country">
-        <th mat-header-cell *matHeaderCellDef>{{ 'USERS.COUNTRY' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'USERS.COUNTRY' | translate }}</th>
         <td mat-cell *matCellDef="let u">
           {{ countriesMap[u.countryId] ? countriesMap[u.countryId] : ('USERS.UNKNOWN_COUNTRY' | translate) }}
         </td>
@@ -189,13 +185,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator
-      [length]="totalCount"
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[5,10,20,50]"
-      (page)="onPageChange($event)"
-      showFirstLastButtons>
+    <mat-paginator [length]="totalCount" [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]="[5,10,20,50]"
+      (page)="onPageChange($event)" showFirstLastButtons>
     </mat-paginator>
   </div>
 </ng-container>
@@ -205,12 +196,10 @@
   <mat-card *ngFor="let u of dataSource.data" class="user-card">
     <div class="d-flex align-items-center gap-3">
       <div class="rounded-circle overflow-hidden border" style="width:56px;height:56px;">
-        <img *ngIf="u.profileImageUrl && !u._imgErr"
-             [src]="u.profileImageUrl"
-             (error)="onImgError(u)"
-             class="w-100 h-100 object-fit-cover" />
+        <img *ngIf="u.profileImageUrl && !u._imgErr" [src]="u.profileImageUrl" (error)="onImgError(u)"
+          class="w-100 h-100 object-fit-cover" />
         <div *ngIf="!u.profileImageUrl || u._imgErr"
-             class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
+          class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
           <mat-icon>person</mat-icon>
         </div>
       </div>
@@ -249,11 +238,13 @@
         <mat-icon>open_in_new</mat-icon>
       </button>
 
-      <button *ngIf="!showDeleted" mat-icon-button color="warn" (click)="remove(u.id)" matTooltip="{{ 'COMMON.DELETE' | translate }}">
+      <button *ngIf="!showDeleted" mat-icon-button color="warn" (click)="remove(u.id)"
+        matTooltip="{{ 'COMMON.DELETE' | translate }}">
         <mat-icon>delete</mat-icon>
       </button>
 
-      <button *ngIf="showDeleted" mat-icon-button (click)="reactivate(u.id)" matTooltip="{{ 'USERS.REACTIVATE' | translate }}">
+      <button *ngIf="showDeleted" mat-icon-button (click)="reactivate(u.id)"
+        matTooltip="{{ 'USERS.REACTIVATE' | translate }}">
         <mat-icon>restore</mat-icon>
       </button>
     </div>

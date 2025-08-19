@@ -39,6 +39,7 @@ const routes: Routes = [
       { path: '', component: HomeComponent }, // 🔥 boş alt path → home
       { path: 'dashboard', redirectTo: '', pathMatch: 'full' }, // 🔁 yönlendirme
       { path: 'profile', component: ProfileComponent },
+      { path: 'client-profile/:id', component: ProfileComponent },
 
       { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
       { path: 'blog/blog-create', component: BlogCreateComponent, data: { roles: ['Admin'] } },

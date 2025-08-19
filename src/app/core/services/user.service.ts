@@ -56,6 +56,7 @@ export class UserService extends BaseApiService {
       orderByProperty?: string | null;
       ascending?: 'asc' | 'desc' | null;  // BE param adı 'ascending'
       searchTerm?: string | null;
+      status?: string | null;
     }
   ): Observable<BaseResponse<GetUserDto[]>> {
     return this.get<BaseResponse<GetUserDto[]>>('User/GetAllUsers', {
@@ -64,7 +65,8 @@ export class UserService extends BaseApiService {
         pageSize,
         orderByProperty: options?.orderByProperty ?? 'Id',
         ascending: options?.ascending ?? 'asc',
-        searchTerm: options?.searchTerm ?? ''
+        searchTerm: options?.searchTerm ?? '',
+        status: options?.status ?? 'active'
       }
     });
   }

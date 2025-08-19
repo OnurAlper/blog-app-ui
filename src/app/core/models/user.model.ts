@@ -47,6 +47,7 @@ export interface GetUserDto {
 }
 
 export interface UpdateProfileDto {
+  id: number;
   name: string;
   surname: string;
   username: string;

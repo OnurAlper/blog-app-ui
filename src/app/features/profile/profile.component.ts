@@ -1,23 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { CountryService } from 'src/app/core/services/country.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-import {
-  UpdateProfileDto,
-  GetUserDto,
-  ChangePasswordDto
-} from 'src/app/core/models/user.model';
+import { UpdateProfileDto, GetUserDto, ChangePasswordDto } from 'src/app/core/models/user.model';
 import { GenderType } from 'src/app/core/models/gender.enum';
 import { GetCountryDto } from 'src/app/core/models/country.model';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -32,17 +24,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   countries: GetCountryDto[] = [];
   filteredCountries: GetCountryDto[] = [];
-countrySearchTerm: string = '';
+  countrySearchTerm = '';
 
-  selectedDialCode: string = '+90';
-
+  selectedDialCode = '+90';
   profileImagePreview: string | null = null;
-  defaultImage: string = 'assets/user.png';
+  defaultImage = 'assets/user.png';
+
+  // görüntülenen profilin ID’si
+  private viewedUserId!: number;
 
   genders = [
     { value: GenderType.Male, label: 'GENDER.MALE' },
     { value: GenderType.Female, label: 'GENDER.FEMALE' }
   ];
+
+  // kendi profilim mi?
+  isOwnProfile = false;
 
   constructor(
     private fb: FormBuilder,
@@ -50,20 +47,20 @@ countrySearchTerm: string = '';
     private authService: AuthService,
     private countryService: CountryService,
     private translate: TranslateService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-  const lang = (localStorage.getItem('language') as 'tr' | 'en') || 'tr';
-  this.translate.use(lang);
+    const lang = (localStorage.getItem('language') as 'tr' | 'en') || 'tr';
+    this.translate.use(lang);
 
-  this.initProfileForm();
-  this.initPasswordForm();
+    this.initProfileForm();
+    this.initPasswordForm();
 
-  this.loadUser();
-  this.fetchCountries();
-}
-
+    this.loadUser();
+    this.fetchCountries();
+  }
 
   initProfileForm(): void {
     this.profileForm = this.fb.group({
@@ -78,13 +75,6 @@ countrySearchTerm: string = '';
       profileImageUrl: ['']
     });
   }
-  onCountrySearch(search: string): void {
-  const term = search?.toLowerCase() || '';
-  this.filteredCountries = this.countries.filter(c =>
-    c.name.toLowerCase().includes(term)
-  );
-}
-
 
   initPasswordForm(): void {
     this.passwordForm = this.fb.group({
@@ -94,28 +84,35 @@ countrySearchTerm: string = '';
     });
   }
 
-  loadUser(): void {
-    const userId = localStorage.getItem('userId'); // Burada userId'yi localStorage'den alıyoruz
-    if (!userId) return; // Eğer ID yoksa çıkıyoruz
+  onCountrySearch(search: string): void {
+    const term = (search || '').toLowerCase();
+    this.filteredCountries = this.countries.filter(c => c.name.toLowerCase().includes(term));
+  }
 
-    this.userService.getById(Number(userId)).subscribe({
+  loadUser(): void {
+    const routeId = this.route.snapshot.paramMap.get('id');
+    const loggedInUserId = Number(localStorage.getItem('userId'));
+    this.viewedUserId = routeId ? Number(routeId) : loggedInUserId;
+
+    this.isOwnProfile = this.viewedUserId === loggedInUserId;
+    if (!this.viewedUserId) return;
+
+    this.userService.getById(this.viewedUserId).subscribe({
       next: res => {
         const data = res.data as GetUserDto;
 
         this.profileImagePreview = data.profileImageUrl || this.defaultImage;
 
-        // Burada gender ve countryId'yi ID'lerine göre metinlere çeviriyoruz
         this.profileForm.patchValue({
           ...data,
+          birthDate: data.birthDate?.substring(0, 10),
           gender: data.gender,
-          countryId: data.countryId,
-          birthDate: data.birthDate?.substring(0, 10)
+          countryId: data.countryId
         });
 
-      this.onCountryChange(data.countryId);
         this.onCountryChange(data.countryId);
       },
-      error: err => {
+      error: () => {
         this.notification.error(this.translate.instant('PROFILE.LOAD_ERROR'));
       }
     });
@@ -152,18 +149,30 @@ countrySearchTerm: string = '';
     reader.readAsDataURL(file);
   }
 
-
   onSubmit(): void {
     if (this.profileForm.invalid) return;
 
-    const request: UpdateProfileDto = this.profileForm.value;
+    // ✅ ID’yi request’e ekliyoruz
+    const form = this.profileForm.value;
+    const request: UpdateProfileDto = {
+      id: this.viewedUserId,
+      name: form.name,
+      surname: form.surname,
+      username: form.username,
+      email: form.email,
+      phoneNumber: form.phoneNumber || undefined,
+      birthDate: typeof form.birthDate === 'string'
+        ? form.birthDate
+        : new Date(form.birthDate).toISOString().substring(0, 10),
+      gender: form.gender,
+      countryId: form.countryId,
+      profileImageUrl: form.profileImageUrl || undefined
+    };
 
     this.userService.updateProfile(request).subscribe({
       next: res => {
         if (res.data?.isUpdated) {
-          this.notification.success(
-            res.data.message || this.translate.instant('PROFILE.UPDATE_SUCCESS')
-          );
+          this.notification.success(res.data.message || this.translate.instant('PROFILE.UPDATE_SUCCESS'));
         } else {
           this.notification.error(this.translate.instant('PROFILE.UPDATE_FAILED'));
         }
@@ -176,22 +185,20 @@ countrySearchTerm: string = '';
   }
 
   onPasswordChange(): void {
+    if (!this.isOwnProfile) return; // güvenlik için
+
     if (this.passwordForm.invalid) {
       this.notification.error(this.translate.instant('VALIDATION.REQUIRED'));
       return;
     }
 
     const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
-
     if (newPassword !== confirmPassword) {
       this.notification.error(this.translate.instant('PROFILE.PASSWORD_NOT_MATCH'));
       return;
     }
 
-    const request: ChangePasswordDto = {
-      currentPassword,
-      newPassword
-    };
+    const request: ChangePasswordDto = { currentPassword, newPassword };
 
     this.userService.changePassword(request).subscribe({
       next: res => {

@@ -1,7 +1,12 @@
 <div class="container py-4">
-  <div class="row">
-    <!-- Sol Sütun: Profil Bilgileri -->
-    <div class="col-12 col-md-6 mb-4">
+  <!-- şifre kartı yokken ortala -->
+  <div class="row" [class.justify-content-center]="!isOwnProfile">
+
+    <!-- Sol Sütun: Profil Bilgileri (koşullu genişlik + ortalama) -->
+    <div
+      class="col-12 mb-4"
+      [ngClass]="isOwnProfile ? 'col-md-6' : 'col-md-8 col-lg-6 mx-auto'"
+    >
       <div class="profile-wrapper">
         <mat-card class="profile-card mat-elevation-z8">
           <mat-card-header>
@@ -49,37 +54,37 @@
                   <input matInput formControlName="email" />
                 </mat-form-field>
 
-
                 <!-- Ülke -->
-<mat-form-field appearance="outline" class="w-100">
-  <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
-  <mat-select formControlName="countryId"
-              [disableOptionCentering]="true"
-              (selectionChange)="onCountryChange($event.value)">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
+                  <mat-select formControlName="countryId" [disableOptionCentering]="true" (selectionChange)="onCountryChange($event.value)">
+                    <!-- Arama kutusu mutlaka mat-option içinde -->
+                    <mat-option>
+                      <ngx-mat-select-search
+                        [(ngModel)]="countrySearchTerm"
+                        [ngModelOptions]="{ standalone: true }"
+                        (ngModelChange)="onCountrySearch($event)"
+                        placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
+                        noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}">
+                      </ngx-mat-select-search>
+                    </mat-option>
 
-    <!-- 🔍 Arama Kutusu -->
-    <mat-option>
-      <ngx-mat-select-search
-        [(ngModel)]="countrySearchTerm"
-         [ngModelOptions]="{ standalone: true }"
-        (ngModelChange)="onCountrySearch($event)"
-        placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
-        noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}">
-      </ngx-mat-select-search>
-    </mat-option>
-
-    <!-- 🌍 Ülke Seçenekleri -->
-    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
-      {{ country.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+                    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
 
                 <!-- Telefon -->
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
-                  <input matInput type="text" formControlName="phoneNumber" [prefix]="selectedDialCode + ' '"
-                    mask="(000) 000 00 00" placeholder="(5__) ___ __ __" />
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="phoneNumber"
+                    [prefix]="selectedDialCode + ' '"
+                    mask="(000) 000 00 00"
+                    placeholder="(5__) ___ __ __" />
                   <mat-error *ngIf="profileForm.get('phoneNumber')?.hasError('required')">
                     {{ 'VALIDATION.REQUIRED' | translate }}
                   </mat-error>
@@ -102,7 +107,6 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-
               </div>
 
               <div class="button-container text-end mt-3">
@@ -116,8 +120,8 @@
       </div>
     </div>
 
-    <!-- Sağ Sütun: Şifre Güncelleme -->
-    <div class="col-12 col-md-6 mb-4">
+    <!-- Sağ Sütun: Şifre Güncelleme (yalnızca kendi profiliyse) -->
+    <div class="col-12 col-md-6 mb-4" *ngIf="isOwnProfile">
       <mat-card class="password-card mat-elevation-z8">
         <mat-card-header>
           <mat-card-title>{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</mat-card-title>
@@ -149,5 +153,6 @@
         </mat-card-content>
       </mat-card>
     </div>
+
   </div>
 </div>
