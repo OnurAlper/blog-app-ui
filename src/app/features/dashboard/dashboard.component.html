@@ -19,6 +19,12 @@
         <span matListItemTitle>{{ 'NAV.BLOG' | translate }}</span>
       </a>
 
+      <!-- 🆕 Kategoriler (Sadece Admin) -->
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/categories" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>category</mat-icon>
+        <span matListItemTitle>{{ 'NAV.CATEGORY_MANAGEMENT' | translate }}</span>
+      </a>
+
       <!-- Etiketler (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/tags" routerLinkActive="active-link">
         <mat-icon matListItemIcon>label</mat-icon>

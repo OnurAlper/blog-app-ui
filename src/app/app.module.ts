@@ -43,6 +43,9 @@ import { VerifyComponent } from './features/auth/verify/verify.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { UserListComponent } from './features/admin/users/user-list/user-list.component';
+import { CategoryListComponent } from './features/admin/category/category-list/category-list.component';
+import { CategoryCreateComponent } from './features/admin/category/category-create/category-create.component';
+import { CategoryEditComponent } from './features/admin/category/category-edit/category-edit.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -71,7 +74,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     VerifyComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    UserListComponent
+    UserListComponent,
+    CategoryListComponent,
+    CategoryCreateComponent,
+    CategoryEditComponent
+    
   ],
   imports: [
     BrowserModule,

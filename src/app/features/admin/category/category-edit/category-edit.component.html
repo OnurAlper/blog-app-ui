@@ -1,0 +1,40 @@
+<div class="page-header mb-3">
+  <h2>{{ 'CATEGORIES.EDIT_TITLE' | translate }}</h2>
+</div>
+
+<!-- Loading -->
+<div class="text-center my-5" *ngIf="loading && !category">
+  <mat-spinner></mat-spinner>
+</div>
+
+<mat-card class="form-card" *ngIf="!loading || category">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Name -->
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>{{ 'CATEGORIES.NAME' | translate }}</mat-label>
+        <input matInput formControlName="name" [placeholder]="'CATEGORIES.NAME_PLACEHOLDER' | translate">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+          {{ 'COMMON.REQUIRED_FIELD' | translate }}
+        </mat-error>
+        <mat-error *ngIf="form.get('name')?.hasError('minlength')">
+          {{ 'COMMON.MIN_LENGTH' | translate: {value: 2} }}
+        </mat-error>
+        <mat-error *ngIf="form.get('name')?.hasError('maxlength')">
+          {{ 'COMMON.MAX_LENGTH' | translate: {value: 100} }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-end gap-2">
+        <button mat-stroked-button type="button" (click)="onCancel()" [disabled]="loading">
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading || form.invalid">
+          <mat-icon *ngIf="loading">hourglass_empty</mat-icon>
+          {{ 'COMMON.UPDATE' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -83,7 +83,6 @@
             <!-- Alt: Kaydet butonu -->
             <mat-card-actions align="end" class="editor-actions">
                 <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || saving">
-                    <mat-icon class="me-1">save</mat-icon>
                     {{ saving ? ('COMMON.LOADING' | translate) : ('COMMON.SAVE' | translate) }}
                 </button>
             </mat-card-actions>

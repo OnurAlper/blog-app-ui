@@ -20,7 +20,9 @@ import { VerifyComponent } from './features/auth/verify/verify.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { UserListComponent } from './features/admin/users/user-list/user-list.component';
-
+import { CategoryListComponent } from './features/admin/category/category-list/category-list.component';
+import { CategoryCreateComponent } from './features/admin/category/category-create/category-create.component';
+import { CategoryEditComponent } from './features/admin/category/category-edit/category-edit.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -50,6 +52,10 @@ const routes: Routes = [
       { path: 'tags/edit/:id', component: TagEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
 
       { path: 'users', component: UserListComponent, data: { roles: ['Admin'] } },
+
+      { path: 'categories', component: CategoryListComponent, data: { roles: ['Admin'] } },
+      { path: 'categories/create', component: CategoryCreateComponent, data: { roles: ['Admin'] } },
+      { path: 'categories/edit/:id', component: CategoryEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
 
     ]
   },

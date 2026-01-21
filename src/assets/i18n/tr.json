@@ -50,7 +50,20 @@
     "LAST": "Son",
     "UNSAVED_CHANGES": "Kaydedilmemiş değişiklikler var. Çıkmak istediğine emin misin?",
     "ID": "ID",
-    "ALL": "Tümü"
+    "ALL": "Tümü",
+    "UPDATE": "Güncelle",
+    "REQUIRED_FIELD": "Bu alan zorunludur",
+    "MIN_LENGTH": "En az {{value}} karakter olmalıdır",
+    "MAX_LENGTH": "En fazla {{value}} karakter olmalıdır",
+    "FORM_INVALID": "Form geçersiz, lütfen kontrol edin",
+    "CREATE_SUCCESS": "Başarıyla oluşturuldu",
+    "CREATE_FAILED": "Oluşturma başarısız",
+    "UPDATE_SUCCESS": "Başarıyla güncellendi",
+    "UPDATE_FAILED": "Güncelleme başarısız",
+    "DELETE_SUCCESS": "Başarıyla silindi",
+    "DELETE_FAILED": "Silme başarısız",
+    "LOAD_FAILED": "Yükleme başarısız",
+    "CONFIRM_DELETE": "Silmek istediğinize emin misiniz?"
   },
   "LANG": {
     "TURKISH": "Türkçe",
@@ -170,6 +183,7 @@
     "DASHBOARD": "Panel",
     "PROFILE": "Profil",
     "BLOG": "Blog",
+    "CATEGORY_MANAGEMENT": "Kategoriler",
     "TAGS": "Etiketler",
     "USERS": "Kullanıcılar",
     "SETTINGS": "Ayarlar",
@@ -240,6 +254,14 @@
 
   "DELETED_LIST_NOT_AVAILABLE": "Silinmiş kullanıcı listesi şu anda mevcut değil.",
   "OPEN_PROFILE_INFO": "Profil sayfası yakında eklenecek."
+},
+"CATEGORIES": {
+  "CREATE_TITLE": "Yeni Kategori Oluştur",
+  "EDIT_TITLE": "Kategoriyi Düzenle",
+  "NAME": "Kategori Adı",
+  "SEARCH_PLACEHOLDER": "Kategori adı ile ara...",
+  "NAME_PLACEHOLDER": "Kategori adını girin",
+  "NO_RECORDS": "Kategori bulunamadı"
 }
 
 }
