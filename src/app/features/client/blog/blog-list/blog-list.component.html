@@ -1,0 +1,158 @@
+<div class="blog-list-container">
+  <!-- Header -->
+  <mat-toolbar color="primary" class="page-header">
+    <mat-icon>library_books</mat-icon>
+    <span class="toolbar-title">{{ 'CLIENT.BLOG.TITLE' | translate }}</span>
+  </mat-toolbar>
+
+  <!-- Filters Section -->
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters-grid">
+        <!-- Search -->
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>{{ 'CLIENT.BLOG.SEARCH' | translate }}</mat-label>
+          <input 
+            matInput 
+            [value]="searchTerm"
+            (input)="onSearchInput($any($event.target).value)"
+            [placeholder]="'CLIENT.BLOG.SEARCH_PLACEHOLDER' | translate">
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- Category Filter -->
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'CLIENT.BLOG.CATEGORY' | translate }}</mat-label>
+          <mat-select 
+            [(value)]="selectedCategoryId"
+            (selectionChange)="onCategoryChange($event.value)">
+            <mat-option [value]="undefined">
+              {{ 'CLIENT.BLOG.ALL_CATEGORIES' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let cat of categories" [value]="cat.id">
+              {{ cat.name }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>category</mat-icon>
+        </mat-form-field>
+
+        <!-- Sort -->
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'CLIENT.BLOG.SORT' | translate }}</mat-label>
+          <mat-select 
+            [(value)]="sortBy"
+            (selectionChange)="onSortChange($event.value)">
+            <mat-option value="createdAt">
+              {{ 'CLIENT.BLOG.SORT.NEWEST' | translate }}
+            </mat-option>
+            <mat-option value="title">
+              {{ 'CLIENT.BLOG.SORT.TITLE' | translate }}
+            </mat-option>
+            <mat-option value="viewCount">
+              {{ 'CLIENT.BLOG.SORT.MOST_VIEWED' | translate }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>sort</mat-icon>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Blog Grid -->
+  <div *ngIf="!loading && blogs.length > 0" class="blog-grid">
+    <mat-card 
+      *ngFor="let blog of blogs" 
+      class="blog-card"
+      (click)="viewBlog(blog.id)">
+      
+      <!-- Cover Image -->
+      <div class="card-image-container">
+        <img 
+          mat-card-image 
+          [src]="blog.coverImageUrl || getDefaultImage()" 
+          [alt]="blog.title"
+          (error)="$any($event.target).src = getDefaultImage()"
+          class="card-image">
+        
+        <!-- Category Badge -->
+        <div class="category-badge" *ngIf="blog.categoryName">
+          <mat-chip>{{ blog.categoryName }}</mat-chip>
+        </div>
+      </div>
+
+      <mat-card-header>
+        <mat-card-title>{{ blog.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <div class="blog-meta">
+            <span class="meta-item">
+              <mat-icon>person</mat-icon>
+              {{ blog.authorFullName }}
+            </span>
+            <span class="meta-item">
+              <mat-icon>calendar_today</mat-icon>
+              {{ formatDate(blog.createdAt) }}
+            </span>
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="blog-excerpt">{{ truncateContent(blog.content, 120) }}</p>
+        
+        <!-- Tags -->
+        <div class="tags-container" *ngIf="blog.tags && blog.tags.length > 0">
+          <mat-chip-set>
+            <mat-chip *ngFor="let tag of blog.tags.slice(0, 3)">
+              {{ tag }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div class="card-stats">
+          <span class="stat-item">
+            <mat-icon>visibility</mat-icon>
+            {{ blog.viewCount }}
+          </span>
+          <span class="stat-item">
+            <mat-icon>favorite</mat-icon>
+            {{ blog.likeCount }}
+          </span>
+          <span class="stat-item">
+            <mat-icon>comment</mat-icon>
+            {{ blog.commentCount }}
+          </span>
+        </div>
+        
+        <button mat-button color="primary" class="read-more-btn">
+          {{ 'CLIENT.BLOG.READ_MORE' | translate }}
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && blogs.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">article</mat-icon>
+    <h2>{{ 'CLIENT.BLOG.NO_BLOGS' | translate }}</h2>
+    <p>{{ 'CLIENT.BLOG.NO_BLOGS_DESC' | translate }}</p>
+  </div>
+
+  <!-- Pagination -->
+  <mat-paginator 
+    *ngIf="blogs.length > 0"
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[6, 9, 12, 18]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

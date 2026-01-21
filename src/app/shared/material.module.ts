@@ -23,7 +23,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table'; 
 import { MatSortModule } from '@angular/material/sort';   
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'; // ✅ EKLE
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'; 
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   exports: [
@@ -50,7 +51,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'; // ✅ EK
     MatTableModule,    
     MatSortModule,
     MatProgressSpinnerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatRadioModule
   ],
 })
 export class MaterialModule {}

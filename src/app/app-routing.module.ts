@@ -6,7 +6,7 @@ import { SignupComponent } from './features/auth/signup/signup.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 import { AuthGuard } from './shared/guards/auth.guard';
-import { LoginGuard } from './shared/guards/loginGuard'; // ✅ Bunu ekledik
+import { LoginGuard } from './shared/guards/loginGuard';
 import { ProfileComponent } from './features/profile/profile.component';
 import { HomeComponent } from './features/dashboard/home/home.component';
 import { BlogViewComponent } from './features/admin/blog/blog-view/blog-view.component';
@@ -23,6 +23,10 @@ import { UserListComponent } from './features/admin/users/user-list/user-list.co
 import { CategoryListComponent } from './features/admin/category/category-list/category-list.component';
 import { CategoryCreateComponent } from './features/admin/category/category-create/category-create.component';
 import { CategoryEditComponent } from './features/admin/category/category-edit/category-edit.component';
+import { CommentListComponent } from './features/admin/comment/comment-list/comment-list.component';
+
+// ✅ Client blog components
+import { BlogListComponent } from './features/client/blog/blog-list/blog-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -38,33 +42,40 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     data: { roles: ['Admin', 'Client'] },
     children: [
-      { path: '', component: HomeComponent }, // 🔥 boş alt path → home
-      { path: 'dashboard', redirectTo: '', pathMatch: 'full' }, // 🔁 yönlendirme
+      { path: '', component: HomeComponent },
+      { path: 'dashboard', redirectTo: '', pathMatch: 'full' },
       { path: 'profile', component: ProfileComponent },
       { path: 'client-profile/:id', component: ProfileComponent },
 
+      //  CLIENT BLOG ROUTES
+      { path: 'client/blogs', component: BlogListComponent, data: { roles: ['Admin', 'Client'] } },
+
+      // ADMIN BLOG ROUTES
       { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
       { path: 'blog/blog-create', component: BlogCreateComponent, data: { roles: ['Admin'] } },
       { path: 'blog/blog-edit/:id', component: BlogEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
 
+      // ADMIN TAG ROUTES
       { path: 'tags', component: TagListComponent, data: { roles: ['Admin'] } },
       { path: 'tags/create', component: TagCreateComponent, data: { roles: ['Admin'] } },
       { path: 'tags/edit/:id', component: TagEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
 
+      // ADMIN USER ROUTES
       { path: 'users', component: UserListComponent, data: { roles: ['Admin'] } },
 
+      // ADMIN CATEGORY ROUTES
       { path: 'categories', component: CategoryListComponent, data: { roles: ['Admin'] } },
       { path: 'categories/create', component: CategoryCreateComponent, data: { roles: ['Admin'] } },
       { path: 'categories/edit/:id', component: CategoryEditComponent, data: { roles: ['Admin'] }, canDeactivate: [PendingChangesGuard] },
 
+      // ADMIN COMMENT ROUTES
+      { path: 'comments', component: CommentListComponent, data: { roles: ['Admin'] } },
     ]
   },
-
 
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

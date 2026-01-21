@@ -46,6 +46,8 @@ import { UserListComponent } from './features/admin/users/user-list/user-list.co
 import { CategoryListComponent } from './features/admin/category/category-list/category-list.component';
 import { CategoryCreateComponent } from './features/admin/category/category-create/category-create.component';
 import { CategoryEditComponent } from './features/admin/category/category-edit/category-edit.component';
+import { CommentListComponent } from './features/admin/comment/comment-list/comment-list.component';
+import { BlogListComponent } from './features/client/blog/blog-list/blog-list.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -77,7 +79,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserListComponent,
     CategoryListComponent,
     CategoryCreateComponent,
-    CategoryEditComponent
+    CategoryEditComponent,
+    CommentListComponent,
+    BlogListComponent
     
   ],
   imports: [

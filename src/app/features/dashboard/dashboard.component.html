@@ -13,16 +13,28 @@
         <span matListItemTitle>{{ 'NAV.PROFILE' | translate }}</span>
       </a>
 
-      <!-- Blog (Sadece Admin) -->
+      <!-- ✅ Client Blog Listesi (Herkes görebilir) -->
+      <a *ngIf="isClient()" mat-list-item routerLink="/client/blogs" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>library_books</mat-icon>
+        <span matListItemTitle>{{ 'NAV.BLOGS' | translate }}</span>
+      </a>
+
+      <!-- Blog Yönetimi (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/blog" routerLinkActive="active-link">
         <mat-icon matListItemIcon>article</mat-icon>
         <span matListItemTitle>{{ 'NAV.BLOG' | translate }}</span>
       </a>
 
-      <!-- 🆕 Kategoriler (Sadece Admin) -->
+      <!-- Kategoriler (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/categories" routerLinkActive="active-link">
         <mat-icon matListItemIcon>category</mat-icon>
-        <span matListItemTitle>{{ 'NAV.CATEGORY_MANAGEMENT' | translate }}</span>
+        <span matListItemTitle>{{ 'NAV.CATEGORY' | translate }}</span>
+      </a>
+
+      <!-- Yorumlar (Sadece Admin) -->
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/comments" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>comment</mat-icon>
+        <span matListItemTitle>{{ 'NAV.COMMENT' | translate }}</span>
       </a>
 
       <!-- Etiketler (Sadece Admin) -->
@@ -36,7 +48,6 @@
         <mat-icon matListItemIcon>group</mat-icon>
         <span matListItemTitle>{{ 'NAV.USERS' | translate }}</span>
       </a>
-
 
       <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
         <mat-icon matListItemIcon>settings</mat-icon>

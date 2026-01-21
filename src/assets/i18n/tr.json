@@ -183,9 +183,11 @@
     "DASHBOARD": "Panel",
     "PROFILE": "Profil",
     "BLOG": "Blog",
-    "CATEGORY_MANAGEMENT": "Kategoriler",
+    "CATEGORY": "Kategoriler",
+    "BLOGS": "Bloglar",
     "TAGS": "Etiketler",
     "USERS": "Kullanıcılar",
+    "COMMENT":"Yorumlar",
     "SETTINGS": "Ayarlar",
     "TAG_MANAGEMENT": "Etiket Yönetimi"
   },
@@ -262,6 +264,32 @@
   "SEARCH_PLACEHOLDER": "Kategori adı ile ara...",
   "NAME_PLACEHOLDER": "Kategori adını girin",
   "NO_RECORDS": "Kategori bulunamadı"
+},
+"COMMENTS": {
+  "CONTENT": "Yorum İçeriği",
+  "POST_TITLE": "Blog Başlığı",
+  "USER": "Kullanıcı",
+  "CREATED_AT": "Tarih",
+  "SEARCH_PLACEHOLDER": "Yorum içeriği veya kullanıcı adı ile ara...",
+  "VIEW_POST": "Blogu Görüntüle",
+  "NO_RECORDS": "Yorum bulunamadı"
+},
+
+"CLIENT": {
+  "BLOG": {
+    "TITLE": "Blog Yazıları",
+    "SEARCH": "Ara",
+    "SEARCH_PLACEHOLDER": "Blog ara...",
+    "CATEGORY": "Kategori",
+    "ALL_CATEGORIES": "Tüm Kategoriler",
+    "SORT": "Sırala",
+    "SORT.NEWEST": "En Yeni",
+    "SORT.TITLE": "Başlık A-Z",
+    "SORT.MOST_VIEWED": "En Çok Görüntülenen",
+    "READ_MORE": "Devamını Oku",
+    "NO_BLOGS": "Blog bulunamadı",
+    "NO_BLOGS_DESC": "Filtreleri veya arama teriminizi ayarlamayı deneyin"
+  }
 }
 
 }

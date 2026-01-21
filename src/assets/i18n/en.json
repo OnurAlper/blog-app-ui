@@ -50,7 +50,20 @@
     "LAST": "Last",
     "UNSAVED_CHANGES": "You have unsaved changes. Are you sure you want to leave?",
     "ID": "ID",
-    "ALL": "ALL"
+    "ALL": "ALL",
+    "UPDATE": "Update",
+    "REQUIRED_FIELD": "This field is required",
+    "MIN_LENGTH": "Must be at least {{value}} characters",
+    "MAX_LENGTH": "Must be at most {{value}} characters",
+    "FORM_INVALID": "Form is invalid, please check",
+    "CREATE_SUCCESS": "Successfully created",
+    "CREATE_FAILED": "Creation failed",
+    "UPDATE_SUCCESS": "Successfully updated",
+    "UPDATE_FAILED": "Update failed",
+    "DELETE_SUCCESS": "Successfully deleted",
+    "DELETE_FAILED": "Deletion failed",
+    "LOAD_FAILED": "Loading failed",
+    "CONFIRM_DELETE": "Are you sure you want to delete?"
   },
   "LANG": {
     "TURKISH": "Turkish",
@@ -170,10 +183,12 @@
     "DASHBOARD": "Dashboard",
     "PROFILE": "Profile",
     "BLOG": "Blog",
+    "CATEGORY": "Categories",
+    "BLOGS": "Blogs",
     "TAGS": "Tags",
+    "COMMENT" :"Comments",
     "USERS": "Users",
-    "SETTINGS": "Settings",
-    "TAG_MANAGEMENT": "Tag Management"
+    "SETTINGS": "Settings"
   },
   "TAGS": {
     "CREATE_TITLE": "Create New Tag",
@@ -240,6 +255,39 @@
 
   "DELETED_LIST_NOT_AVAILABLE": "Deleted users list is not available yet.",
   "OPEN_PROFILE_INFO": "Profile page will be available soon."
+},
+"CATEGORIES": {
+  "CREATE_TITLE": "Create New Category",
+  "EDIT_TITLE": "Edit Category",
+  "NAME": "Category Name",
+  "SEARCH_PLACEHOLDER": "Search by category name...",
+  "NAME_PLACEHOLDER": "Enter category name",
+  "NO_RECORDS": "No categories found"
+},
+"COMMENTS": {
+  "CONTENT": "Comment Content",
+  "POST_TITLE": "Blog Title",
+  "USER": "User",
+  "CREATED_AT": "Date",
+  "SEARCH_PLACEHOLDER": "Search by comment content or user name...",
+  "VIEW_POST": "View Post",
+  "NO_RECORDS": "No comments found"
+},
+"CLIENT": {
+  "BLOG": {
+    "TITLE": "Blog Posts",
+    "SEARCH": "Search",
+    "SEARCH_PLACEHOLDER": "Search blogs...",
+    "CATEGORY": "Category",
+    "ALL_CATEGORIES": "All Categories",
+    "SORT": "Sort By",
+    "SORT.NEWEST": "Newest First",
+    "SORT.TITLE": "Title A-Z",
+    "SORT.MOST_VIEWED": "Most Viewed",
+    "READ_MORE": "Read More",
+    "NO_BLOGS": "No blogs found",
+    "NO_BLOGS_DESC": "Try adjusting your filters or search term"
+  }
 }
 
 }

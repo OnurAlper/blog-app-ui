@@ -1,9 +1,6 @@
-<!-- Başlık + Ekle -->
+<!-- Başlık -->
 <div class="page-header d-flex justify-content-between align-items-center mb-3">
-  <h2>{{ 'NAV.CATEGORY' | translate }}</h2>
-  <button mat-fab color="primary" (click)="openCreate()" matTooltip="{{ 'COMMON.CREATE' | translate }}">
-    <mat-icon>add</mat-icon>
-  </button>
+  <h2>{{ 'NAV.COMMENT' | translate }}</h2>
 </div>
 
 <!-- Arama -->
@@ -15,7 +12,7 @@
         matInput
         [ngModel]="searchTerm"
         (ngModelChange)="onSearchInput($event)"
-        [placeholder]="'CATEGORIES.SEARCH_PLACEHOLDER' | translate">
+        [placeholder]="'COMMENTS.SEARCH_PLACEHOLDER' | translate">
       <button
         mat-icon-button
         matSuffix
@@ -37,30 +34,50 @@
 <div class="table-responsive-wrapper" *ngIf="!loading">
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)" class="mat-elevation-z2">
 
-    <!-- Id -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMON.ID' | translate }}</th>
-      <td mat-cell *matCellDef="let category">{{ category.id }}</td>
+    <!-- İçerik -->
+    <ng-container matColumnDef="content">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.CONTENT' | translate }}</th>
+      <td mat-cell *matCellDef="let comment" class="content-cell">
+        <span [matTooltip]="comment.content">
+          {{ truncateContent(comment.content, 80) }}
+        </span>
+      </td>
     </ng-container>
 
-    <!-- Ad -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CATEGORIES.NAME' | translate }}</th>
-      <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+    <!-- Blog Başlığı -->
+    <ng-container matColumnDef="postTitle">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.POST_TITLE' | translate }}</th>
+      <td mat-cell *matCellDef="let comment">
+        <a class="post-link" (click)="viewPost(comment)" [matTooltip]="comment.postTitle">
+          {{ truncateContent(comment.postTitle || 'Bilinmeyen', 40) }}
+        </a>
+      </td>
+    </ng-container>
+
+    <!-- Kullanıcı -->
+    <ng-container matColumnDef="userFullName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.USER' | translate }}</th>
+      <td mat-cell *matCellDef="let comment">{{ comment.userFullName || 'Anonim' }}</td>
+    </ng-container>
+
+    <!-- Tarih -->
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.CREATED_AT' | translate }}</th>
+      <td mat-cell *matCellDef="let comment">{{ formatDate(comment.createdAt) }}</td>
     </ng-container>
 
     <!-- İşlemler -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.ACTIONS' | translate }}</th>
-      <td mat-cell *matCellDef="let category">
+      <td mat-cell *matCellDef="let comment">
         <button mat-icon-button [matMenuTriggerFor]="rowMenu" matTooltip="{{ 'COMMON.ACTIONS' | translate }}">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #rowMenu="matMenu">
-          <button mat-menu-item (click)="openEdit(category)">
-            <mat-icon>edit</mat-icon>{{ 'COMMON.EDIT' | translate }}
+          <button mat-menu-item (click)="viewPost(comment)">
+            <mat-icon>visibility</mat-icon>{{ 'COMMENTS.VIEW_POST' | translate }}
           </button>
-          <button mat-menu-item (click)="remove(category.id)">
+          <button mat-menu-item (click)="remove(comment.id)">
             <mat-icon color="warn">delete</mat-icon>{{ 'COMMON.DELETE' | translate }}
           </button>
         </mat-menu>
@@ -80,4 +97,10 @@
     showFirstLastButtons
     (page)="onPageChange($event)">
   </mat-paginator>
+</div>
+
+<!-- Boş durum -->
+<div class="empty-state text-center my-5" *ngIf="!loading && dataSource.data.length === 0">
+  <mat-icon class="empty-icon">comment</mat-icon>
+  <p class="text-muted">{{ 'COMMENTS.NO_RECORDS' | translate }}</p>
 </div>
