@@ -1,25 +1,175 @@
-/* You can add global styles to this file, and also import other style files */
+/* =====================================================
+   GLOBAL DESIGN SYSTEM – Udemy-inspired (Light Theme)
+   ===================================================== */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+/* ── Design Tokens ─────────────────────────────────── */
+:root {
+  /* Brand */
+  --ud-purple:        #a435f0;
+  --ud-purple-dark:   #6d28d9;
+  --ud-purple-light:  #ede9fe;
+  --ud-purple-pale:   #f5f3ff;
+
+  /* Neutral */
+  --ud-white:         #ffffff;
+  --ud-bg:            #f7f9fa;
+  --ud-surface:       #ffffff;
+  --ud-surface-2:     #f2f3f5;
+  --ud-border:        #e0e0e0;
+  --ud-border-light:  #eeeeee;
+
+  /* Text */
+  --ud-text:          #1c1d1f;
+  --ud-text-2:        #6a6f73;
+  --ud-text-3:        #9ba3ae;
+
+  /* Status */
+  --ud-green:         #1e7e34;
+  --ud-green-bg:      #e8f5e9;
+  --ud-red:           #c62828;
+  --ud-red-bg:        #fdecea;
+  --ud-amber:         #b45309;
+  --ud-amber-bg:      #fef3c7;
+  --ud-blue:          #1565c0;
+  --ud-blue-bg:       #e3f2fd;
+
+  /* Sidebar */
+  --ud-sidebar-bg:    #ffffff;
+  --ud-sidebar-w:     240px;
+  --ud-topbar-h:      64px;
+
+  /* Shadows */
+  --s1: 0 1px 4px rgba(0,0,0,.06);
+  --s2: 0 2px 12px rgba(0,0,0,.08);
+  --s3: 0 6px 24px rgba(0,0,0,.10);
+  --s4: 0 12px 40px rgba(0,0,0,.13);
+
+  /* Radii */
+  --r4:  4px;
+  --r8:  8px;
+  --r12: 12px;
+  --r16: 16px;
+  --rp:  999px;
+}
+
+/* ── Base ──────────────────────────────────────────── */
+html, body { height: 100%; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-size: 14px;
+  color: var(--ud-text);
+  background: var(--ud-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Material Overrides ────────────────────────────── */
+
+/* Toolbar – white with shadow */
+mat-toolbar.mat-toolbar {
+  background: var(--ud-white) !important;
+  color: var(--ud-text) !important;
+  box-shadow: 0 1px 0 var(--ud-border) !important;
+  overflow: visible !important;
+}
+
+/* Primary buttons → purple */
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-flat-button.mat-primary,
+.mat-mdc-fab.mat-primary,
+.mat-mdc-mini-fab.mat-primary {
+  background-color: var(--ud-purple) !important;
+  color: #fff !important;
+  border-radius: var(--r4) !important;
+  font-weight: 700 !important;
+  letter-spacing: .2px;
+  transition: background .18s ease, box-shadow .18s ease !important;
+
+  &:hover {
+    background-color: var(--ud-purple-dark) !important;
+    box-shadow: 0 4px 16px rgba(164,53,240,.3) !important;
+  }
+}
+
+/* Form fields */
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-container-shape: 4px;
+}
+
+/* Chips – purple tint */
+.mat-mdc-chip.mat-mdc-standard-chip {
+  --mdc-chip-container-shape-radius: 4px;
+  background-color: var(--ud-purple-light) !important;
+  color: var(--ud-purple-dark) !important;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Paginator */
+mat-paginator {
+  border-top: 1px solid var(--ud-border-light);
+  background: var(--ud-white) !important;
+}
+
+/* ── Snackbars ─────────────────────────────────────── */
 .snackbar-success {
-  background-color: #4caf50;
+  background: var(--ud-green);
   color: #fff;
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: .875rem;
+  border-radius: var(--r4);
 }
-
 .snackbar-error {
-  background-color: #f44336;
+  background: var(--ud-red);
   color: #fff;
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: .875rem;
+  border-radius: var(--r4);
+}
+.snackbar-info {
+  background: var(--ud-blue);
+  color: #fff;
+  font-weight: 600;
+  font-size: .875rem;
+  border-radius: var(--r4);
 }
 
-.snackbar-info {
-  background-color: #2196f3;
-  color: #fff;
-  font-weight: 500;
-  font-size: 0.95rem;
+/* ── Shared Utilities ──────────────────────────────── */
+
+/* Status pills */
+.pill { display:inline-block; padding:3px 10px; border-radius:var(--rp); font-size:12px; font-weight:600; }
+.pill-green  { background:var(--ud-green-bg);  color:var(--ud-green); }
+.pill-gray   { background:var(--ud-surface-2); color:var(--ud-text-2); }
+.pill-purple { background:var(--ud-purple-light); color:var(--ud-purple-dark); }
+.pill-amber  { background:var(--ud-amber-bg);  color:var(--ud-amber); }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+
+  .empty-icon {
+    font-size: 64px; width: 64px; height: 64px;
+    color: var(--ud-border);
+    margin: 0 auto 14px; display: block;
+  }
+  h3 { font-size:1.05rem; font-weight:700; color:var(--ud-text-2); margin:0 0 6px; }
+  p  { font-size:.875rem; color:var(--ud-text-3); margin:0; }
 }
+
+/* Table wrapper */
+.table-wrap {
+  border-radius: var(--r8);
+  border: 1px solid var(--ud-border-light);
+  background: var(--ud-white);
+  box-shadow: var(--s1);
+  overflow: auto;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:#d0d5da; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#b0b8c0; }

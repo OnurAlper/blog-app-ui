@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { DashboardData, TopPost, TopAuthor, MonthlyUser } from 'src/app/core/models/dashboard.model';
 import {
@@ -61,9 +63,25 @@ export class HomeComponent implements OnInit {
   userChart: ApexChart = { type: 'line', height: 320, toolbar: { show: false } };
   userXaxis: ApexXAxis = { categories: [] };
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  navigateTo(path: string, queryParams?: any): void {
+    this.router.navigate([path], queryParams ? { queryParams } : {});
+  }
+
+  goToPost(postId: number): void {
+    this.router.navigate(['/client/blog', postId]);
+  }
 
   ngOnInit(): void {
+    if (!this.authService.isAdmin()) {
+      this.router.navigate(['/client'], { replaceUrl: true });
+      return;
+    }
     this.dashboardService.getDashboardData().subscribe({
       next: (res) => {
         const data: DashboardData = res.data;

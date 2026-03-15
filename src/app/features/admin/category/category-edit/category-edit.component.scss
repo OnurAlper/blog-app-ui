@@ -1,15 +1,16 @@
+/* ─── Page Header ────────────────────────────────────── */
 .page-header {
-  h2 {
-    margin: 0;
-    font-weight: 500;
-  }
+  h2 { margin: 0; font-weight: 700; font-size: 1.15rem; color: #1c1d1f; }
+  margin-bottom: 20px;
 }
 
+/* ─── Form Card ──────────────────────────────────────── */
 .form-card {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 760px; margin: 0 auto;
+  border-radius: 8px !important;
+  border: 1px solid #eeeeee !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06) !important;
 }
 
-.gap-2 {
-  gap: 0.5rem;
-}
+mat-form-field { width: 100%; }
+.gap-2 { gap: 0.5rem; }

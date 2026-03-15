@@ -1,15 +1,18 @@
-:host { display: block; padding: 16px; }
+:host { display: block; padding: 20px; }
+
+.page-header {
+  h2 { margin: 0; font-weight: 700; font-size: 1.15rem; color: #1c1d1f; }
+  margin-bottom: 20px;
+}
 
 .form-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+  background: #fff; border-radius: 8px; padding: 20px;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
 
   .actions {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: 12px;
+    display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;
   }
 }
+
+mat-form-field { width: 100%; }

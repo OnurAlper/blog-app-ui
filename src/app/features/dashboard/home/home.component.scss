@@ -1,154 +1,142 @@
-/* =========================
-   Dashboard Ana Container
-========================= */
+/* ─── Wrapper ────────────────────────────────────────── */
 .dashboard-home-wrapper {
-  padding: 12px;
-  background-color: #f7f8fa;
+  padding: 4px 0;
 }
 
-/* =========================
-   KPI Kartları
-========================= */
+/* ─── KPI Cards ──────────────────────────────────────── */
 .kpi-card {
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 8px;
+  padding: 20px 22px;
   display: grid;
   align-content: center;
-  gap: 4px;
-  min-height: 96px;
+  gap: 5px;
+  min-height: 108px;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid var(--ud-border-light, #eeeeee);
+  box-shadow: var(--s1, 0 1px 4px rgba(0,0,0,.06));
+  transition: transform .15s ease, box-shadow .15s ease;
+  position: relative;
+  overflow: hidden;
+
+  /* Top color stripe */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  &.kpi-purple::after { background: var(--ud-purple, #a435f0); }
+  &.kpi-blue::after   { background: #3b82f6; }
+  &.kpi-green::after  { background: #22c55e; }
+  &.kpi-amber::after  { background: #f59e0b; }
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+    box-shadow: var(--s3, 0 6px 24px rgba(0,0,0,.10));
   }
 
-  .kpi-title {
-    font-size: 13px;
-    color: #666;
-    font-weight: 500;
+  .kpi-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ud-text-3, #9ba3ae);
+    text-transform: uppercase;
+    letter-spacing: .5px;
   }
+
   .kpi-value {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.2;
-    color: #1976d2;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ud-text, #1c1d1f);
+    line-height: 1.1;
   }
+
   .kpi-trend {
     font-size: 12px;
-    &.up {
-      color: #2e7d32;
-    }
-    &.down {
-      color: #c62828;
-    }
+    font-weight: 500;
+    &.up   { color: #22c55e; }
+    &.down { color: #ef4444; }
   }
 }
 
-/* =========================
-   Chart Kartları
-========================= */
-.chart-card {
-  border-radius: 12px;
-  padding: 10px 12px;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+/* Backward compat (existing template uses .kpi-title / .kpi-value) */
+.kpi-card .kpi-title { @extend .kpi-label; }
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  }
+/* ─── Chart Cards ────────────────────────────────────── */
+.chart-card {
+  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid var(--ud-border-light, #eeeeee);
+  box-shadow: var(--s1, 0 1px 4px rgba(0,0,0,.06));
+  transition: transform .15s ease, box-shadow .15s ease;
+
+  &:hover { transform: translateY(-2px); box-shadow: var(--s2, 0 2px 12px rgba(0,0,0,.08)); }
 
   .chart-header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 6px;
+    align-items: center;
+    margin-bottom: 16px;
 
-    h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    small {
-      color: #888;
-      font-size: 12px;
-    }
+    h3 { margin: 0; font-size: 15px; font-weight: 700; color: var(--ud-text, #1c1d1f); }
+    small { font-size: 12px; color: var(--ud-text-3, #9ba3ae); }
   }
 }
 
-/* Apex chart container – responsive yükseklik */
-apx-chart {
-  display: block;
-  width: 100%;
-  min-height: 280px;
-}
+apx-chart { display: block; width: 100%; min-height: 280px; }
 
-/* =========================
-   Top List Kartları
-========================= */
+/* ─── Top List Cards ─────────────────────────────────── */
 .list-card {
-  border-radius: 12px;
+  border-radius: 8px;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid var(--ud-border-light, #eeeeee);
+  box-shadow: var(--s1, 0 1px 4px rgba(0,0,0,.06));
+  overflow: hidden;
+  transition: transform .15s ease, box-shadow .15s ease;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  }
+  &:hover { transform: translateY(-2px); box-shadow: var(--s2, 0 2px 12px rgba(0,0,0,.08)); }
 
   .list-header {
-    font-weight: 600;
-    padding: 10px 12px;
-    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ud-text, #1c1d1f);
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--ud-border-light, #eeeeee);
   }
 
   .list-group-item {
-    font-size: 14px;
-    padding: 8px 12px;
-    border: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 18px;
+    font-size: 14px;
+    color: var(--ud-text-2, #6a6f73);
+    border: none;
+    transition: background .1s ease;
 
-    &:nth-child(even) {
-      background: #fafafa;
-    }
+    &:nth-child(even) { background: var(--ud-surface-2, #f2f3f5); }
+    &:hover { background: var(--ud-purple-pale, #f5f3ff); }
   }
 
   .badge {
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--ud-purple-light, #ede9fe);
+    color: var(--ud-purple-dark, #6d28d9);
+    white-space: nowrap;
   }
 }
 
-/* =========================
-   Responsive Ayarlar
-========================= */
-@media (max-width: 1200px) {
-  apx-chart {
-    min-height: 260px;
-  }
-}
+/* ─── Clickable Items ────────────────────────────────── */
+.top-item { cursor: pointer; }
 
-@media (max-width: 768px) {
-  apx-chart {
-    min-height: 240px;
-  }
-}
+.clickable-card { cursor: pointer; }
 
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 1200px) { apx-chart { min-height: 260px; } }
+@media (max-width: 768px)  { apx-chart { min-height: 240px; } }
 @media (max-width: 576px) {
-  .kpi-card {
-    min-height: 80px;
-    .kpi-title {
-      font-size: 12px;
-    }
-    .kpi-value {
-      font-size: 22px;
-    }
-  }
+  .kpi-card { min-height: 88px; padding: 14px 16px; .kpi-value { font-size: 26px; } }
 }

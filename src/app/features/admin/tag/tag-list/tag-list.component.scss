@@ -1,150 +1,65 @@
-/* Sayfa iskeleti */
-:host {
-  display: block;
-  padding: 16px;
-}
+:host { display: block; padding: 20px; }
 
-/* Başlık + sağdaki FAB */
 .page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-
-  h2 {
-    margin: 0;
-    font-weight: 600;
-    letter-spacing: .2px;
-  }
-
-  /* Eğer butonu sağ altta sabit istersen aç */
-  &.fixed-fab {
-    position: relative;
-
-    button[mat-fab] {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      z-index: 10;
-      box-shadow: 0 8px 24px rgba(0,0,0,.18);
-    }
-  }
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 20px;
+  h2 { margin: 0; font-weight: 700; font-size: 1.15rem; color: #1c1d1f; }
 }
 
-/* Arama alanı */
-.row .mat-form-field {
-  margin: 0;
-}
 .mat-form-field {
-  --field-radius: 12px;
-  .mdc-text-field--outlined {
-    border-radius: var(--field-radius);
-  }
-  .mat-mdc-form-field-subscript-wrapper {
-    display: none; /* alt açıklamaları gizle */
-  }
+  .mdc-text-field--outlined { border-radius: 6px; }
+  .mat-mdc-form-field-subscript-wrapper { display: none; }
 }
 
-/* Loader bar spacing */
-.text-center.my-3,
-.mb-3 {
-  margin-top: 8px !important;
-  margin-bottom: 16px !important;
-}
-
-/* Tablo kabı */
 .table-responsive-wrapper {
-  background: var(--mdc-elevated-card-container-color, #fff);
-  border-radius: 12px;
-  overflow: auto;
-  box-shadow: var(--mat-elevation-2);
+  background: #fff; border-radius: 8px; overflow: auto;
+  border: 1px solid #eeeeee; box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 
-/* Mat Table genel görünüm */
 table[mat-table] {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  width: 100%; border-collapse: separate; border-spacing: 0;
 
-  /* Header satırı */
   .mat-mdc-header-row {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background: var(--mdc-elevated-card-container-color, #fff);
+    position: sticky; top: 0; z-index: 1; background: #f7f9fa;
   }
 
-  /* Hücreler */
-  .mat-mdc-header-cell,
+  .mat-mdc-header-cell {
+    font-size: 11px; font-weight: 700; color: #9ba3ae;
+    text-transform: uppercase; letter-spacing: .7px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-left: 16px; padding-right: 16px; height: 44px;
+  }
+
   .mat-mdc-cell {
-    padding-left: 16px;
-    padding-right: 16px;
-    height: 52px;
+    padding-left: 16px; padding-right: 16px; height: 52px;
+    color: #1c1d1f; font-size: 14px;
   }
 
-  /* Hover efekti */
-  .mat-mdc-row:hover .mat-mdc-cell {
-    background: color-mix(in oklab, var(--mdc-elevated-card-container-color, #fff) 88%, #000 12%);
+  .mat-mdc-row {
+    border-bottom: 1px solid #eeeeee; transition: background .1s ease;
+    &:hover .mat-mdc-cell { background: #f5f3ff; }
+    &:last-child { border-bottom: none; }
   }
 
-  /* Sütun özel hizalar */
-  .mat-column-id {
-    width: 80px;
-    color: rgba(0,0,0,.6);
-  }
-
-  .mat-column-actions {
-    width: 96px;
-    text-align: end;
-
-    /* sağa yasla */
-    .mat-mdc-cell {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-  }
+  .mat-column-id { width: 72px; color: #9ba3ae; }
+  .mat-column-actions { width: 96px; text-align: end; }
 }
 
-/* Paginator */
 mat-paginator {
-  border-top: 1px solid rgba(0,0,0,.06);
-  border-radius: 0 0 12px 12px;
+  border-top: 1px solid #eeeeee;
+  border-radius: 0 0 8px 8px;
+  background: #fff !important;
 }
 
-/* Menü ikonu küçük ekranlarda tıklaması rahat olsun */
-button[mat-icon-button] {
-  --size: 40px;
-  width: var(--size);
-  height: var(--size);
-}
+button[mat-icon-button] { width: 36px; height: 36px; }
 
-/* Küçük ekran uyumu */
-@media (max-width: 768px) {
-  :host { padding: 12px; }
-
-  .page-header {
-    h2 { font-size: 18px; }
-    button[mat-fab] { width: 44px; height: 44px; }
-  }
-
-  table[mat-table] {
-    .mat-mdc-header-cell,
-    .mat-mdc-cell {
-      padding-left: 12px;
-      padding-right: 12px;
-      height: 48px;
-    }
-    .mat-column-id { width: 56px; }
-    .mat-column-actions { width: 72px; }
-  }
-}
-
-/* Tema uyumu (dark mode friendly) */
-:root, .mat-app-background, .mat-typography {
-  --table-divider: rgba(0,0,0,.06);
-}
 .mdc-data-table__content .mdc-data-table__row + .mdc-data-table__row {
-  border-top: 1px solid var(--table-divider);
+  border-top: 1px solid #eeeeee;
+}
+
+@media (max-width: 768px) {
+  :host { padding: 14px; }
+  .mat-mdc-header-cell, .mat-mdc-cell { padding-left: 10px; padding-right: 10px; height: 44px; }
+  .mat-column-id { width: 52px; }
+  .mat-column-actions { width: 68px; }
 }

@@ -1,104 +1,153 @@
+/* ─────────────────────────────────────────────────────
+   SIGN UP  –  Split layout
+   Template classes: .container-fluid, .bg-primary (left),
+   .bg-light (right), .card.p-4.shadow (form card)
+   ───────────────────────────────────────────────────── */
+
 .container-fluid {
   min-height: 100vh;
-  background-color: #f8f9fa;
 }
 
+/* ── Left: Brand panel ───────────────────────────────── */
+.bg-primary {
+  background: linear-gradient(160deg, #5b21b6 0%, #7c3aed 40%, #a435f0 100%) !important;
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 320px; height: 320px; border-radius: 50%;
+    background: rgba(255,255,255,.07);
+    top: -70px; right: -90px;
+    pointer-events: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,.07);
+    bottom: -50px; left: -40px;
+    pointer-events: none;
+  }
+
+  h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.3px;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 12px rgba(0,0,0,.15);
+  }
+
+  p {
+    font-size: 15px;
+    opacity: .82;
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+
+  img {
+    filter: brightness(0) invert(1) opacity(.16);
+    max-width: 240px !important;
+  }
+}
+
+/* ── Right: Form panel ───────────────────────────────── */
+.bg-light {
+  background: #f7f9fa !important;
+}
+
+/* ── Form card ───────────────────────────────────────── */
 .card {
-  border-radius: 0.75rem;
-  background-color: #fff;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.08);
-  padding: 2rem;
-  max-width: 500px;
+  background: #fff !important;
+  border: none !important;
+  border-radius: 16px !important;
+  padding: 36px 40px !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,.10) !important;
+  max-width: 540px;
   width: 100%;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1c1d1f;
+    letter-spacing: -.2px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
 }
 
-/* Material input alanları */
+/* ── Form fields ─────────────────────────────────────── */
 mat-form-field {
   width: 100%;
 
-  mat-label {
-    color: #333;
-    font-weight: 500;
-    font-size: 0.95rem;
-  }
-
-  .mat-input-element {
-    color: #333 !important;
-    background-color: #eef3ff;
-    padding: 0.5rem;
-  }
-
-  .mat-form-field-outline {
-    border-color: #ccc !important;
-  }
-
-  .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-    color: #ccc;
-  }
-
-  .mat-form-field-flex {
-    align-items: center;
-  }
+  mat-label { color: #6a6f73; font-weight: 500; font-size: 14px; }
+  .mat-input-element { color: #1c1d1f !important; }
+  .mat-form-field-flex { align-items: center; }
 }
 
-/* Select alanları için */
-mat-select {
-  background-color: #eef3ff;
-  padding: 0.4rem;
-  border-radius: 4px;
-}
-
-/* Butonlar */
-button[mat-raised-button] {
+/* ── Submit button ───────────────────────────────────── */
+button[mat-raised-button][color="primary"] {
   width: 100%;
-  background-color: #ffa500;
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
-  margin-top: 1rem;
-  transition: 0.3s ease-in-out;
+  height: 50px;
+  background: #a435f0 !important;
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  letter-spacing: .2px;
+  box-shadow: none !important;
+  transition: background .18s ease, box-shadow .18s ease !important;
 
-  &:hover {
-    background-color: #e69500;
+  &:hover:not([disabled]) {
+    background: #6d28d9 !important;
+    box-shadow: 0 4px 20px rgba(164,53,240,.35) !important;
   }
 
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  &[disabled] {
+    background: #e0e0e0 !important;
+    color: #9ba3ae !important;
   }
 }
 
-/* Alt metin bağlantılar */
+/* ── Bottom link ─────────────────────────────────────── */
 p.text-center.mt-3 {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  text-align: center;
+  font-size: 14px;
+  color: #6a6f73;
+  margin-top: 18px !important;
 
   a {
-    color: #0d3a6a;
-    font-weight: 500;
+    color: #a435f0;
+    font-weight: 700;
     text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    &:hover { text-decoration: underline; }
   }
 }
 
-/* Responsive ayar */
+/* ── Language dropdown ───────────────────────────────── */
+.dropdown-toggle {
+  color: #4a4f59 !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  &:hover { color: #a435f0 !important; }
+}
+
+/* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 767.98px) {
   .card {
-    padding: 1.25rem;
+    padding: 24px 18px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,.08) !important;
   }
 
-  .row {
-    row-gap: 1rem;
+  .bg-primary {
+    min-height: 180px;
+    h2 { font-size: 20px; }
+    img { max-width: 140px !important; }
   }
 }
+
 ::ng-deep .country-select-panel .mat-option input {
-  width: 100%;
-  padding: 6px 8px;
-  font-size: 14px;
-  box-sizing: border-box;
+  width: 100%; padding: 6px 8px; font-size: 14px; box-sizing: border-box;
 }
-  

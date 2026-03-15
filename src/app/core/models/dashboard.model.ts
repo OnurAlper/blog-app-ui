@@ -39,6 +39,7 @@ export interface MonthlyUser {
 }
 
 export interface TopPost {
+  postId: number;
   title: string;
   count: number;
 }

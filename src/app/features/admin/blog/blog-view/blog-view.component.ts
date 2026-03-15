@@ -136,6 +136,14 @@ displayedColumns: string[] = [
     this.router.navigate(['/blog/blog-create']);
   }
 
+  goToComments(post: BlogPostUI): void {
+    this.router.navigate(['/comments'], { queryParams: { postId: post.id } });
+  }
+
+  viewDetail(post: BlogPostUI): void {
+    this.router.navigate(['/client/blog', post.id]);
+  }
+
 
 edit(post: BlogPostUI): void {
   this.router.navigate(['/blog/blog-edit', post.id]);

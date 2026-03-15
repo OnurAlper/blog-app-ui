@@ -1,91 +1,54 @@
 .profile-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 18px; margin-bottom: 20px;
 
   .profile-image-container {
-    position: relative;
-    margin-right: 16px;
-    cursor: pointer;
+    position: relative; cursor: pointer; flex-shrink: 0;
 
     .profile-image {
-      width: 90px;  /* Profil resmini küçülttük */
-      height: 90px; /* Aynı oranda boyutlandırdık */
-      border-radius: 50%;
+      width: 92px; height: 92px; border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #ccc;
-      margin-top: 10px; /* Profil resmini biraz aşağıya kaydırdık */
+      border: 3px solid #ede9fe;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
     }
 
     .edit-overlay {
-      position: absolute;
-      bottom: -9px;  /* İkonu biraz daha profil resminin dışına kaydırdık */
-      right: -9px;   /* Sağ tarafa doğru yerleştirdik */
-      border-radius: 50%;
-      padding: 4px;
-      color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;   /* İkonun etrafındaki daireyi küçülttük */
-      height: 24px;  /* İkonun etrafındaki daireyi küçülttük */
-
-      mat-icon {
-        font-size: 16px; /* İkon boyutunu küçülttük */
-      }
+      position: absolute; bottom: 0; right: 0;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #a435f0; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(164,53,240,.4);
+      transition: background .18s ease;
+      &:hover { background: #6d28d9; }
+      mat-icon { font-size: 15px; width: 15px; height: 15px; }
     }
   }
 
-  .profile-details {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Bilgileri daha düzgün yerleştirelim */
-  }
+  .profile-details { flex-grow: 1; }
 }
 
 .profile-card,
 .password-card {
-  width: 100%;
-  max-width: 700px;
-  margin: auto;
-  padding: 16px;
-  border-radius: 16px;
+  width: 100%; max-width: 700px; margin: auto; padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #eeeeee !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06) !important;
+  background: #fff;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
 }
 
 .button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 24px;
+  display: flex; justify-content: flex-end; margin-top: 20px;
 }
 
-mat-form-field {
-  width: 100%;
-}
+mat-form-field { width: 100%; }
 
 @media (max-width: 768px) {
-  .profile-card,
-  .password-card {
-    padding: 12px;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr; /* Form alanlarını tek sütuna alıyoruz */
-  }
-
-  .profile-header {
-    flex-direction: column; /* Profil resmi ve form alanlarını üst üste koyuyoruz */
-    align-items: center; /* Resim ve form alanlarını ortalayacağız */
-  }
-
-  .profile-image-container {
-    margin-right: 0; /* Mobilde gereksiz boşlukları kaldırıyoruz */
-    margin-bottom: 16px; /* Profil resminin altına mesafe ekliyoruz */
-  }
+  .profile-card, .password-card { padding: 14px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .profile-header { flex-direction: column; align-items: center; text-align: center; }
 }
