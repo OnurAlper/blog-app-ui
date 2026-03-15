@@ -18,17 +18,18 @@ export class CommentService extends BaseApiService {
     pageSize: number = 10,
     orderBy: string = 'CreatedAt',
     orderDirection: 'asc' | 'desc' = 'desc',
-    searchTerm?: string
+    searchTerm?: string,
+    postId?: number
   ): Observable<ListResponse<GetCommentDto>> {
-    return this.get<ListResponse<GetCommentDto>>(`${this.resource}`, {
-      params: {
-        pageNumber,
-        pageSize,
-        orderBy,
-        orderDirection,
-        searchTerm: searchTerm ?? ''
-      }
-    });
+    const params: any = {
+      pageNumber,
+      pageSize,
+      orderBy,
+      orderDirection,
+      searchTerm: searchTerm ?? ''
+    };
+    if (postId != null) params['postId'] = postId;
+    return this.get<ListResponse<GetCommentDto>>(`${this.resource}`, { params });
   }
 
   /**

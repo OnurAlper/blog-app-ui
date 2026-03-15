@@ -1,0 +1,53 @@
+.page-header {
+  h2 { margin: 0; font-size: 1.5rem; font-weight: 600; }
+  .text-muted { color: #666; font-size: 0.9rem; margin-top: 4px; }
+}
+
+.settings-card {
+  max-width: 760px;
+}
+
+.preview-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.banner-preview {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1c1d1f 0%, #3d1a6e 50%, #a435f0 100%);
+  background-size: cover;
+  background-position: center;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.preview-overlay {
+  width: 100%;
+  padding: 32px;
+  background: rgba(0, 0, 0, 0.45);
+
+  h3 {
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+
+  .preview-desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 16px;
+  }
+}

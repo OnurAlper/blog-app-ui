@@ -1,108 +1,119 @@
+/* ─── Shell ──────────────────────────────────────────── */
 .dashboard-container {
   height: 100vh;
 }
 
-/* Üst bar */
+/* ─── Top Bar (white, Udemy style) ───────────────────── */
 .topbar {
   display: flex;
   align-items: center;
+  background: #fff !important;
+  color: var(--ud-text, #1c1d1f) !important;
+  border-bottom: 1px solid var(--ud-border, #e0e0e0);
+  box-shadow: none !important;
+  height: 64px;
+  overflow: visible !important;
 
   .toolbar-title {
-    font-weight: 600;
+    font-weight: 800;
     font-size: 18px;
+    color: var(--ud-purple, #a435f0);
+    letter-spacing: -.2px;
   }
 
-  .spacer {
-    flex: 1 1 auto;
-  }
+  .spacer { flex: 1 1 auto; }
 
   .menu-button {
-    margin-right: 8px;
+    margin-right: 4px;
+    color: var(--ud-text-2, #6a6f73);
   }
 }
 
-/* SİDEBAR: topbar ile aynı stil - arka plan #3f51b5, yazı ve iconlar beyaz */
+/* ─── Sidebar (white, left border on active) ─────────── */
 .dashboard-sidenav {
   width: 240px;
-  
-  /* Topbar ile aynı arka plan rengi */
-  background: #3f51b5;
-  color: #fff;
-  
-  /* Scroll'u kaldır */
+  background: #fff;
+  border-right: 1px solid var(--ud-border, #e0e0e0) !important;
   overflow: hidden !important;
 
-  /* Nav list genel ayarları */
-.mat-mdc-nav-list {
-  overflow: hidden !important;
-}
+  .mat-mdc-nav-list {
+    padding: 12px 8px;
+    overflow: hidden !important;
+  }
 
-  /* List item'lar - tüm yazı ve iconlar beyaz */
+  /* Section label */
+  .nav-section-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ud-text-3, #9ba3ae);
+    padding: 16px 12px 4px;
+  }
+
+  /* Nav items */
   .mat-mdc-list-item {
-    /* Yazı renkleri beyaz */
-    --mdc-list-list-item-label-text-color: #fff;
-    --mdc-list-list-item-supporting-text-color: #fff;
-    
-    /* Icon renkleri beyaz */
-    --mdc-list-list-item-leading-icon-color: #fff;
-    --mdc-list-list-item-trailing-icon-color: #fff;
+    --mdc-list-list-item-label-text-color: #4a4f59;
+    --mdc-list-list-item-leading-icon-color: #9ba3ae;
 
-    /* Spacing ve border radius */
-    border-radius: 8px;
-    margin: 4px 8px;
-    
-    /* Yazı rengi override */
-    color: #fff;
-    
-    /* Icon için ekstra beyaz renk */
+    border-radius: 6px;
+    margin: 1px 0;
+    height: 42px !important;
+    color: #4a4f59;
+    transition: background .12s ease;
+
     .mat-icon {
-      color: #fff;
+      font-size: 20px;
+      color: #9ba3ae;
+      transition: color .12s ease;
     }
-    
-    /* List item title için beyaz renk */
+
     .mdc-list-item__primary-text {
-      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4a4f59;
     }
   }
 
-  /* Hover efekti - topbar ile uyumlu */
   .mat-mdc-list-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--ud-surface-2, #f2f3f5) !important;
+    .mat-icon { color: var(--ud-purple, #a435f0); }
+    .mdc-list-item__primary-text { color: var(--ud-text, #1c1d1f); }
   }
 
-  /* Aktif link - topbar ile uyumlu */
+  /* Active */
   .active-link {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--ud-purple-light, #ede9fe) !important;
     position: relative;
-    
-    /* Sol tarafta beyaz çizgi */
+
     &::before {
-      content: "";
+      content: '';
       position: absolute;
-      left: 0;
-      top: 6px;
-      bottom: 6px;
+      left: 0; top: 6px; bottom: 6px;
       width: 3px;
-      border-radius: 2px;
-      background: #fff;
+      border-radius: 0 3px 3px 0;
+      background: var(--ud-purple, #a435f0);
+    }
+
+    .mat-icon { color: var(--ud-purple, #a435f0) !important; }
+    .mdc-list-item__primary-text {
+      color: var(--ud-purple-dark, #6d28d9) !important;
+      font-weight: 700 !important;
     }
   }
 
-  /* Link'ler için genel beyaz renk */
-  a {
-    color: #fff;
-    text-decoration: none;
-  }
+  a { color: #4a4f59; text-decoration: none; }
 }
 
+/* ─── Content ────────────────────────────────────────── */
 .dashboard-content {
-  padding: 20px;
+  padding: 24px;
+  background: var(--ud-bg, #f7f9fa);
 }
 
-/* Küçük ekran optimizasyonları */
+/* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 767.98px) {
-  .dashboard-sidenav {
-    width: 80vw;
-    max-width: 320px;
-  }
+  .dashboard-sidenav { width: 80vw; max-width: 280px; }
+  .dashboard-content { padding: 16px; }
 }

@@ -1,0 +1,78 @@
+<div class="page-header mb-4">
+  <h2>Site Ayarları</h2>
+  <p class="text-muted">Anasayfada gösterilecek banner içeriğini buradan düzenleyebilirsiniz.</p>
+</div>
+
+<div class="text-center my-5" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<mat-card class="settings-card" *ngIf="!loading">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <!-- Banner Başlığı -->
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Banner Başlığı</mat-label>
+        <input matInput formControlName="bannerTitle" placeholder="örn. Blog Dünyasına Hoş Geldiniz">
+        <mat-error *ngIf="form.get('bannerTitle')?.hasError('required')">Bu alan zorunludur.</mat-error>
+        <mat-error *ngIf="form.get('bannerTitle')?.hasError('maxlength')">En fazla 200 karakter.</mat-error>
+      </mat-form-field>
+
+      <!-- Alt Başlık -->
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Alt Başlık</mat-label>
+        <input matInput formControlName="bannerSubtitle" placeholder="örn. En güncel yazılar ve ipuçları">
+        <mat-error *ngIf="form.get('bannerSubtitle')?.hasError('maxlength')">En fazla 400 karakter.</mat-error>
+      </mat-form-field>
+
+      <!-- Açıklama -->
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Açıklama</mat-label>
+        <textarea matInput formControlName="bannerDescription" rows="3"
+          placeholder="Banner altında gösterilecek kısa açıklama metni"></textarea>
+        <mat-error *ngIf="form.get('bannerDescription')?.hasError('maxlength')">En fazla 800 karakter.</mat-error>
+      </mat-form-field>
+
+      <!-- Buton Metni -->
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Buton Metni</mat-label>
+        <input matInput formControlName="bannerButtonText" placeholder="örn. Yazıları Keşfet">
+        <mat-error *ngIf="form.get('bannerButtonText')?.hasError('maxlength')">En fazla 100 karakter.</mat-error>
+      </mat-form-field>
+
+      <!-- Banner Görsel URL -->
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Banner Görsel URL (isteğe bağlı)</mat-label>
+        <input matInput formControlName="bannerImageUrl" placeholder="https://...">
+        <mat-hint>Boş bırakılırsa gradient arka plan kullanılır.</mat-hint>
+        <mat-error *ngIf="form.get('bannerImageUrl')?.hasError('maxlength')">En fazla 500 karakter.</mat-error>
+      </mat-form-field>
+
+      <!-- Önizleme -->
+      <div class="preview-section mb-4" *ngIf="form.value.bannerTitle">
+        <p class="preview-label">Önizleme</p>
+        <div class="banner-preview" [style.backgroundImage]="form.value.bannerImageUrl ? 'url(' + form.value.bannerImageUrl + ')' : ''">
+          <div class="preview-overlay">
+            <h3>{{ form.value.bannerTitle }}</h3>
+            <p *ngIf="form.value.bannerSubtitle">{{ form.value.bannerSubtitle }}</p>
+            <p *ngIf="form.value.bannerDescription" class="preview-desc">{{ form.value.bannerDescription }}</p>
+            <button mat-raised-button color="accent" type="button" *ngIf="form.value.bannerButtonText">
+              {{ form.value.bannerButtonText }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kaydet -->
+      <div class="d-flex justify-content-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="saving || form.invalid">
+          <mat-icon *ngIf="saving">hourglass_empty</mat-icon>
+          <mat-icon *ngIf="!saving">save</mat-icon>
+          Kaydet
+        </button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { GetCommentDto } from 'src/app/core/models/comment.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-comment-list',
@@ -27,6 +27,7 @@ export class CommentListComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
   totalCount = 0;
+  postIdFilter?: number;
 
   private searchDebounce!: any;
 
@@ -37,11 +38,16 @@ export class CommentListComponent implements OnInit {
     private readonly commentService: CommentService,
     public readonly i18n: TranslateService,
     private readonly notify: NotificationService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.load();
+    this.route.queryParams.subscribe(params => {
+      const pid = params['postId'];
+      this.postIdFilter = pid ? Number(pid) : undefined;
+      this.load();
+    });
   }
 
   // Listeyi yükle
@@ -50,7 +56,7 @@ export class CommentListComponent implements OnInit {
     this.loading = true;
 
     this.commentService
-      .getAllComments(pageNumber, this.pageSize, this.orderBy, this.orderDirection, this.searchTerm.trim() || undefined)
+      .getAllComments(pageNumber, this.pageSize, this.orderBy, this.orderDirection, this.searchTerm.trim() || undefined, this.postIdFilter)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res) => {
@@ -112,6 +118,11 @@ export class CommentListComponent implements OnInit {
     this.load();
   }
 
+  clearPostFilter(): void {
+    this.postIdFilter = undefined;
+    this.router.navigate(['/comments']);
+  }
+
   // Sayfa değişimi
   onPageChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
@@ -119,11 +130,49 @@ export class CommentListComponent implements OnInit {
     this.load();
   }
 
+  // Reply state
+  replyingTo: GetCommentDto | null = null;
+  replyContent = '';
+  replySubmitting = false;
+
+  // Yanıtla butonuna tıklandı
+  startReply(comment: GetCommentDto): void {
+    this.replyingTo = comment;
+    this.replyContent = '';
+  }
+
+  cancelReply(): void {
+    this.replyingTo = null;
+    this.replyContent = '';
+  }
+
+  submitReply(): void {
+    if (!this.replyContent.trim() || !this.replyingTo || this.replySubmitting) return;
+    this.replySubmitting = true;
+
+    this.commentService.createComment({
+      postId: this.replyingTo.postId,
+      content: this.replyContent.trim(),
+      parentId: this.replyingTo.id
+    })
+      .pipe(finalize(() => (this.replySubmitting = false)))
+      .subscribe({
+        next: () => {
+          this.notify.success('Yanıt gönderildi.');
+          this.replyingTo = null;
+          this.replyContent = '';
+          this.load();
+        },
+        error: (err: any) => {
+          const msg = err?.error?.Message || err?.error?.message;
+          this.notify.error(msg || 'Yanıt gönderilemedi.');
+        }
+      });
+  }
+
   // Yoruma git (blog detay sayfası)
   viewPost(comment: GetCommentDto): void {
-    // Blog detay sayfası hazır olunca bu çalışacak
-    // this.router.navigate(['/blog', comment.postId]);
-    this.notify.info('Blog detay sayfası yakında eklenecek');
+    this.router.navigate(['/client/blog', comment.postId]);
   }
 
   // Sil

@@ -1,0 +1,41 @@
+<div class="notif-bell-wrap">
+  <!-- Bell icon button -->
+  <button #bellBtn class="bell-btn" (click)="togglePanel()" [class.active]="open" matRipple>
+    <mat-icon>notifications</mat-icon>
+    <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
+  </button>
+
+  <!-- Dropdown panel -->
+  <div class="notif-panel" *ngIf="open" [style.top]="panelTop" [style.right]="panelRight">
+    <div class="notif-panel-header">
+      <span class="panel-title">{{ 'NOTIF.Title' | translate }}</span>
+      <button class="mark-all-btn" (click)="markAllAsRead()" *ngIf="unreadCount > 0">
+        {{ 'NOTIF.MarkAllRead' | translate }}
+      </button>
+    </div>
+
+    <div class="notif-list" *ngIf="!loading">
+      <div
+        *ngFor="let n of notifications"
+        class="notif-item"
+        [class.unread]="!n.isRead"
+        (click)="markAsRead(n, $event)"
+      >
+        <div class="notif-dot" *ngIf="!n.isRead"></div>
+        <div class="notif-body">
+          <p class="notif-msg">{{ n.message }}</p>
+          <span class="notif-time">{{ timeAgo(n.createdAt) }}</span>
+        </div>
+      </div>
+
+      <div class="notif-empty" *ngIf="notifications.length === 0">
+        <mat-icon>notifications_none</mat-icon>
+        <p>{{ 'NOTIF.Empty' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="notif-loading" *ngIf="loading">
+      <mat-progress-spinner diameter="28" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </div>
+</div>

@@ -69,11 +69,13 @@ getCurrentUserRole(): string | null {
 }
 
 isAdmin(): boolean {
-  return this.getCurrentUserRole() === 'Admin';
+  const role = this.getCurrentUserRole();
+  return role === '1' || role === 'Admin';
 }
 
 isClient(): boolean {
-  return this.getCurrentUserRole() === 'Client';
+  const role = this.getCurrentUserRole();
+  return role === '2' || role === 'Client';
 }
 
 

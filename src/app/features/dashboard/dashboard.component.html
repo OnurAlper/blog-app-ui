@@ -2,10 +2,17 @@
   <mat-sidenav #sidenav class="dashboard-sidenav" [mode]="isScreenLarge ? 'side' : 'over'" [opened]="isScreenLarge"
     fixedInViewport>
     <mat-nav-list (click)="onNavListClick(sidenav)">
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link"
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/dashboard" routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon matListItemIcon>dashboard</mat-icon>
         <span matListItemTitle>{{ 'NAV.DASHBOARD' | translate }}</span>
+      </a>
+
+      <!-- ✅ Client Anasayfa -->
+      <a *ngIf="isClient()" mat-list-item routerLink="/client" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Anasayfa</span>
       </a>
 
       <a mat-list-item routerLink="/profile" routerLinkActive="active-link">
@@ -13,7 +20,7 @@
         <span matListItemTitle>{{ 'NAV.PROFILE' | translate }}</span>
       </a>
 
-      <!-- ✅ Client Blog Listesi (Herkes görebilir) -->
+      <!-- ✅ Client Blog Listesi -->
       <a *ngIf="isClient()" mat-list-item routerLink="/client/blogs" routerLinkActive="active-link">
         <mat-icon matListItemIcon>library_books</mat-icon>
         <span matListItemTitle>{{ 'NAV.BLOGS' | translate }}</span>
@@ -49,7 +56,8 @@
         <span matListItemTitle>{{ 'NAV.USERS' | translate }}</span>
       </a>
 
-      <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
+      <!-- Site Ayarları (Sadece Admin) -->
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/settings" routerLinkActive="active-link">
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>{{ 'NAV.SETTINGS' | translate }}</span>
       </a>
@@ -66,6 +74,7 @@
       <span class="toolbar-title">{{ 'NAV.DASHBOARD' | translate }}</span>
 
       <span class="spacer"></span>
+      <app-notification-bell></app-notification-bell>
       <app-user-menu></app-user-menu>
     </mat-toolbar>
 

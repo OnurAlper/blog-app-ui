@@ -3,6 +3,15 @@
   <h2>{{ 'NAV.COMMENT' | translate }}</h2>
 </div>
 
+<!-- Post filtresi aktifse banner göster -->
+<div *ngIf="postIdFilter" class="filter-banner">
+  <mat-icon>filter_list</mat-icon>
+  <span>Blog #{{ postIdFilter }} yorumları gösteriliyor</span>
+  <button mat-icon-button matTooltip="Filtreyi kaldır" (click)="clearPostFilter()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
 <!-- Arama -->
 <div class="row justify-content-center mb-3">
   <div class="col-12 col-md-6">
@@ -74,6 +83,9 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #rowMenu="matMenu">
+          <button mat-menu-item (click)="startReply(comment)">
+            <mat-icon>reply</mat-icon>Yanıtla
+          </button>
           <button mat-menu-item (click)="viewPost(comment)">
             <mat-icon>visibility</mat-icon>{{ 'COMMENTS.VIEW_POST' | translate }}
           </button>
@@ -97,6 +109,34 @@
     showFirstLastButtons
     (page)="onPageChange($event)">
   </mat-paginator>
+</div>
+
+<!-- Reply Form -->
+<div class="reply-panel mat-elevation-z2" *ngIf="replyingTo">
+  <div class="reply-header">
+    <mat-icon>reply</mat-icon>
+    <span><strong>{{ replyingTo.userFullName }}</strong> kişisine yanıt veriyorsunuz
+      <em class="original-text">"{{ truncateContent(replyingTo.content, 60) }}"</em>
+    </span>
+    <button mat-icon-button (click)="cancelReply()" matTooltip="İptal">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-form-field appearance="outline" class="reply-field">
+    <mat-label>Yanıtınız</mat-label>
+    <textarea matInput [(ngModel)]="replyContent" rows="3" placeholder="Yanıtınızı yazın..."></textarea>
+  </mat-form-field>
+  <div class="reply-actions">
+    <button mat-button (click)="cancelReply()">İptal</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!replyContent.trim() || replySubmitting"
+      (click)="submitReply()">
+      <mat-icon>send</mat-icon>
+      {{ replySubmitting ? 'Gönderiliyor...' : 'Yanıt Gönder' }}
+    </button>
+  </div>
 </div>
 
 <!-- Boş durum -->

@@ -6,11 +6,14 @@ export interface GetCommentDto {
   postTitle?: string;
   userId: number;
   userFullName?: string;
+  parentId?: number | null;
+  replies?: GetCommentDto[];
 }
 
 export interface CreateCommentDto {
   postId: number;
   content: string;
+  parentId?: number | null;
 }
 
 export interface UpdateCommentDto {

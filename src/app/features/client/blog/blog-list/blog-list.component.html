@@ -120,8 +120,8 @@
             <mat-icon>visibility</mat-icon>
             {{ blog.viewCount }}
           </span>
-          <span class="stat-item">
-            <mat-icon>favorite</mat-icon>
+          <span class="stat-item like-stat" (click)="toggleLike($event, blog)" [class.liked]="isLiked(blog.id)">
+            <mat-icon>{{ isLiked(blog.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
             {{ blog.likeCount }}
           </span>
           <span class="stat-item">
@@ -129,7 +129,7 @@
             {{ blog.commentCount }}
           </span>
         </div>
-        
+
         <button mat-button color="primary" class="read-more-btn">
           {{ 'CLIENT.BLOG.READ_MORE' | translate }}
           <mat-icon>arrow_forward</mat-icon>

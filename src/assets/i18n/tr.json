@@ -215,7 +215,8 @@
       "Send": "Sıfırlama Bağlantısı Gönder",
       "Info": "E-posta adresinize bir sıfırlama bağlantısı göndereceğiz.",
       "Success": "Şifre sıfırlama bağlantısı e-postanıza gönderildi.",
-      "Fail": "Şifre sıfırlama bağlantısı gönderilemedi."
+      "Fail": "Şifre sıfırlama bağlantısı gönderilemedi.",
+      "BackToLogin": "Girişe Dön"
     },
     "Reset": {
       "Title": "Yeni Şifre Belirle",
@@ -290,6 +291,18 @@
     "NO_BLOGS": "Blog bulunamadı",
     "NO_BLOGS_DESC": "Filtreleri veya arama teriminizi ayarlamayı deneyin"
   }
+,
+"NOTIF": {
+  "Title": "Bildirimler",
+  "MarkAllRead": "Tümünü okundu işaretle",
+  "Empty": "Yeni bildiriminiz yok"
+}
 }
 
+,
+"NOTIF": {
+  "Title": "Bildirimler",
+  "MarkAllRead": "Tümünü okundu işaretle",
+  "Empty": "Yeni bildiriminiz yok"
+}
 }

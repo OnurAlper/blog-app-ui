@@ -24,9 +24,12 @@ import { CategoryListComponent } from './features/admin/category/category-list/c
 import { CategoryCreateComponent } from './features/admin/category/category-create/category-create.component';
 import { CategoryEditComponent } from './features/admin/category/category-edit/category-edit.component';
 import { CommentListComponent } from './features/admin/comment/comment-list/comment-list.component';
+import { SiteSettingsComponent } from './features/admin/site-settings/site-settings.component';
 
-// ✅ Client blog components
+// ✅ Client components
 import { BlogListComponent } from './features/client/blog/blog-list/blog-list.component';
+import { BlogDetailComponent } from './features/client/blog/blog-detail/blog-detail.component';
+import { ClientHomeComponent } from './features/client/home/client-home.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -47,8 +50,10 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'client-profile/:id', component: ProfileComponent },
 
-      //  CLIENT BLOG ROUTES
+      //  CLIENT ROUTES
+      { path: 'client', component: ClientHomeComponent, data: { roles: ['Admin', 'Client'] } },
       { path: 'client/blogs', component: BlogListComponent, data: { roles: ['Admin', 'Client'] } },
+      { path: 'client/blog/:id', component: BlogDetailComponent, data: { roles: ['Admin', 'Client'] } },
 
       // ADMIN BLOG ROUTES
       { path: 'blog', component: BlogViewComponent, data: { roles: ['Admin'] } },
@@ -70,6 +75,9 @@ const routes: Routes = [
 
       // ADMIN COMMENT ROUTES
       { path: 'comments', component: CommentListComponent, data: { roles: ['Admin'] } },
+
+      // ADMIN SITE SETTINGS
+      { path: 'settings', component: SiteSettingsComponent, data: { roles: ['Admin'] } },
     ]
   },
 

@@ -214,7 +214,8 @@
       "Send": "Send reset link",
       "Info": "We'll send you a password reset link if the address matches an account.",
       "Success": "Password reset link has been sent to your email.",
-      "Fail": "Couldn't send the password reset link."
+      "Fail": "Couldn't send the password reset link.",
+      "BackToLogin": "Back to Login"
     },
     "Reset": {
       "Title": "Set a New Password",
@@ -288,6 +289,18 @@
     "NO_BLOGS": "No blogs found",
     "NO_BLOGS_DESC": "Try adjusting your filters or search term"
   }
+,
+"NOTIF": {
+  "Title": "Notifications",
+  "MarkAllRead": "Mark all as read",
+  "Empty": "No new notifications"
+}
 }
 
+,
+"NOTIF": {
+  "Title": "Notifications",
+  "MarkAllRead": "Mark all as read",
+  "Empty": "No new notifications"
+}
 }

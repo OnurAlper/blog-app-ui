@@ -48,6 +48,10 @@ import { CategoryCreateComponent } from './features/admin/category/category-crea
 import { CategoryEditComponent } from './features/admin/category/category-edit/category-edit.component';
 import { CommentListComponent } from './features/admin/comment/comment-list/comment-list.component';
 import { BlogListComponent } from './features/client/blog/blog-list/blog-list.component';
+import { BlogDetailComponent } from './features/client/blog/blog-detail/blog-detail.component';
+import { ClientHomeComponent } from './features/client/home/client-home.component';
+import { NotificationBellComponent } from './shared/components/notification-bell/notification-bell.component';
+import { SiteSettingsComponent } from './features/admin/site-settings/site-settings.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -81,8 +85,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     CategoryCreateComponent,
     CategoryEditComponent,
     CommentListComponent,
-    BlogListComponent
-    
+    BlogListComponent,
+    BlogDetailComponent,
+    ClientHomeComponent,
+    NotificationBellComponent,
+    SiteSettingsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,204 @@
+<div class="detail-page" *ngIf="!loading; else loadingTpl">
+  <ng-container *ngIf="blog">
+
+    <!-- ── TOP NAV BAR ─────────────────────────────── -->
+    <div class="top-nav">
+      <button mat-icon-button class="back-btn" (click)="goBack()" title="Geri Dön">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span class="breadcrumb">
+        <span class="bc-link" (click)="goBack()">Bloglar</span>
+        <mat-icon class="bc-sep">chevron_right</mat-icon>
+        <span class="bc-current">{{ blog.title | slice:0:40 }}{{ blog.title.length > 40 ? '...' : '' }}</span>
+      </span>
+    </div>
+
+    <!-- ── ARTICLE HEADER ─────────────────────────── -->
+    <header class="article-header">
+      <div class="header-inner">
+        <span class="category-chip" *ngIf="blog.categoryName">{{ blog.categoryName }}</span>
+        <h1 class="article-title">{{ blog.title }}</h1>
+
+        <div class="article-meta">
+          <div class="meta-author">
+            <div class="author-avatar">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+            <div class="author-info">
+              <span class="author-name">{{ blog.authorFullName }}</span>
+              <span class="meta-detail">
+                {{ formatDate(blog.createdAt) }}&nbsp;·&nbsp;{{ blog.estimatedReadMinutes }} dk okuma
+              </span>
+            </div>
+          </div>
+          <div class="meta-stats">
+            <span class="stat"><mat-icon>visibility</mat-icon>{{ blog.viewCount }}</span>
+            <span class="stat"><mat-icon>favorite_border</mat-icon>{{ blog.likeCount }}</span>
+            <span class="stat"><mat-icon>chat_bubble_outline</mat-icon>{{ commentTotal }}</span>
+          </div>
+        </div>
+
+        <div class="article-tags" *ngIf="blog.tags?.length">
+          <span class="tag-chip" *ngFor="let tag of blog.tags">{{ tag }}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── COVER IMAGE ────────────────────────────── -->
+    <div class="cover-wrap" *ngIf="blog.coverImageUrl">
+      <img [src]="blog.coverImageUrl" [alt]="blog.title" class="cover-img"
+           (error)="$any($event.target).style.display='none'">
+    </div>
+
+    <!-- ── CONTENT + ACTIONS ──────────────────────── -->
+    <div class="content-row">
+
+      <!-- Floating actions -->
+      <aside class="float-actions">
+        <button class="fab-btn" [class.liked]="liked" [disabled]="liking" (click)="toggleLike()" title="Beğen">
+          <mat-icon>{{ liked ? 'favorite' : 'favorite_border' }}</mat-icon>
+          <span>{{ blog.likeCount }}</span>
+        </button>
+        <div class="fab-btn passive" title="Görüntülenme">
+          <mat-icon>visibility</mat-icon>
+          <span>{{ blog.viewCount }}</span>
+        </div>
+        <button class="fab-btn" (click)="scrollToComments()" title="Yorumlar">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          <span>{{ commentTotal }}</span>
+        </button>
+      </aside>
+
+      <!-- Article body -->
+      <article class="article-body">
+        <div class="prose" [innerHTML]="blog.content | safeHtml"></div>
+      </article>
+
+    </div>
+
+    <!-- ── COMMENTS ───────────────────────────────── -->
+    <section class="comments-section" id="comments-section">
+      <div class="comments-inner">
+
+        <h3 class="section-title">
+          <mat-icon>forum</mat-icon>
+          Yorumlar
+          <span class="count-badge">{{ commentTotal }}</span>
+        </h3>
+
+        <!-- Main comment form -->
+        <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="comment-form-wrap">
+          <mat-icon class="form-avatar">account_circle</mat-icon>
+          <div class="form-right">
+            <mat-form-field appearance="outline" style="width:100%">
+              <mat-label>Yorumunuzu yazın...</mat-label>
+              <textarea matInput formControlName="content" rows="3"></textarea>
+              <mat-error *ngIf="commentForm.get('content')?.hasError('required')">Yorum boş olamaz.</mat-error>
+              <mat-error *ngIf="commentForm.get('content')?.hasError('minlength')">En az 2 karakter giriniz.</mat-error>
+            </mat-form-field>
+            <div class="form-actions">
+              <button mat-flat-button color="primary" type="submit"
+                      [disabled]="commentForm.invalid || commentSubmitting">
+                <mat-icon>send</mat-icon>
+                {{ commentSubmitting ? 'Gönderiliyor...' : 'Yorum Gönder' }}
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Loading -->
+        <div *ngIf="commentsLoading" class="c-loading">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+
+        <!-- Empty -->
+        <div *ngIf="!commentsLoading && comments.length === 0" class="c-empty">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          <p>Henüz yorum yok. İlk yorumu siz yapın!</p>
+        </div>
+
+        <!-- List -->
+        <div class="comment-list" *ngIf="!commentsLoading && comments.length > 0">
+          <div class="c-item" *ngFor="let c of comments">
+
+            <!-- Main comment -->
+            <div class="c-main">
+              <div class="c-avatar"><mat-icon>account_circle</mat-icon></div>
+              <div class="c-body">
+                <div class="c-header">
+                  <span class="c-name">{{ c.userFullName || 'Kullanıcı' }}</span>
+                  <span class="c-date">{{ formatDate(c.createdAt) }}</span>
+                  <div class="c-actions">
+                    <button mat-button class="c-reply-btn" (click)="openReply(c.id)">
+                      <mat-icon style="font-size:15px;width:15px;height:15px;">reply</mat-icon>
+                      Yanıtla
+                    </button>
+                    <button *ngIf="isMyComment(c)" mat-icon-button class="c-del" (click)="deleteComment(c.id)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <p class="c-text">{{ c.content }}</p>
+              </div>
+            </div>
+
+            <!-- Inline reply form -->
+            <div class="reply-form-wrap" *ngIf="replyingToId === c.id">
+              <mat-icon class="reply-avatar">account_circle</mat-icon>
+              <div class="reply-right">
+                <mat-form-field appearance="outline" style="width:100%">
+                  <mat-label>{{ c.userFullName }}'a yanıt yaz...</mat-label>
+                  <textarea matInput [formControl]="$any(replyForm.get('content'))" rows="2"></textarea>
+                </mat-form-field>
+                <div class="reply-actions">
+                  <button mat-stroked-button type="button" (click)="cancelReply()">İptal</button>
+                  <button mat-flat-button color="primary" type="button"
+                          [disabled]="replyForm.invalid || replySubmitting" (click)="submitReply()">
+                    <mat-icon>send</mat-icon>
+                    {{ replySubmitting ? 'Gönderiliyor...' : 'Gönder' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nested replies -->
+            <div class="replies-wrap" *ngIf="c.replies && c.replies.length > 0">
+              <div class="reply-item" *ngFor="let r of c.replies">
+                <div class="r-avatar"><mat-icon>account_circle</mat-icon></div>
+                <div class="r-body">
+                  <div class="r-header">
+                    <span class="r-name">{{ r.userFullName || 'Kullanıcı' }}</span>
+                    <span class="r-date">{{ formatDate(r.createdAt) }}</span>
+                    <button *ngIf="isMyComment(r)" mat-icon-button class="r-del" (click)="deleteReply(r.id, c.id)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                  </div>
+                  <p class="r-text">{{ r.content }}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <mat-paginator
+          *ngIf="commentTotal > commentPageSize"
+          [length]="commentTotal"
+          [pageSize]="commentPageSize"
+          [pageIndex]="commentPage"
+          [pageSizeOptions]="[5, 10, 20]"
+          (page)="onCommentPageChange($event)"
+          showFirstLastButtons>
+        </mat-paginator>
+
+      </div>
+    </section>
+
+  </ng-container>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="page-spinner">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+</ng-template>

@@ -1,6 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { AuthService } from 'src/app/core/services/auth.service'; // ✅ Role kontrol için
+import { AuthService } from 'src/app/core/services/auth.service';
+import { SignalRService } from 'src/app/core/services/signalr.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,29 +9,31 @@ import { AuthService } from 'src/app/core/services/auth.service'; // ✅ Role ko
   styleUrls: ['./dashboard.component.scss'],
   standalone: false
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   isScreenLarge = true;
 
-  constructor(public auth: AuthService) {} // ✅ HTML’de role kontrolü için public
+  constructor(public auth: AuthService, private signalR: SignalRService) {}
 
   ngOnInit(): void {
     this.checkScreen();
+    this.signalR.startConnection();
+  }
+
+  ngOnDestroy(): void {
+    this.signalR.stopConnection();
   }
 
   @HostListener('window:resize')
   checkScreen(): void {
-    // 768px ve üstü geniş ekran
     this.isScreenLarge = window.innerWidth >= 768;
   }
 
-  // Küçük ekranda nav item’a tıklanınca menüyü kapat
   onNavListClick(sidenav: MatSidenav): void {
     if (!this.isScreenLarge && sidenav.opened) {
       sidenav.close();
     }
   }
 
-  // ✅ Role kontrol metotları
   isAdmin(): boolean {
     return this.auth.isAdmin();
   }
