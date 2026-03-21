@@ -1,0 +1,105 @@
+.create-page {
+  padding: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.create-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+
+.create-card {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 8px;
+
+  .half-width {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+.toggle-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+
+  .toggle-hint {
+    font-size: 0.78rem;
+    color: #888;
+  }
+}
+
+.options-section {
+  margin-top: 16px;
+
+  .options-label {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    .options-hint {
+      font-size: 0.78rem;
+      color: #888;
+      font-weight: 400;
+    }
+  }
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+
+  .option-num {
+    width: 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888;
+    flex-shrink: 0;
+  }
+
+  .option-field {
+    flex: 1;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.inline-spinner {
+  display: inline-flex;
+  margin-right: 6px;
+}

@@ -1,0 +1,100 @@
+<div class="poll-page">
+  <div class="poll-header">
+    <div>
+      <h2>{{ 'POLL.TITLE' | translate }}</h2>
+      <p class="subtitle">{{ 'POLL.SUBTITLE' | translate }}</p>
+    </div>
+    <button *ngIf="isAdmin()" mat-raised-button color="primary" (click)="createPoll()">
+      <mat-icon>add</mat-icon>
+      {{ 'POLL.CREATE' | translate }}
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-wrapper">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading && polls.length === 0" class="empty-state">
+    <mat-icon>poll</mat-icon>
+    <p>{{ 'POLL.NO_POLLS' | translate }}</p>
+  </div>
+
+  <div class="poll-grid" *ngIf="!loading && polls.length > 0">
+    <mat-card class="poll-card" *ngFor="let poll of polls" [class.inactive]="!poll.isActive || isExpired(poll)">
+      <!-- Card header -->
+      <mat-card-header>
+        <mat-card-title>{{ poll.title }}</mat-card-title>
+        <mat-card-subtitle *ngIf="poll.description">{{ poll.description }}</mat-card-subtitle>
+        <span class="spacer"></span>
+        <div class="poll-badges">
+          <mat-chip *ngIf="!poll.isActive" color="warn" selected>{{ 'POLL.INACTIVE' | translate }}</mat-chip>
+          <mat-chip *ngIf="isExpired(poll)" color="warn" selected>{{ 'POLL.ENDED' | translate }}</mat-chip>
+          <mat-chip *ngIf="poll.allowMultipleChoice" color="accent" selected>{{ 'POLL.MULTI_CHOICE' | translate }}</mat-chip>
+          <mat-chip *ngIf="poll.hasVoted" color="primary" selected>
+            <mat-icon matChipAvatar>how_to_vote</mat-icon>
+            {{ 'POLL.VOTED' | translate }}
+          </mat-chip>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Options -->
+        <div class="option-list">
+          <div
+            class="option-item"
+            *ngFor="let option of poll.options"
+            [class.selected]="selectedOptions[poll.id]?.includes(option.id)"
+            [class.voted-option]="poll.hasVoted && poll.userVotedOptionIds.includes(option.id)"
+            [class.clickable]="!poll.hasVoted && isActive(poll)"
+            (click)="toggleOption(poll, option.id)">
+
+            <div class="option-row">
+              <mat-icon class="option-check" *ngIf="poll.hasVoted && poll.userVotedOptionIds.includes(option.id)">check_circle</mat-icon>
+              <mat-icon class="option-check muted" *ngIf="!poll.hasVoted || !poll.userVotedOptionIds.includes(option.id)">radio_button_unchecked</mat-icon>
+              <span class="option-text">{{ option.optionText }}</span>
+              <span class="option-count" *ngIf="poll.hasVoted || !isActive(poll)">
+                {{ option.voteCount }} {{ 'POLL.VOTES' | translate }} ({{ option.percentage }}%)
+              </span>
+            </div>
+
+            <div class="progress-bar" *ngIf="poll.hasVoted || !isActive(poll)">
+              <div class="progress-fill" [style.width]="getProgressWidth(option.percentage)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meta info -->
+        <div class="poll-meta">
+          <span><mat-icon inline>people</mat-icon> {{ poll.totalVoters }} {{ 'POLL.VOTERS' | translate }}</span>
+          <span *ngIf="poll.endsAt"><mat-icon inline>event</mat-icon> {{ poll.endsAt | date:'mediumDate' }}</span>
+          <span><mat-icon inline>person</mat-icon> {{ poll.createdByAdminName }}</span>
+        </div>
+      </mat-card-content>
+
+      <!-- Vote button -->
+      <mat-card-actions *ngIf="!poll.hasVoted && isActive(poll)">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!canVote(poll) || votingPollId === poll.id"
+          (click)="vote(poll)">
+          <mat-spinner *ngIf="votingPollId === poll.id" diameter="20" class="inline-spinner"></mat-spinner>
+          <ng-container *ngIf="votingPollId !== poll.id">
+            <mat-icon>how_to_vote</mat-icon>
+            {{ 'POLL.VOTE' | translate }}
+          </ng-container>
+        </button>
+      </mat-card-actions>
+
+      <!-- Admin actions -->
+      <mat-card-actions *ngIf="isAdmin()" class="admin-actions">
+        <button mat-icon-button [matTooltip]="(poll.isActive ? 'POLL.DEACTIVATE' : 'POLL.ACTIVATE') | translate" (click)="toggleActive(poll)">
+          <mat-icon>{{ poll.isActive ? 'pause_circle' : 'play_circle' }}</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" [matTooltip]="'COMMON.DELETE' | translate" (click)="deletePoll(poll)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

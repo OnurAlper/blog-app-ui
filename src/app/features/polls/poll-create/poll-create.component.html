@@ -1,0 +1,90 @@
+<div class="create-page">
+  <div class="create-header">
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>{{ 'POLL.CREATE_TITLE' | translate }}</h2>
+  </div>
+
+  <mat-card class="create-card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <!-- Title -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'POLL.POLL_TITLE' | translate }}</mat-label>
+          <input matInput formControlName="title" [placeholder]="'POLL.TITLE_PLACEHOLDER' | translate">
+          <mat-error *ngIf="form.get('title')?.hasError('required')">{{ 'COMMON.REQUIRED_FIELD' | translate }}</mat-error>
+          <mat-error *ngIf="form.get('title')?.hasError('minlength')">{{ 'COMMON.MIN_LENGTH' | translate: { value: 5 } }}</mat-error>
+        </mat-form-field>
+
+        <!-- Description -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'POLL.DESCRIPTION' | translate }}</mat-label>
+          <textarea matInput formControlName="description" rows="3" [placeholder]="'POLL.DESCRIPTION_PLACEHOLDER' | translate"></textarea>
+        </mat-form-field>
+
+        <div class="form-row">
+          <!-- End date -->
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>{{ 'POLL.ENDS_AT' | translate }}</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="endsAt">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-hint>{{ 'POLL.ENDS_AT_HINT' | translate }}</mat-hint>
+          </mat-form-field>
+
+          <!-- Multiple choice -->
+          <div class="toggle-field half-width">
+            <mat-slide-toggle formControlName="allowMultipleChoice" color="primary">
+              {{ 'POLL.ALLOW_MULTIPLE' | translate }}
+            </mat-slide-toggle>
+            <span class="toggle-hint">{{ 'POLL.ALLOW_MULTIPLE_HINT' | translate }}</span>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-section">
+          <div class="options-label">
+            <span>{{ 'POLL.OPTIONS' | translate }}</span>
+            <span class="options-hint">{{ 'POLL.OPTIONS_HINT' | translate }}</span>
+          </div>
+
+          <div formArrayName="options">
+            <div class="option-row" *ngFor="let ctrl of optionsArray.controls; let i = index">
+              <span class="option-num">{{ i + 1 }}</span>
+              <mat-form-field appearance="outline" class="option-field">
+                <mat-label>{{ 'POLL.OPTION' | translate }} {{ i + 1 }}</mat-label>
+                <input matInput [formControlName]="i" [placeholder]="'POLL.OPTION_PLACEHOLDER' | translate">
+                <mat-error *ngIf="ctrl.hasError('required')">{{ 'COMMON.REQUIRED_FIELD' | translate }}</mat-error>
+              </mat-form-field>
+              <button type="button" mat-icon-button color="warn" (click)="removeOption(i)"
+                [disabled]="optionsArray.length <= 2" [matTooltip]="'POLL.REMOVE_OPTION' | translate">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <button type="button" mat-stroked-button color="primary" (click)="addOption()"
+            [disabled]="optionsArray.length >= 10">
+            <mat-icon>add</mat-icon>
+            {{ 'POLL.ADD_OPTION' | translate }}
+          </button>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="button" mat-stroked-button (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+          <button type="submit" mat-raised-button color="primary" [disabled]="form.invalid || loading">
+            <mat-spinner *ngIf="loading" diameter="20" class="inline-spinner"></mat-spinner>
+            <ng-container *ngIf="!loading">
+              <mat-icon>poll</mat-icon>
+              {{ 'POLL.CREATE' | translate }}
+            </ng-container>
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

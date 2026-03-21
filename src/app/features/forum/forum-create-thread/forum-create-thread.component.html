@@ -1,0 +1,57 @@
+<div class="fct-wrap">
+  <div class="fct-header">
+    <h2 class="fct-title">{{ 'FORUM.NEW_THREAD' | translate }}</h2>
+    <p class="fct-subtitle">{{ 'FORUM.NEW_THREAD_HINT' | translate }}</p>
+  </div>
+
+  <div *ngIf="loading" class="al-loading"><mat-progress-bar mode="indeterminate"></mat-progress-bar></div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="fct-form" *ngIf="!loading">
+
+    <!-- Kategori -->
+    <div class="fct-field">
+      <label class="fct-label">{{ 'FORUM.CATEGORY' | translate }} *</label>
+      <mat-select formControlName="categoryId" class="fct-select">
+        <mat-option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</mat-option>
+      </mat-select>
+      <div class="fct-error" *ngIf="form.get('categoryId')?.touched && form.get('categoryId')?.invalid">
+        {{ 'FORUM.CATEGORY_REQUIRED' | translate }}
+      </div>
+    </div>
+
+    <!-- Başlık -->
+    <div class="fct-field">
+      <label class="fct-label">{{ 'FORUM.THREAD_TITLE' | translate }} *</label>
+      <input class="fct-input" formControlName="title" [placeholder]="'FORUM.TITLE_PLACEHOLDER' | translate">
+      <div class="fct-error" *ngIf="form.get('title')?.touched && form.get('title')?.invalid">
+        {{ 'FORUM.TITLE_REQUIRED' | translate }}
+      </div>
+    </div>
+
+    <!-- İçerik -->
+    <div class="fct-field">
+      <label class="fct-label">{{ 'FORUM.CONTENT' | translate }} *</label>
+      <textarea class="fct-textarea" formControlName="content" rows="10"
+                [placeholder]="'FORUM.CONTENT_PLACEHOLDER' | translate"></textarea>
+      <div class="fct-error" *ngIf="form.get('content')?.touched && form.get('content')?.invalid">
+        {{ 'FORUM.CONTENT_REQUIRED' | translate }}
+      </div>
+    </div>
+
+    <!-- Güvenlik Notu -->
+    <div class="fct-notice">
+      <mat-icon>shield</mat-icon>
+      <span>{{ 'FORUM.CONTENT_POLICY' | translate }}</span>
+    </div>
+
+    <!-- Actions -->
+    <div class="fct-actions">
+      <button type="button" mat-stroked-button (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+      <button type="submit" mat-flat-button color="primary"
+              [disabled]="form.invalid || submitting">
+        <mat-icon>send</mat-icon>
+        {{ submitting ? ('FORUM.CREATING' | translate) : ('FORUM.CREATE_THREAD' | translate) }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,66 +1,109 @@
 <mat-sidenav-container class="dashboard-container">
   <mat-sidenav #sidenav class="dashboard-sidenav" [mode]="isScreenLarge ? 'side' : 'over'" [opened]="isScreenLarge"
     fixedInViewport>
+
+    <!-- ── Logo / Brand ── -->
+    <div class="sidebar-brand">
+      <mat-icon class="brand-icon">rss_feed</mat-icon>
+      <span class="brand-name">BlogApp</span>
+    </div>
+
     <mat-nav-list (click)="onNavListClick(sidenav)">
+
+      <!-- ── Admin: Panel ── -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/dashboard" routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon matListItemIcon>dashboard</mat-icon>
         <span matListItemTitle>{{ 'NAV.DASHBOARD' | translate }}</span>
       </a>
 
-      <!-- ✅ Client Anasayfa -->
+      <!-- ── Client: Anasayfa ── -->
       <a *ngIf="isClient()" mat-list-item routerLink="/client" routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Anasayfa</span>
       </a>
 
+      <!-- ── Shared: Hesabım ── -->
+      <span class="nav-section-label">Hesabım</span>
+
       <a mat-list-item routerLink="/profile" routerLinkActive="active-link">
         <mat-icon matListItemIcon>person</mat-icon>
         <span matListItemTitle>{{ 'NAV.PROFILE' | translate }}</span>
       </a>
 
-      <!-- ✅ Client Blog Listesi -->
+      <!-- ── Client: Keşfet ── -->
+      <span *ngIf="isClient()" class="nav-section-label">Keşfet</span>
+
       <a *ngIf="isClient()" mat-list-item routerLink="/client/blogs" routerLinkActive="active-link">
         <mat-icon matListItemIcon>library_books</mat-icon>
         <span matListItemTitle>{{ 'NAV.BLOGS' | translate }}</span>
       </a>
 
-      <!-- Blog Yönetimi (Sadece Admin) -->
+      <!-- ── Admin: İçerik grubu ── -->
+      <span *ngIf="isAdmin()" class="nav-section-label">İçerik</span>
+
       <a *ngIf="isAdmin()" mat-list-item routerLink="/blog" routerLinkActive="active-link">
         <mat-icon matListItemIcon>article</mat-icon>
         <span matListItemTitle>{{ 'NAV.BLOG' | translate }}</span>
       </a>
 
-      <!-- Kategoriler (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/categories" routerLinkActive="active-link">
         <mat-icon matListItemIcon>category</mat-icon>
         <span matListItemTitle>{{ 'NAV.CATEGORY' | translate }}</span>
       </a>
 
-      <!-- Yorumlar (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/comments" routerLinkActive="active-link">
         <mat-icon matListItemIcon>comment</mat-icon>
         <span matListItemTitle>{{ 'NAV.COMMENT' | translate }}</span>
       </a>
 
-      <!-- Etiketler (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/tags" routerLinkActive="active-link">
         <mat-icon matListItemIcon>label</mat-icon>
         <span matListItemTitle>{{ 'NAV.TAGS' | translate }}</span>
       </a>
 
-      <!-- Users (Sadece Admin) -->
+      <!-- ── Shared: Anketler ── -->
+      <span class="nav-section-label">{{ 'NAV.POLLS' | translate }}</span>
+
+      <a mat-list-item routerLink="/polls" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon matListItemIcon>poll</mat-icon>
+        <span matListItemTitle>{{ 'NAV.POLLS' | translate }}</span>
+      </a>
+
+      <!-- ── Shared: Forum ── -->
+      <span class="nav-section-label">Forum</span>
+
+      <a mat-list-item routerLink="/forum" routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon matListItemIcon>forum</mat-icon>
+        <span matListItemTitle>{{ 'NAV.FORUM' | translate }}</span>
+      </a>
+
+      <!-- ── Admin: Yönetim grubu ── -->
+      <span *ngIf="isAdmin()" class="nav-section-label">Yönetim</span>
+
       <a *ngIf="isAdmin()" mat-list-item routerLink="/users" routerLinkActive="active-link">
         <mat-icon matListItemIcon>group</mat-icon>
         <span matListItemTitle>{{ 'NAV.USERS' | translate }}</span>
       </a>
 
-      <!-- Site Ayarları (Sadece Admin) -->
       <a *ngIf="isAdmin()" mat-list-item routerLink="/settings" routerLinkActive="active-link">
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>{{ 'NAV.SETTINGS' | translate }}</span>
       </a>
+
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/admin-logs" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>history</mat-icon>
+        <span matListItemTitle>{{ 'NAV.ADMIN_LOGS' | translate }}</span>
+      </a>
+
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/forum/moderation" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>shield</mat-icon>
+        <span matListItemTitle>{{ 'NAV.FORUM_MODERATION' | translate }}</span>
+      </a>
+
     </mat-nav-list>
   </mat-sidenav>
 

@@ -1,0 +1,52 @@
+<!-- Header -->
+<div class="fc-header">
+  <div class="fc-breadcrumb">
+    <button mat-icon-button (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <h2 class="fc-title">{{ categoryName || ('FORUM.CATEGORY' | translate) }}</h2>
+  </div>
+  <button mat-flat-button color="primary" class="fc-new-btn" (click)="createThread()">
+    <mat-icon>add</mat-icon>
+    {{ 'FORUM.NEW_THREAD' | translate }}
+  </button>
+</div>
+
+<!-- Toolbar -->
+<div class="fc-toolbar">
+  <div class="al-search-wrap">
+    <mat-icon class="al-search-icon">search</mat-icon>
+    <input class="al-search-input"
+           [ngModel]="searchTerm"
+           (ngModelChange)="onSearchInput($event)"
+           [placeholder]="'FORUM.SEARCH_THREADS' | translate">
+  </div>
+</div>
+
+<div *ngIf="loading" class="al-loading"><mat-progress-bar mode="indeterminate"></mat-progress-bar></div>
+
+<!-- Thread List -->
+<div class="fc-list" *ngIf="!loading">
+  <div *ngIf="!threads.length" class="al-empty">
+    <mat-icon>chat</mat-icon>
+    <p>{{ 'FORUM.NO_THREADS' | translate }}</p>
+  </div>
+
+  <div class="fc-thread-item" *ngFor="let t of threads" (click)="openThread(t)">
+    <div class="fc-thread-badges">
+      <span class="fc-badge fc-badge-pin" *ngIf="t.isPinned"><mat-icon>push_pin</mat-icon></span>
+      <span class="fc-badge fc-badge-lock" *ngIf="t.isLocked"><mat-icon>lock</mat-icon></span>
+    </div>
+    <div class="fc-thread-body">
+      <h3 class="fc-thread-title">{{ t.title }}</h3>
+      <p class="fc-thread-preview">{{ t.contentPreview }}</p>
+      <div class="fc-thread-meta">
+        <mat-icon>person</mat-icon><span>{{ t.userFullName }}</span>
+        <mat-icon>schedule</mat-icon><span>{{ formatDate(t.createdAt) }}</span>
+      </div>
+    </div>
+    <div class="fc-thread-stats">
+      <div class="fc-stat"><mat-icon>comment</mat-icon><span>{{ t.postCount }}</span></div>
+      <div class="fc-stat"><mat-icon>visibility</mat-icon><span>{{ t.viewCount }}</span></div>
+    </div>
+    <mat-icon class="fc-chevron">chevron_right</mat-icon>
+  </div>
+</div>

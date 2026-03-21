@@ -1,0 +1,42 @@
+$orange: #ec5b13; $border: #eeeeee; $text: #1c1d1f; $text-2: #6a6f73; $text-3: #9ba3ae;
+
+.fh-header { margin-bottom: 28px; }
+.fh-title { font-size: 1.4rem; font-weight: 800; color: $text; margin: 0 0 4px; }
+.fh-subtitle { font-size: 14px; color: $text-2; margin: 0; }
+.fh-loading { margin-bottom: 16px; }
+
+.fh-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.fh-empty {
+  text-align: center; padding: 60px 20px; color: $text-3;
+  mat-icon { font-size: 48px; width: 48px; height: 48px; display: block; margin: 0 auto 12px; }
+  p { font-size: 14px; margin: 0; }
+}
+
+.fh-card {
+  display: flex; align-items: center; gap: 16px;
+  background: #fff; border: 1px solid $border; border-radius: 14px;
+  padding: 20px; cursor: pointer;
+  transition: box-shadow .15s, border-color .15s;
+  &:hover {
+    border-color: $orange;
+    box-shadow: 0 4px 16px rgba($orange, .12);
+    .fh-card-name { color: $orange; }
+  }
+}
+
+.fh-card-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba($orange, .1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  mat-icon { color: $orange; font-size: 24px; width: 24px; height: 24px; }
+}
+
+.fh-card-body { flex: 1; min-width: 0; }
+.fh-card-name { font-size: 16px; font-weight: 700; color: $text; margin: 0 0 4px; transition: color .15s; }
+.fh-card-desc { font-size: 13px; color: $text-2; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.fh-card-stat { text-align: center; flex-shrink: 0; }
+.fh-stat-num { display: block; font-size: 20px; font-weight: 800; color: $orange; }
+.fh-stat-label { font-size: 11px; color: $text-3; text-transform: uppercase; letter-spacing: .05em; }
+
+.fh-chevron { color: $text-3; flex-shrink: 0; }

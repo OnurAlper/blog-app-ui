@@ -52,6 +52,14 @@ import { BlogDetailComponent } from './features/client/blog/blog-detail/blog-det
 import { ClientHomeComponent } from './features/client/home/client-home.component';
 import { NotificationBellComponent } from './shared/components/notification-bell/notification-bell.component';
 import { SiteSettingsComponent } from './features/admin/site-settings/site-settings.component';
+import { AdminLogListComponent } from './features/admin/admin-log/admin-log-list.component';
+import { ForumHomeComponent } from './features/forum/forum-home/forum-home.component';
+import { ForumCategoryComponent } from './features/forum/forum-category/forum-category.component';
+import { ForumThreadComponent } from './features/forum/forum-thread/forum-thread.component';
+import { ForumCreateThreadComponent } from './features/forum/forum-create-thread/forum-create-thread.component';
+import { ForumModerationComponent } from './features/admin/forum-moderation/forum-moderation.component';
+import { PollListComponent } from './features/polls/poll-list/poll-list.component';
+import { PollCreateComponent } from './features/polls/poll-create/poll-create.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -89,7 +97,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     BlogDetailComponent,
     ClientHomeComponent,
     NotificationBellComponent,
-    SiteSettingsComponent
+    SiteSettingsComponent,
+    AdminLogListComponent,
+    ForumHomeComponent,
+    ForumCategoryComponent,
+    ForumThreadComponent,
+    ForumCreateThreadComponent,
+    ForumModerationComponent,
+    PollListComponent,
+    PollCreateComponent
   ],
   imports: [
     BrowserModule,

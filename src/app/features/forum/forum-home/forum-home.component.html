@@ -1,0 +1,32 @@
+<div class="fh-header">
+  <div>
+    <h2 class="fh-title">{{ 'FORUM.TITLE' | translate }}</h2>
+    <p class="fh-subtitle">{{ 'FORUM.SUBTITLE' | translate }}</p>
+  </div>
+</div>
+
+<div *ngIf="loading" class="fh-loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div class="fh-grid" *ngIf="!loading">
+  <div *ngIf="!categories.length" class="fh-empty">
+    <mat-icon>forum</mat-icon>
+    <p>{{ 'FORUM.NO_CATEGORIES' | translate }}</p>
+  </div>
+
+  <div class="fh-card" *ngFor="let cat of categories" (click)="goToCategory(cat)">
+    <div class="fh-card-icon">
+      <mat-icon>chat_bubble_outline</mat-icon>
+    </div>
+    <div class="fh-card-body">
+      <h3 class="fh-card-name">{{ cat.name }}</h3>
+      <p class="fh-card-desc" *ngIf="cat.description">{{ cat.description }}</p>
+    </div>
+    <div class="fh-card-stat">
+      <span class="fh-stat-num">{{ cat.threadCount }}</span>
+      <span class="fh-stat-label">{{ 'FORUM.THREADS' | translate }}</span>
+    </div>
+    <mat-icon class="fh-chevron">chevron_right</mat-icon>
+  </div>
+</div>

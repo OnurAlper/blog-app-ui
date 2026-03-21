@@ -1,6 +1,7 @@
 {
   "LOGIN": {
     "TITLE": "Login",
+    "SUBTITLE": "Sign in to your account",
     "USERNAME": "Email or username",
     "PASSWORD": "Password",
     "BUTTON": "Login",
@@ -50,7 +51,7 @@
     "LAST": "Last",
     "UNSAVED_CHANGES": "You have unsaved changes. Are you sure you want to leave?",
     "ID": "ID",
-    "ALL": "ALL",
+    "ALL": "All",
     "UPDATE": "Update",
     "REQUIRED_FIELD": "This field is required",
     "MIN_LENGTH": "Must be at least {{value}} characters",
@@ -71,6 +72,7 @@
   },
   "SIGNUP": {
     "TITLE": "Create Account",
+    "SUBTITLE": "Create your free account today",
     "NAME": "First Name",
     "SURNAME": "Last Name",
     "USERNAME": "Username",
@@ -86,7 +88,8 @@
     "FAILURE": "Signup failed.",
     "HAVE_ACCOUNT": "Already have an account?",
     "LOGIN": "Login",
-    "SEARCH_COUNTRY": "Search country..."
+    "SEARCH_COUNTRY": "Search country...",
+    "NO_RESULT": "No result found"
   },
   "GENDER": {
     "MALE": "Male",
@@ -108,6 +111,7 @@
     "COUNTRY": "Country",
     "SEARCH_COUNTRY": "Search country...",
     "SAVE": "Save",
+    "LOAD_ERROR": "Failed to load profile information",
     "UPDATE_SUCCESS": "Profile updated successfully",
     "UPDATE_FAILED": "Profile update failed",
     "COUNTRY_FETCH_ERROR": "An error occurred while fetching countries",
@@ -186,9 +190,71 @@
     "CATEGORY": "Categories",
     "BLOGS": "Blogs",
     "TAGS": "Tags",
-    "COMMENT" :"Comments",
+    "COMMENT": "Comments",
     "USERS": "Users",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "TAG_MANAGEMENT": "Tag Management",
+    "ADMIN_LOGS": "Admin Logs",
+    "FORUM": "Forum",
+    "FORUM_MODERATION": "Forum Moderation",
+    "POLLS": "Polls"
+  },
+  "FORUM": {
+    "TITLE": "Forum",
+    "SUBTITLE": "Join the community, ask questions and discuss.",
+    "NO_CATEGORIES": "No forum categories have been created yet.",
+    "THREADS": "Threads",
+    "CATEGORY": "Category",
+    "SEARCH_THREADS": "Search threads...",
+    "NEW_THREAD": "New Thread",
+    "NO_THREADS": "No threads in this category yet.",
+    "REPLIES": "Replies",
+    "NO_REPLIES": "No replies yet. Be the first!",
+    "ADD_REPLY": "Add Reply",
+    "REPLY_PLACEHOLDER": "Write your reply here...",
+    "SEND_REPLY": "Send Reply",
+    "SENDING": "Sending...",
+    "REPLY_SENT": "Your reply was sent.",
+    "POST_UPDATED": "Reply updated.",
+    "POST_DELETED": "Reply deleted.",
+    "THREAD_DELETED": "Thread deleted.",
+    "THREAD_CREATED": "Thread created successfully.",
+    "THREAD_LOCKED_MSG": "This thread is locked and does not accept new replies.",
+    "EDITED": "edited",
+    "NEW_THREAD_HINT": "Please follow community guidelines. Hate speech, racism and political extremism are prohibited.",
+    "THREAD_TITLE": "Thread Title",
+    "TITLE_PLACEHOLDER": "Enter your thread title...",
+    "TITLE_REQUIRED": "Title is required (min 5 characters).",
+    "CONTENT": "Content",
+    "CONTENT_PLACEHOLDER": "Describe your topic in detail...",
+    "CONTENT_REQUIRED": "Content is required (min 10 characters).",
+    "CATEGORY_REQUIRED": "Please select a category.",
+    "CONTENT_POLICY": "Content policy: Racist, religious hate speech and political extremism are automatically blocked.",
+    "CREATE_THREAD": "Create Thread",
+    "CREATING": "Creating...",
+    "MODERATION_TITLE": "Forum Moderation",
+    "FLAGGED_THREADS": "Flagged Threads",
+    "FLAGGED_POSTS": "Flagged Posts",
+    "BAN_LIST": "Ban List",
+    "NO_FLAGGED": "No flagged content found.",
+    "FLAGGED_THREAD": "Flagged Thread",
+    "FLAGGED_POST": "Flagged Post",
+    "BAN_USER": "Ban User",
+    "BAN_USER_ID": "User ID",
+    "BAN_REASON": "Ban Reason",
+    "BAN_EXPIRES": "Expiry Date",
+    "BAN_PERMANENT_HINT": "leave empty = permanent",
+    "APPLY_BAN": "Apply Ban",
+    "BAN_USER_COL": "User",
+    "BANNED_BY": "Banned By",
+    "NO_BANS": "No active ban records."
+  },
+  "ADMIN_LOGS": {
+    "ADMIN": "Admin",
+    "ACTION": "Action",
+    "TIMESTAMP": "Date",
+    "SEARCH_PLACEHOLDER": "Search by action...",
+    "NO_RECORDS": "No log records found"
   },
   "TAGS": {
     "CREATE_TITLE": "Create New Tag",
@@ -229,78 +295,97 @@
     }
   },
   "USERS": {
-  "TITLE": "Users",
-  "VIEW": { "TABLE": "Table", "CARD": "Card" },
-  "EXPORT": "Export",
-
-  "SEARCH_PLACEHOLDER": "Search by name, username, or email…",
-  "SEARCH_COUNTRY": "Search country...",
-  "NO_COUNTRY_FOUND": "No country found.",
-
-  "USER": "User",
-  "EMAIL": "Email",
-  "PHONE": "Phone",
-  "BIRTHDATE": "Birthdate",
-  "GENDER": "Gender",
-  "GENDER_MALE": "Male",
-  "GENDER_FEMALE": "Female",
-  "COUNTRY": "Country",
-  "UNKNOWN_COUNTRY": "Unknown country",
-
-  "STATUS_ACTIVE": "Active users",
-  "STATUS_DELETED": "Deleted users",
-
-  "REACTIVATE": "Reactivate",
-  "REACTIVATE_SUCCESS": "User reactivated successfully.",
-  "REACTIVATE_FAIL": "Failed to reactivate user.",
-
-  "DELETED_LIST_NOT_AVAILABLE": "Deleted users list is not available yet.",
-  "OPEN_PROFILE_INFO": "Profile page will be available soon."
-},
-"CATEGORIES": {
-  "CREATE_TITLE": "Create New Category",
-  "EDIT_TITLE": "Edit Category",
-  "NAME": "Category Name",
-  "SEARCH_PLACEHOLDER": "Search by category name...",
-  "NAME_PLACEHOLDER": "Enter category name",
-  "NO_RECORDS": "No categories found"
-},
-"COMMENTS": {
-  "CONTENT": "Comment Content",
-  "POST_TITLE": "Blog Title",
-  "USER": "User",
-  "CREATED_AT": "Date",
-  "SEARCH_PLACEHOLDER": "Search by comment content or user name...",
-  "VIEW_POST": "View Post",
-  "NO_RECORDS": "No comments found"
-},
-"CLIENT": {
-  "BLOG": {
-    "TITLE": "Blog Posts",
-    "SEARCH": "Search",
-    "SEARCH_PLACEHOLDER": "Search blogs...",
-    "CATEGORY": "Category",
-    "ALL_CATEGORIES": "All Categories",
-    "SORT": "Sort By",
-    "SORT.NEWEST": "Newest First",
-    "SORT.TITLE": "Title A-Z",
-    "SORT.MOST_VIEWED": "Most Viewed",
-    "READ_MORE": "Read More",
-    "NO_BLOGS": "No blogs found",
-    "NO_BLOGS_DESC": "Try adjusting your filters or search term"
+    "TITLE": "Users",
+    "VIEW": { "TABLE": "Table", "CARD": "Card" },
+    "EXPORT": "Export",
+    "SEARCH_PLACEHOLDER": "Search by name, username, or email…",
+    "SEARCH_COUNTRY": "Search country...",
+    "NO_COUNTRY_FOUND": "No country found.",
+    "USER": "User",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "BIRTHDATE": "Birthdate",
+    "GENDER": "Gender",
+    "GENDER_MALE": "Male",
+    "GENDER_FEMALE": "Female",
+    "COUNTRY": "Country",
+    "UNKNOWN_COUNTRY": "Unknown country",
+    "STATUS_ACTIVE": "Active users",
+    "STATUS_DELETED": "Deleted users",
+    "REACTIVATE": "Reactivate",
+    "REACTIVATE_SUCCESS": "User reactivated successfully.",
+    "REACTIVATE_FAIL": "Failed to reactivate user.",
+    "DELETED_LIST_NOT_AVAILABLE": "Deleted users list is not available yet.",
+    "OPEN_PROFILE_INFO": "Profile page will be available soon."
+  },
+  "CATEGORIES": {
+    "CREATE_TITLE": "Create New Category",
+    "EDIT_TITLE": "Edit Category",
+    "NAME": "Category Name",
+    "SEARCH_PLACEHOLDER": "Search by category name...",
+    "NAME_PLACEHOLDER": "Enter category name",
+    "NO_RECORDS": "No categories found"
+  },
+  "COMMENTS": {
+    "CONTENT": "Comment Content",
+    "POST_TITLE": "Blog Title",
+    "USER": "User",
+    "CREATED_AT": "Date",
+    "SEARCH_PLACEHOLDER": "Search by comment content or user name...",
+    "VIEW_POST": "View Post",
+    "NO_RECORDS": "No comments found"
+  },
+  "CLIENT": {
+    "BLOG": {
+      "TITLE": "Blog Posts",
+      "SEARCH": "Search",
+      "SEARCH_PLACEHOLDER": "Search blogs...",
+      "CATEGORY": "Category",
+      "ALL_CATEGORIES": "All Categories",
+      "SORT": "Sort By",
+      "SORT.NEWEST": "Newest First",
+      "SORT.TITLE": "Title A-Z",
+      "SORT.MOST_VIEWED": "Most Viewed",
+      "READ_MORE": "Read More",
+      "NO_BLOGS": "No blogs found",
+      "NO_BLOGS_DESC": "Try adjusting your filters or search term"
+    }
+  },
+  "NOTIF": {
+    "Title": "Notifications",
+    "MarkAllRead": "Mark all as read",
+    "Empty": "No new notifications"
+  },
+  "POLL": {
+    "TITLE": "Polls",
+    "SUBTITLE": "Join active polls and share your opinion.",
+    "CREATE": "Create Poll",
+    "CREATE_TITLE": "Create New Poll",
+    "CREATE_SUCCESS": "Poll created successfully!",
+    "NO_POLLS": "No polls found.",
+    "POLL_TITLE": "Poll Title",
+    "TITLE_PLACEHOLDER": "Enter poll title...",
+    "DESCRIPTION": "Description",
+    "DESCRIPTION_PLACEHOLDER": "Short description about the poll...",
+    "ENDS_AT": "End Date",
+    "ENDS_AT_HINT": "Leave empty for no expiry",
+    "ALLOW_MULTIPLE": "Multiple choice",
+    "ALLOW_MULTIPLE_HINT": "Users can select more than one option",
+    "OPTIONS": "Options",
+    "OPTIONS_HINT": "Minimum 2, maximum 10 options",
+    "OPTION": "Option",
+    "OPTION_PLACEHOLDER": "Enter option text...",
+    "ADD_OPTION": "Add Option",
+    "REMOVE_OPTION": "Remove Option",
+    "VOTE": "Vote",
+    "VOTE_SUCCESS": "Your vote has been recorded!",
+    "VOTED": "Voted",
+    "VOTERS": "voters",
+    "VOTES": "votes",
+    "INACTIVE": "Inactive",
+    "ENDED": "Ended",
+    "MULTI_CHOICE": "Multiple Choice",
+    "ACTIVATE": "Activate",
+    "DEACTIVATE": "Deactivate"
   }
-,
-"NOTIF": {
-  "Title": "Notifications",
-  "MarkAllRead": "Mark all as read",
-  "Empty": "No new notifications"
-}
-}
-
-,
-"NOTIF": {
-  "Title": "Notifications",
-  "MarkAllRead": "Mark all as read",
-  "Empty": "No new notifications"
-}
 }

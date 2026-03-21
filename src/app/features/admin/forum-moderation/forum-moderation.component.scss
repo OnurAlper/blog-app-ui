@@ -1,0 +1,73 @@
+$orange: #ec5b13; $border: #eeeeee; $text: #1c1d1f; $text-2: #6a6f73; $text-3: #9ba3ae; $orange-lt: #fff1eb;
+
+.al-header { margin-bottom: 20px; }
+.al-title { font-size: 1.25rem; font-weight: 800; color: $text; margin: 0; }
+.al-loading { margin-bottom: 8px; }
+.al-actions-th { text-align: end !important; }
+.al-actions-td { text-align: end !important; white-space: nowrap; }
+
+/* Tabs */
+.fm-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.fm-tab {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 10px; border: 1px solid $border;
+  background: #fff; font-size: 13px; font-weight: 600; color: $text-2; cursor: pointer;
+  transition: all .15s;
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+  &.active { background: $orange; color: #fff; border-color: $orange; }
+  &:not(.active):hover { border-color: $orange; color: $orange; }
+}
+.fm-badge { background: #ef4444; color: #fff; border-radius: 20px; padding: 1px 7px; font-size: 11px; font-weight: 800; }
+
+/* Items */
+.fm-item {
+  display: flex; align-items: flex-start; gap: 16px;
+  background: #fff; border: 1px solid $border; border-radius: 12px; padding: 16px; margin-bottom: 10px;
+}
+.fm-item-body { flex: 1; min-width: 0; }
+.fm-flag-label { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #ca8a04; background: #fefce8; border-radius: 6px; padding: 2px 8px; margin-bottom: 6px;
+  mat-icon { font-size: 12px; width: 12px; height: 12px; }
+}
+.fm-item-title { font-size: 15px; font-weight: 700; color: $text; margin: 0 0 4px; }
+.fm-item-preview { font-size: 13px; color: $text-2; margin: 0 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fm-item-meta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: $text-3;
+  mat-icon { font-size: 14px; width: 14px; height: 14px; }
+}
+.fm-flag-reason { background: #fef2f2; color: #ef4444; border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+
+.fm-item-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+.fm-btn-view { color: $text-2 !important; border-color: $border !important; min-width: 40px !important; padding: 0 8px !important; }
+.fm-btn-ok { color: #16a34a !important; border-color: #bbf7d0 !important; min-width: 40px !important; padding: 0 8px !important; }
+.fm-btn-lock { color: $orange !important; border-color: rgba($orange,.3) !important; min-width: 40px !important; padding: 0 8px !important; }
+.fm-btn-del { color: #ef4444 !important; border-color: #fecaca !important; min-width: 40px !important; padding: 0 8px !important; }
+
+/* Ban Form */
+.fm-ban-form { background: #fff; border: 1px solid $border; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+.fm-ban-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: $text; margin: 0 0 16px;
+  mat-icon { color: #ef4444; }
+}
+.fm-ban-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.fm-ban-field { display: flex; flex-direction: column; gap: 5px;
+  label { font-size: 12px; font-weight: 700; color: $text-2; }
+}
+.fm-input { height: 40px; border: 1px solid #d1d5db; border-radius: 8px; padding: 0 12px; font-size: 13px; font-family: inherit; color: $text; outline: none;
+  &:focus { border-color: $orange; box-shadow: 0 0 0 3px rgba($orange,.1); }
+}
+
+/* Table */
+.al-table-wrap { background: #fff; border-radius: 14px; border: 1px solid $border; overflow: hidden; }
+table[mat-table] { width: 100%;
+  .mat-mdc-header-row { background: #f7f9fa; }
+  .mat-mdc-header-cell { font-size: 11px; font-weight: 700; color: $text-3; text-transform: uppercase; letter-spacing: .07em; border-bottom: 1px solid $border; padding: 0 16px; height: 44px; }
+  .mat-mdc-cell { padding: 0 16px; height: 56px; color: $text; font-size: 13px; border-bottom: 1px solid $border; }
+  .mat-mdc-row:last-child .mat-mdc-cell { border-bottom: none; }
+}
+.fm-permanent { background: #fef2f2; color: #ef4444; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; }
+.fm-status { border-radius: 6px; padding: 2px 10px; font-size: 12px; font-weight: 700; background: #f1f5f9; color: $text-3;
+  &.active { background: #dcfce7; color: #16a34a; }
+}
+
+.al-empty { text-align: center; padding: 48px 20px; color: $text-3; background: #fff; border: 1px solid $border; border-radius: 14px;
+  mat-icon { font-size: 48px; width: 48px; height: 48px; display: block; margin: 0 auto 12px; color: #d1d5db; }
+  p { font-size: 14px; margin: 0; }
+}

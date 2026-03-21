@@ -1,0 +1,56 @@
+<!-- ─── HEADER ───────────────────────────────────────── -->
+<div class="al-header">
+  <h2 class="al-title">{{ 'NAV.ADMIN_LOGS' | translate }}</h2>
+</div>
+
+<!-- ─── TOOLBAR ──────────────────────────────────────── -->
+<div class="al-toolbar">
+  <div class="al-search-wrap">
+    <mat-icon class="al-search-icon">search</mat-icon>
+    <input class="al-search-input"
+           [ngModel]="searchTerm"
+           (ngModelChange)="onSearchInput($event)"
+           [placeholder]="'ADMIN_LOGS.SEARCH_PLACEHOLDER' | translate">
+  </div>
+</div>
+
+<!-- ─── LOADING ──────────────────────────────────────── -->
+<div *ngIf="loading" class="al-loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<!-- ─── TABLE ────────────────────────────────────────── -->
+<div class="al-table-wrap" *ngIf="!loading">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
+
+    <ng-container matColumnDef="adminFullName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ADMIN_LOGS.ADMIN' | translate }}</th>
+      <td mat-cell *matCellDef="let log">
+        <div class="al-user-cell">
+          <div class="al-user-avatar"><mat-icon>admin_panel_settings</mat-icon></div>
+          <span>{{ log.adminFullName }}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ADMIN_LOGS.ACTION' | translate }}</th>
+      <td mat-cell *matCellDef="let log" class="al-action-cell">
+        <span class="al-action-badge" [matTooltip]="log.action">{{ log.action }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ADMIN_LOGS.TIMESTAMP' | translate }}</th>
+      <td mat-cell *matCellDef="let log" class="al-date-cell">{{ formatDate(log.timestamp) }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="!dataSource.data?.length" class="al-empty">
+    <mat-icon>history</mat-icon>
+    <p>{{ 'ADMIN_LOGS.NO_RECORDS' | translate }}</p>
+  </div>
+</div>

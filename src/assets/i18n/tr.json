@@ -1,6 +1,7 @@
 {
   "LOGIN": {
     "TITLE": "Giriş Yap",
+    "SUBTITLE": "Hesabına giriş yap",
     "USERNAME": "E-posta veya kullanıcı adı",
     "PASSWORD": "Şifre",
     "BUTTON": "Giriş Yap",
@@ -10,7 +11,7 @@
     "SUCCESS": "Giriş başarılı!",
     "FAILURE": "Giriş başarısız",
     "REMEMBER_ME": "Beni hatırla",
-     "FORGOT_PASSWORD": "Şifreni mi unuttun?"
+    "FORGOT_PASSWORD": "Şifreni mi unuttun?"
   },
   "VALIDATION": {
     "REQUIRED": "Bu alan zorunludur.",
@@ -71,6 +72,7 @@
   },
   "SIGNUP": {
     "TITLE": "Hesap Oluştur",
+    "SUBTITLE": "Hemen ücretsiz hesabını oluştur",
     "NAME": "Ad",
     "SURNAME": "Soyad",
     "USERNAME": "Kullanıcı Adı",
@@ -86,7 +88,8 @@
     "FAILURE": "Kayıt başarısız.",
     "HAVE_ACCOUNT": "Zaten bir hesabın var mı?",
     "LOGIN": "Giriş Yap",
-    "SEARCH_COUNTRY": "Ülke ara..."
+    "SEARCH_COUNTRY": "Ülke ara...",
+    "NO_RESULT": "Sonuç bulunamadı"
   },
   "GENDER": {
     "MALE": "Erkek",
@@ -108,6 +111,7 @@
     "COUNTRY": "Ülke",
     "SEARCH_COUNTRY": "Ülke ara...",
     "SAVE": "Kaydet",
+    "LOAD_ERROR": "Profil bilgileri yüklenemedi",
     "UPDATE_SUCCESS": "Profil başarıyla güncellendi",
     "UPDATE_FAILED": "Profil güncellenemedi",
     "COUNTRY_FETCH_ERROR": "Ülkeler alınırken hata oluştu",
@@ -186,10 +190,71 @@
     "CATEGORY": "Kategoriler",
     "BLOGS": "Bloglar",
     "TAGS": "Etiketler",
+    "COMMENT": "Yorumlar",
     "USERS": "Kullanıcılar",
-    "COMMENT":"Yorumlar",
     "SETTINGS": "Ayarlar",
-    "TAG_MANAGEMENT": "Etiket Yönetimi"
+    "TAG_MANAGEMENT": "Etiket Yönetimi",
+    "ADMIN_LOGS": "Admin Logları",
+    "FORUM": "Forum",
+    "FORUM_MODERATION": "Forum Moderasyonu",
+    "POLLS": "Anketler"
+  },
+  "FORUM": {
+    "TITLE": "Forum",
+    "SUBTITLE": "Topluluğumuza katılın, sorular sorun ve tartışın.",
+    "NO_CATEGORIES": "Henüz forum kategorisi oluşturulmamış.",
+    "THREADS": "Konu",
+    "CATEGORY": "Kategori",
+    "SEARCH_THREADS": "Konularda ara...",
+    "NEW_THREAD": "Yeni Konu",
+    "NO_THREADS": "Bu kategoride henüz konu yok.",
+    "REPLIES": "Yanıtlar",
+    "NO_REPLIES": "Henüz yanıt yok. İlk yanıtı siz yazın!",
+    "ADD_REPLY": "Yanıt Ekle",
+    "REPLY_PLACEHOLDER": "Yanıtınızı buraya yazın...",
+    "SEND_REPLY": "Yanıt Gönder",
+    "SENDING": "Gönderiliyor...",
+    "REPLY_SENT": "Yanıtınız gönderildi.",
+    "POST_UPDATED": "Yanıt güncellendi.",
+    "POST_DELETED": "Yanıt silindi.",
+    "THREAD_DELETED": "Konu silindi.",
+    "THREAD_CREATED": "Konunuz oluşturuldu.",
+    "THREAD_LOCKED_MSG": "Bu konu kilitlenmiş. Yeni yanıt ekleyemezsiniz.",
+    "EDITED": "düzenlendi",
+    "NEW_THREAD_HINT": "Lütfen topluluk kurallarına uyun. Nefret söylemi, ırkçılık ve siyasi içerikler yasaktır.",
+    "THREAD_TITLE": "Konu Başlığı",
+    "TITLE_PLACEHOLDER": "Konunuzun başlığını yazın...",
+    "TITLE_REQUIRED": "Başlık zorunludur (en az 5 karakter).",
+    "CONTENT": "İçerik",
+    "CONTENT_PLACEHOLDER": "Konunuzu detaylıca açıklayın...",
+    "CONTENT_REQUIRED": "İçerik zorunludur (en az 10 karakter).",
+    "CATEGORY_REQUIRED": "Kategori seçimi zorunludur.",
+    "CONTENT_POLICY": "İçerik politikası: Irkçı, dini nefret ve siyasi aşırılık içeren ifadeler otomatik olarak engellenir.",
+    "CREATE_THREAD": "Konu Oluştur",
+    "CREATING": "Oluşturuluyor...",
+    "MODERATION_TITLE": "Forum Moderasyonu",
+    "FLAGGED_THREADS": "İşaretli Konular",
+    "FLAGGED_POSTS": "İşaretli Gönderiler",
+    "BAN_LIST": "Ban Listesi",
+    "NO_FLAGGED": "İşaretli içerik bulunmuyor.",
+    "FLAGGED_THREAD": "İşaretli Konu",
+    "FLAGGED_POST": "İşaretli Gönderi",
+    "BAN_USER": "Kullanıcı Engelle",
+    "BAN_USER_ID": "Kullanıcı ID",
+    "BAN_REASON": "Ban Sebebi",
+    "BAN_EXPIRES": "Bitiş Tarihi",
+    "BAN_PERMANENT_HINT": "boş bırakın = kalıcı",
+    "APPLY_BAN": "Engelle",
+    "BAN_USER_COL": "Kullanıcı",
+    "BANNED_BY": "Engelleyen",
+    "NO_BANS": "Aktif ban kaydı yok."
+  },
+  "ADMIN_LOGS": {
+    "ADMIN": "Admin",
+    "ACTION": "İşlem",
+    "TIMESTAMP": "Tarih",
+    "SEARCH_PLACEHOLDER": "İşlem ile ara...",
+    "NO_RECORDS": "Log kaydı bulunamadı"
   },
   "TAGS": {
     "CREATE_TITLE": "Yeni Etiket Oluştur",
@@ -230,79 +295,97 @@
     }
   },
   "USERS": {
-  "TITLE": "Kullanıcılar",
-  "VIEW": { "TABLE": "Tablo", "CARD": "Kart" },
-  "EXPORT": "Dışa Aktar",
-
-  "SEARCH_PLACEHOLDER": "Ad, kullanıcı adı veya e-posta ara…",
-  "SEARCH_COUNTRY": "Ülke ara...",
-  "NO_COUNTRY_FOUND": "Ülke bulunamadı.",
-
-  "USER": "Kullanıcı",
-  "EMAIL": "E-posta",
-  "PHONE": "Telefon",
-  "BIRTHDATE": "Doğum Tarihi",
-  "GENDER": "Cinsiyet",
-  "GENDER_MALE": "Erkek",
-  "GENDER_FEMALE": "Kadın",
-  "COUNTRY": "Ülke",
-  "UNKNOWN_COUNTRY": "Bilinmeyen ülke",
-
-  "STATUS_ACTIVE": "Aktif kullanıcılar",
-  "STATUS_DELETED": "Silinmiş kullanıcılar",
-
-  "REACTIVATE": "Yeniden Aktifleştir",
-  "REACTIVATE_SUCCESS": "Kullanıcı yeniden aktifleştirildi.",
-  "REACTIVATE_FAIL": "Kullanıcı aktifleştirilemedi.",
-
-  "DELETED_LIST_NOT_AVAILABLE": "Silinmiş kullanıcı listesi şu anda mevcut değil.",
-  "OPEN_PROFILE_INFO": "Profil sayfası yakında eklenecek."
-},
-"CATEGORIES": {
-  "CREATE_TITLE": "Yeni Kategori Oluştur",
-  "EDIT_TITLE": "Kategoriyi Düzenle",
-  "NAME": "Kategori Adı",
-  "SEARCH_PLACEHOLDER": "Kategori adı ile ara...",
-  "NAME_PLACEHOLDER": "Kategori adını girin",
-  "NO_RECORDS": "Kategori bulunamadı"
-},
-"COMMENTS": {
-  "CONTENT": "Yorum İçeriği",
-  "POST_TITLE": "Blog Başlığı",
-  "USER": "Kullanıcı",
-  "CREATED_AT": "Tarih",
-  "SEARCH_PLACEHOLDER": "Yorum içeriği veya kullanıcı adı ile ara...",
-  "VIEW_POST": "Blogu Görüntüle",
-  "NO_RECORDS": "Yorum bulunamadı"
-},
-
-"CLIENT": {
-  "BLOG": {
-    "TITLE": "Blog Yazıları",
-    "SEARCH": "Ara",
-    "SEARCH_PLACEHOLDER": "Blog ara...",
-    "CATEGORY": "Kategori",
-    "ALL_CATEGORIES": "Tüm Kategoriler",
-    "SORT": "Sırala",
-    "SORT.NEWEST": "En Yeni",
-    "SORT.TITLE": "Başlık A-Z",
-    "SORT.MOST_VIEWED": "En Çok Görüntülenen",
-    "READ_MORE": "Devamını Oku",
-    "NO_BLOGS": "Blog bulunamadı",
-    "NO_BLOGS_DESC": "Filtreleri veya arama teriminizi ayarlamayı deneyin"
+    "TITLE": "Kullanıcılar",
+    "VIEW": { "TABLE": "Tablo", "CARD": "Kart" },
+    "EXPORT": "Dışa Aktar",
+    "SEARCH_PLACEHOLDER": "Ad, kullanıcı adı veya e-posta ara…",
+    "SEARCH_COUNTRY": "Ülke ara...",
+    "NO_COUNTRY_FOUND": "Ülke bulunamadı.",
+    "USER": "Kullanıcı",
+    "EMAIL": "E-posta",
+    "PHONE": "Telefon",
+    "BIRTHDATE": "Doğum Tarihi",
+    "GENDER": "Cinsiyet",
+    "GENDER_MALE": "Erkek",
+    "GENDER_FEMALE": "Kadın",
+    "COUNTRY": "Ülke",
+    "UNKNOWN_COUNTRY": "Bilinmeyen ülke",
+    "STATUS_ACTIVE": "Aktif kullanıcılar",
+    "STATUS_DELETED": "Silinmiş kullanıcılar",
+    "REACTIVATE": "Yeniden Aktifleştir",
+    "REACTIVATE_SUCCESS": "Kullanıcı yeniden aktifleştirildi.",
+    "REACTIVATE_FAIL": "Kullanıcı aktifleştirilemedi.",
+    "DELETED_LIST_NOT_AVAILABLE": "Silinmiş kullanıcı listesi şu anda mevcut değil.",
+    "OPEN_PROFILE_INFO": "Profil sayfası yakında eklenecek."
+  },
+  "CATEGORIES": {
+    "CREATE_TITLE": "Yeni Kategori Oluştur",
+    "EDIT_TITLE": "Kategoriyi Düzenle",
+    "NAME": "Kategori Adı",
+    "SEARCH_PLACEHOLDER": "Kategori adı ile ara...",
+    "NAME_PLACEHOLDER": "Kategori adını girin",
+    "NO_RECORDS": "Kategori bulunamadı"
+  },
+  "COMMENTS": {
+    "CONTENT": "Yorum İçeriği",
+    "POST_TITLE": "Blog Başlığı",
+    "USER": "Kullanıcı",
+    "CREATED_AT": "Tarih",
+    "SEARCH_PLACEHOLDER": "Yorum içeriği veya kullanıcı adı ile ara...",
+    "VIEW_POST": "Blogu Görüntüle",
+    "NO_RECORDS": "Yorum bulunamadı"
+  },
+  "CLIENT": {
+    "BLOG": {
+      "TITLE": "Blog Yazıları",
+      "SEARCH": "Ara",
+      "SEARCH_PLACEHOLDER": "Blog ara...",
+      "CATEGORY": "Kategori",
+      "ALL_CATEGORIES": "Tüm Kategoriler",
+      "SORT": "Sırala",
+      "SORT.NEWEST": "En Yeni",
+      "SORT.TITLE": "Başlık A-Z",
+      "SORT.MOST_VIEWED": "En Çok Görüntülenen",
+      "READ_MORE": "Devamını Oku",
+      "NO_BLOGS": "Blog bulunamadı",
+      "NO_BLOGS_DESC": "Filtreleri veya arama teriminizi ayarlamayı deneyin"
+    }
+  },
+  "NOTIF": {
+    "Title": "Bildirimler",
+    "MarkAllRead": "Tümünü okundu işaretle",
+    "Empty": "Yeni bildiriminiz yok"
+  },
+  "POLL": {
+    "TITLE": "Anketler",
+    "SUBTITLE": "Aktif anketlere katılın ve görüşünüzü bildirin.",
+    "CREATE": "Anket Oluştur",
+    "CREATE_TITLE": "Yeni Anket Oluştur",
+    "CREATE_SUCCESS": "Anket başarıyla oluşturuldu!",
+    "NO_POLLS": "Henüz anket bulunmuyor.",
+    "POLL_TITLE": "Anket Başlığı",
+    "TITLE_PLACEHOLDER": "Anket başlığını girin...",
+    "DESCRIPTION": "Açıklama",
+    "DESCRIPTION_PLACEHOLDER": "Anket hakkında kısa bir açıklama...",
+    "ENDS_AT": "Bitiş Tarihi",
+    "ENDS_AT_HINT": "Boş bırakılırsa süresiz devam eder",
+    "ALLOW_MULTIPLE": "Çoklu seçim",
+    "ALLOW_MULTIPLE_HINT": "Kullanıcılar birden fazla seçenek işaretleyebilir",
+    "OPTIONS": "Seçenekler",
+    "OPTIONS_HINT": "En az 2, en fazla 10 seçenek",
+    "OPTION": "Seçenek",
+    "OPTION_PLACEHOLDER": "Seçenek metnini girin...",
+    "ADD_OPTION": "Seçenek Ekle",
+    "REMOVE_OPTION": "Seçeneği Kaldır",
+    "VOTE": "Oy Ver",
+    "VOTE_SUCCESS": "Oyunuz kaydedildi!",
+    "VOTED": "Oy Kullandınız",
+    "VOTERS": "katılımcı",
+    "VOTES": "oy",
+    "INACTIVE": "Pasif",
+    "ENDED": "Sona Erdi",
+    "MULTI_CHOICE": "Çoklu Seçim",
+    "ACTIVATE": "Aktif Et",
+    "DEACTIVATE": "Pasif Et"
   }
-,
-"NOTIF": {
-  "Title": "Bildirimler",
-  "MarkAllRead": "Tümünü okundu işaretle",
-  "Empty": "Yeni bildiriminiz yok"
-}
-}
-
-,
-"NOTIF": {
-  "Title": "Bildirimler",
-  "MarkAllRead": "Tümünü okundu işaretle",
-  "Empty": "Yeni bildiriminiz yok"
-}
 }

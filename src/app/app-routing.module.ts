@@ -25,6 +25,14 @@ import { CategoryCreateComponent } from './features/admin/category/category-crea
 import { CategoryEditComponent } from './features/admin/category/category-edit/category-edit.component';
 import { CommentListComponent } from './features/admin/comment/comment-list/comment-list.component';
 import { SiteSettingsComponent } from './features/admin/site-settings/site-settings.component';
+import { AdminLogListComponent } from './features/admin/admin-log/admin-log-list.component';
+import { ForumHomeComponent } from './features/forum/forum-home/forum-home.component';
+import { ForumCategoryComponent } from './features/forum/forum-category/forum-category.component';
+import { ForumThreadComponent } from './features/forum/forum-thread/forum-thread.component';
+import { ForumCreateThreadComponent } from './features/forum/forum-create-thread/forum-create-thread.component';
+import { ForumModerationComponent } from './features/admin/forum-moderation/forum-moderation.component';
+import { PollListComponent } from './features/polls/poll-list/poll-list.component';
+import { PollCreateComponent } from './features/polls/poll-create/poll-create.component';
 
 // ✅ Client components
 import { BlogListComponent } from './features/client/blog/blog-list/blog-list.component';
@@ -78,6 +86,22 @@ const routes: Routes = [
 
       // ADMIN SITE SETTINGS
       { path: 'settings', component: SiteSettingsComponent, data: { roles: ['Admin'] } },
+
+      // ADMIN LOGS
+      { path: 'admin-logs', component: AdminLogListComponent, data: { roles: ['Admin'] } },
+
+      // FORUM
+      { path: 'forum', component: ForumHomeComponent, data: { roles: ['Admin', 'Client'] } },
+      { path: 'forum/category/:id', component: ForumCategoryComponent, data: { roles: ['Admin', 'Client'] } },
+      { path: 'forum/thread/:id', component: ForumThreadComponent, data: { roles: ['Admin', 'Client'] } },
+      { path: 'forum/create', component: ForumCreateThreadComponent, data: { roles: ['Admin', 'Client'] } },
+
+      // FORUM MODERATION (Admin only)
+      { path: 'forum/moderation', component: ForumModerationComponent, data: { roles: ['Admin'] } },
+
+      // POLLS
+      { path: 'polls', component: PollListComponent, data: { roles: ['Admin', 'Client'] } },
+      { path: 'polls/create', component: PollCreateComponent, data: { roles: ['Admin'] } },
     ]
   },
 

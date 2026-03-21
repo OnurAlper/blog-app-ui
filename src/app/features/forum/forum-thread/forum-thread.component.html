@@ -1,0 +1,104 @@
+<div *ngIf="loading" class="al-loading"><mat-progress-bar mode="indeterminate"></mat-progress-bar></div>
+
+<ng-container *ngIf="!loading && thread">
+  <!-- Breadcrumb -->
+  <div class="ft-breadcrumb">
+    <button mat-icon-button (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <span class="ft-cat-link">{{ thread.categoryName }}</span>
+    <mat-icon class="ft-sep">chevron_right</mat-icon>
+    <span class="ft-thread-title-small">{{ thread.title }}</span>
+  </div>
+
+  <!-- Thread Header -->
+  <div class="ft-thread-card">
+    <div class="ft-thread-top">
+      <div>
+        <div class="ft-badges">
+          <span class="ft-badge ft-pin" *ngIf="thread.isPinned"><mat-icon>push_pin</mat-icon>Sabitlenmiş</span>
+          <span class="ft-badge ft-lock" *ngIf="thread.isLocked"><mat-icon>lock</mat-icon>Kilitli</span>
+          <span class="ft-badge ft-flag" *ngIf="thread.isFlagged"><mat-icon>flag</mat-icon>İşaretli</span>
+        </div>
+        <h1 class="ft-thread-title">{{ thread.title }}</h1>
+      </div>
+      <button *ngIf="isOwner(thread.userId)" mat-icon-button class="ft-delete-btn"
+              (click)="deleteThread()" [matTooltip]="'COMMON.DELETE' | translate">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </div>
+
+    <div class="ft-author-row">
+      <div class="ft-avatar"><mat-icon>person</mat-icon></div>
+      <div>
+        <span class="ft-author-name">{{ thread.userFullName }}</span>
+        <span class="ft-date">{{ formatDate(thread.createdAt) }}</span>
+      </div>
+      <div class="ft-meta-right">
+        <span><mat-icon>visibility</mat-icon> {{ thread.viewCount }}</span>
+        <span><mat-icon>comment</mat-icon> {{ thread.totalPosts }}</span>
+      </div>
+    </div>
+
+    <div class="ft-content">{{ thread.content }}</div>
+  </div>
+
+  <!-- Posts -->
+  <div class="ft-posts-section">
+    <h3 class="ft-posts-title">{{ 'FORUM.REPLIES' | translate }} ({{ thread.totalPosts }})</h3>
+
+    <div class="ft-post" *ngFor="let post of thread.posts; let i = index">
+      <div class="ft-post-avatar"><mat-icon>person</mat-icon></div>
+      <div class="ft-post-body">
+        <div class="ft-post-header">
+          <span class="ft-post-author">{{ post.userFullName }}</span>
+          <span class="ft-post-date">{{ formatDate(post.createdAt) }}</span>
+          <span class="ft-post-edited" *ngIf="post.updatedAt">({{ 'FORUM.EDITED' | translate }})</span>
+          <span class="ft-flag-badge" *ngIf="post.isFlagged"><mat-icon>flag</mat-icon></span>
+          <div class="ft-post-actions" *ngIf="isOwner(post.userId)">
+            <button mat-icon-button (click)="startEdit(post.id, post.content)" [matTooltip]="'COMMON.EDIT' | translate">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deletePost(post.id)" [matTooltip]="'COMMON.DELETE' | translate" class="ft-del-btn">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Edit mode -->
+        <ng-container *ngIf="editingPostId === post.id; else viewMode">
+          <textarea class="ft-edit-area" [(ngModel)]="editContent" rows="4"></textarea>
+          <div class="ft-edit-actions">
+            <button mat-stroked-button (click)="cancelEdit()">{{ 'COMMON.CANCEL' | translate }}</button>
+            <button mat-flat-button color="primary" (click)="saveEdit(post.id)">{{ 'COMMON.SAVE' | translate }}</button>
+          </div>
+        </ng-container>
+        <ng-template #viewMode>
+          <p class="ft-post-content">{{ post.content }}</p>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="ft-no-posts" *ngIf="!thread.posts.length">
+      <mat-icon>chat_bubble_outline</mat-icon>
+      <p>{{ 'FORUM.NO_REPLIES' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Reply Box -->
+  <div class="ft-reply-box" *ngIf="!thread.isLocked; else lockedMsg">
+    <h3 class="ft-reply-title">{{ 'FORUM.ADD_REPLY' | translate }}</h3>
+    <textarea class="ft-reply-area" [(ngModel)]="replyContent" rows="5"
+              [placeholder]="'FORUM.REPLY_PLACEHOLDER' | translate"></textarea>
+    <div class="ft-reply-actions">
+      <button mat-flat-button color="primary" [disabled]="!replyContent.trim() || replySubmitting" (click)="submitReply()">
+        <mat-icon>send</mat-icon>
+        {{ replySubmitting ? ('FORUM.SENDING' | translate) : ('FORUM.SEND_REPLY' | translate) }}
+      </button>
+    </div>
+  </div>
+  <ng-template #lockedMsg>
+    <div class="ft-locked-msg">
+      <mat-icon>lock</mat-icon>
+      <span>{{ 'FORUM.THREAD_LOCKED_MSG' | translate }}</span>
+    </div>
+  </ng-template>
+</ng-container>
