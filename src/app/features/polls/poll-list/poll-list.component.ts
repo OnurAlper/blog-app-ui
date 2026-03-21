@@ -112,7 +112,7 @@ export class PollListComponent implements OnInit {
 
   deletePoll(poll: Poll): void {
     if (!confirm(this.i18n.instant('COMMON.CONFIRM_DELETE'))) return;
-    this.pollService.delete(poll.id).subscribe({
+    this.pollService.deletePoll(poll.id).subscribe({
       next: () => {
         this.notify.success(this.i18n.instant('COMMON.DELETE_SUCCESS'));
         this.polls = this.polls.filter(p => p.id !== poll.id);

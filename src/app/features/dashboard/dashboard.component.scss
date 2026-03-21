@@ -3,13 +3,13 @@
   height: 100vh;
 }
 
-/* ─── Top Bar (white, Udemy style) ───────────────────── */
+/* ─── Top Bar ────────────────────────────────────────── */
 .topbar {
   display: flex;
   align-items: center;
   background: #fff !important;
-  color: var(--ud-text, #1c1d1f) !important;
-  border-bottom: 1px solid var(--ud-border, #e0e0e0);
+  color: var(--text, #1e293b) !important;
+  border-bottom: 1px solid var(--border, #e2e8f0);
   box-shadow: none !important;
   height: 64px;
   overflow: visible !important;
@@ -17,7 +17,7 @@
   .toolbar-title {
     font-weight: 800;
     font-size: 18px;
-    color: var(--ud-purple, #a435f0);
+    color: var(--primary, #ec5b13);
     letter-spacing: -.2px;
   }
 
@@ -25,66 +25,87 @@
 
   .menu-button {
     margin-right: 4px;
-    color: var(--ud-text-2, #6a6f73);
+    color: var(--text-2, #64748b);
   }
 }
 
-/* ─── Sidebar (white, left border on active) ─────────── */
+/* ─── Sidebar Brand ──────────────────────────────────── */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px 14px;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  margin-bottom: 4px;
+
+  .brand-icon {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+    color: var(--primary, #ec5b13);
+  }
+
+  .brand-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text, #1e293b);
+    letter-spacing: -.3px;
+  }
+}
+
+/* ─── Sidebar ────────────────────────────────────────── */
 .dashboard-sidenav {
   width: 240px;
   background: #fff;
-  border-right: 1px solid var(--ud-border, #e0e0e0) !important;
+  border-right: 1px solid var(--border, #e2e8f0) !important;
   overflow: hidden !important;
 
   .mat-mdc-nav-list {
-    padding: 12px 8px;
+    padding: 8px 8px;
     overflow: hidden !important;
   }
 
-  /* Section label */
   .nav-section-label {
     display: block;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--ud-text-3, #9ba3ae);
-    padding: 16px 12px 4px;
+    color: var(--text-3, #94a3b8);
+    padding: 14px 12px 4px;
   }
 
-  /* Nav items */
   .mat-mdc-list-item {
-    --mdc-list-list-item-label-text-color: #4a4f59;
-    --mdc-list-list-item-leading-icon-color: #9ba3ae;
+    --mdc-list-list-item-label-text-color: #475569;
+    --mdc-list-list-item-leading-icon-color: #94a3b8;
 
-    border-radius: 6px;
-    margin: 1px 0;
-    height: 42px !important;
-    color: #4a4f59;
+    border-radius: 10px;
+    margin: 2px 0;
+    height: 44px !important;
+    color: #475569;
     transition: background .12s ease;
 
     .mat-icon {
       font-size: 20px;
-      color: #9ba3ae;
+      color: #94a3b8;
       transition: color .12s ease;
     }
 
     .mdc-list-item__primary-text {
       font-size: 14px;
       font-weight: 500;
-      color: #4a4f59;
+      color: #475569;
     }
   }
 
   .mat-mdc-list-item:hover {
-    background: var(--ud-surface-2, #f2f3f5) !important;
-    .mat-icon { color: var(--ud-purple, #a435f0); }
-    .mdc-list-item__primary-text { color: var(--ud-text, #1c1d1f); }
+    background: rgba(236, 91, 19, 0.08) !important;
+    .mat-icon { color: var(--primary, #ec5b13); }
+    .mdc-list-item__primary-text { color: var(--text, #1e293b); }
   }
 
-  /* Active */
   .active-link {
-    background: var(--ud-purple-light, #ede9fe) !important;
+    background: #fff1eb !important;
     position: relative;
 
     &::before {
@@ -93,23 +114,23 @@
       left: 0; top: 6px; bottom: 6px;
       width: 3px;
       border-radius: 0 3px 3px 0;
-      background: var(--ud-purple, #a435f0);
+      background: var(--primary, #ec5b13);
     }
 
-    .mat-icon { color: var(--ud-purple, #a435f0) !important; }
+    .mat-icon { color: var(--primary, #ec5b13) !important; }
     .mdc-list-item__primary-text {
-      color: var(--ud-purple-dark, #6d28d9) !important;
+      color: var(--primary-dark, #c94d0d) !important;
       font-weight: 700 !important;
     }
   }
 
-  a { color: #4a4f59; text-decoration: none; }
+  a { color: #475569; text-decoration: none; }
 }
 
 /* ─── Content ────────────────────────────────────────── */
 .dashboard-content {
   padding: 24px;
-  background: var(--ud-bg, #f7f9fa);
+  background: var(--bg, #f8f6f6);
 }
 
 /* ─── Responsive ─────────────────────────────────────── */

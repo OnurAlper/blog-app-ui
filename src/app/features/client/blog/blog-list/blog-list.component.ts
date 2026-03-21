@@ -88,6 +88,9 @@ export class BlogListComponent implements OnInit, OnDestroy {
         next: (res: any) => {
           this.blogs = (res.data || []) as GetBlogPostDto[];
           this.totalCount = res.totalPage ?? this.blogs.length;
+          this.likedPostIds = new Set(
+            this.blogs.filter(b => b.isLikedByCurrentUser).map(b => b.id)
+          );
         },
         error: (err: any) => {
           const backendMsg = err?.error?.Message || err?.error?.message;
@@ -122,7 +125,6 @@ export class BlogListComponent implements OnInit, OnDestroy {
     this.likingPostIds.add(blog.id);
 
     if (this.likedPostIds.has(blog.id)) {
-      // Unlike
       this.postLikeService.unlikePost(blog.id).subscribe({
         next: () => {
           this.likedPostIds.delete(blog.id);
@@ -132,7 +134,6 @@ export class BlogListComponent implements OnInit, OnDestroy {
         error: () => { this.likingPostIds.delete(blog.id); }
       });
     } else {
-      // Like
       this.postLikeService.likePost(blog.id).subscribe({
         next: () => {
           this.likedPostIds.add(blog.id);

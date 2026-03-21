@@ -44,7 +44,7 @@ mat-form-field { width: 100%; }
   transition: border-color .18s ease, background .18s ease;
 }
 .cover-field input[type="file"]:hover {
-  border-color: #a435f0; background: #f5f3ff;
+  border-color: #ec5b13; background: #fff1eb;
 }
 
 /* Preview */
@@ -82,8 +82,8 @@ mat-form-field { width: 100%; }
 .preview-content p { margin: 0 0 .8rem; line-height: 1.65; }
 .preview-content blockquote {
   margin: .8rem 0; padding: .7rem .9rem;
-  border-left: 3px solid #a435f0;
-  background: #f5f3ff; border-radius: 6px;
+  border-left: 3px solid #ec5b13;
+  background: #fff1eb; border-radius: 6px;
 }
 
 /* Chips */

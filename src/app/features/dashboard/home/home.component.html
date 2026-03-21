@@ -1,164 +1,189 @@
-<div class="container-fluid dashboard-home-wrapper">
+<div class="dh-wrapper">
 
-  <!-- KPI'lar -->
-  <div class="row g-3">
-    <div class="col-6 col-lg-2" *ngFor="let kpi of [
-      { title: 'Dashboard.TotalVisits',       value: totalVisits | number, route: '/blog' },
-      { title: 'Dashboard.NewUsers',          value: newUsers,             route: '/users' },
-      { title: 'Dashboard.PublishedPosts',    value: publishedPosts,       route: '/blog' },
-      { title: 'Dashboard.Comments',          value: comments,             route: '/comments' },
-      { title: 'Dashboard.TotalLikes',        value: totalLikes,           route: '/blog' },
-      { title: 'Dashboard.AverageEngagement', value: averageEngagement,    route: null }
-    ]">
-      <mat-card class="kpi-card h-100" [class.clickable-card]="kpi.route" (click)="kpi.route && navigateTo(kpi.route)" style="cursor: kpi.route ? 'pointer' : 'default'">
-        <div class="kpi-title">{{ kpi.title | translate }}</div>
-        <div class="kpi-value">{{ kpi.value }}</div>
-      </mat-card>
+  <!-- ── KPI Row ──────────────────────────────────────── -->
+  <div class="kpi-grid">
+
+    <div class="kpi-card kpi-orange" [class.clickable]="true" (click)="navigateTo('/blog')">
+      <div class="kpi-icon-wrap orange">
+        <mat-icon>visibility</mat-icon>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">{{ 'Dashboard.TotalVisits' | translate }}</span>
+        <span class="kpi-value">{{ totalVisits | number }}</span>
+      </div>
     </div>
+
+    <div class="kpi-card kpi-blue" (click)="navigateTo('/users')">
+      <div class="kpi-icon-wrap blue">
+        <mat-icon>person_add</mat-icon>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">{{ 'Dashboard.NewUsers' | translate }}</span>
+        <span class="kpi-value">{{ newUsers | number }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-green" (click)="navigateTo('/blog')">
+      <div class="kpi-icon-wrap green">
+        <mat-icon>article</mat-icon>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">{{ 'Dashboard.PublishedPosts' | translate }}</span>
+        <span class="kpi-value">{{ publishedPosts | number }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-purple" (click)="navigateTo('/comments')">
+      <div class="kpi-icon-wrap purple">
+        <mat-icon>comment</mat-icon>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">{{ 'Dashboard.Comments' | translate }}</span>
+        <span class="kpi-value">{{ comments | number }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-red" (click)="navigateTo('/blog')">
+      <div class="kpi-icon-wrap red">
+        <mat-icon>favorite</mat-icon>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">{{ 'Dashboard.TotalLikes' | translate }}</span>
+        <span class="kpi-value">{{ totalLikes | number }}</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-amber">
+      <div class="kpi-icon-wrap amber">
+        <mat-icon>trending_up</mat-icon>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">{{ 'Dashboard.AverageEngagement' | translate }}</span>
+        <span class="kpi-value">{{ averageEngagement | number:'1.1-1' }}</span>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Chartlar -->
-  <div class="row g-3 mt-1">
-    <!-- Aylık Trafik -->
-    <div class="col-12 col-xl-6">
-      <mat-card class="chart-card h-100">
-        <div class="chart-header">
+  <!-- ── Charts Row ────────────────────────────────────── -->
+  <div class="charts-grid">
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title-wrap">
+          <span class="chart-dot orange"></span>
           <h3>{{ 'Dashboard.MonthlyTraffic' | translate }}</h3>
-          <small>{{ 'Dashboard.Last12Months' | translate }}</small>
         </div>
-        <apx-chart
-          [series]="areaSeries"
-          [chart]="areaChart"
-          [xaxis]="areaXaxis"
-          [yaxis]="areaYaxis"
-          [dataLabels]="dataLabels"
-          [stroke]="areaStroke"
-          [fill]="areaFill"
-          [tooltip]="tooltip">
-        </apx-chart>
-      </mat-card>
+        <span class="chart-sub">{{ 'Dashboard.Last12Months' | translate }}</span>
+      </div>
+      <apx-chart [series]="areaSeries" [chart]="areaChart" [xaxis]="areaXaxis" [yaxis]="areaYaxis"
+        [dataLabels]="dataLabels" [stroke]="areaStroke" [fill]="areaFill" [tooltip]="tooltip">
+      </apx-chart>
     </div>
 
-    <!-- Kategoriye Göre Yazılar -->
-    <div class="col-12 col-xl-6">
-      <mat-card class="chart-card h-100">
-        <div class="chart-header">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title-wrap">
+          <span class="chart-dot blue"></span>
           <h3>{{ 'Dashboard.PostsByCategory' | translate }}</h3>
-          <small>{{ 'Dashboard.ThisYear' | translate }}</small>
         </div>
-        <apx-chart
-          [series]="barSeries"
-          [chart]="barChart"
-          [xaxis]="barXaxis"
-          [plotOptions]="barPlot"
-          [dataLabels]="dataLabels"
-          [tooltip]="tooltip">
-        </apx-chart>
-      </mat-card>
+        <span class="chart-sub">{{ 'Dashboard.ThisYear' | translate }}</span>
+      </div>
+      <apx-chart [series]="barSeries" [chart]="barChart" [xaxis]="barXaxis"
+        [plotOptions]="barPlot" [dataLabels]="dataLabels" [tooltip]="tooltip">
+      </apx-chart>
     </div>
 
-    <!-- Yayın Durumu -->
-    <div class="col-12 col-xl-6">
-      <mat-card class="chart-card h-100">
-        <div class="chart-header">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title-wrap">
+          <span class="chart-dot green"></span>
           <h3>{{ 'Dashboard.PublishStatus' | translate }}</h3>
-          <small>{{ 'Dashboard.Total' | translate }}</small>
         </div>
-        <apx-chart
-          [series]="donutSeries"
-          [chart]="donutChart"
-          [labels]="donutLabels"
-          [legend]="donutLegend"
-          [responsive]="donutResponsive">
-        </apx-chart>
-      </mat-card>
+        <span class="chart-sub">{{ 'Dashboard.Total' | translate }}</span>
+      </div>
+      <apx-chart [series]="donutSeries" [chart]="donutChart" [labels]="donutLabels"
+        [legend]="donutLegend" [responsive]="donutResponsive">
+      </apx-chart>
     </div>
 
-    <!-- Aylık Kullanıcı Kayıtları -->
-    <div class="col-12 col-xl-6">
-      <mat-card class="chart-card h-100">
-        <div class="chart-header">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title-wrap">
+          <span class="chart-dot purple"></span>
           <h3>{{ 'Dashboard.MonthlyUserRegistrations' | translate }}</h3>
-          <small>{{ 'Dashboard.Last12Months' | translate }}</small>
         </div>
-        <apx-chart
-          [series]="userSeries"
-          [chart]="userChart"
-          [xaxis]="userXaxis"
-          [dataLabels]="dataLabels"
-          [stroke]="areaStroke"
-          [tooltip]="tooltip">
-        </apx-chart>
-      </mat-card>
+        <span class="chart-sub">{{ 'Dashboard.Last12Months' | translate }}</span>
+      </div>
+      <apx-chart [series]="userSeries" [chart]="userChart" [xaxis]="userXaxis"
+        [dataLabels]="dataLabels" [stroke]="areaStroke" [tooltip]="tooltip">
+      </apx-chart>
     </div>
+
   </div>
 
-  <!-- Top 5 Listeler -->
-  <div class="row g-3 mt-1">
-    <!-- En Çok Görüntülenen -->
-    <div class="col-12 col-md-6 col-xl-3">
-      <mat-card class="list-card h-100">
-        <div class="list-header">
-          <h4>{{ 'Dashboard.TopViewedPosts' | translate }}</h4>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let item of topViewedPosts; let i = index"
-              class="list-group-item d-flex justify-content-between align-items-center top-item"
-              (click)="goToPost(item.postId)">
-            <span>{{ i+1 }}. {{ item.title }}</span>
-            <span class="badge bg-primary rounded-pill">{{ item.count }}</span>
-          </li>
-        </ul>
-      </mat-card>
+  <!-- ── Top Lists Row ──────────────────────────────────── -->
+  <div class="lists-grid">
+
+    <div class="list-card">
+      <div class="list-header">
+        <mat-icon class="list-icon orange">visibility</mat-icon>
+        <h4>{{ 'Dashboard.TopViewedPosts' | translate }}</h4>
+      </div>
+      <ul class="rank-list">
+        <li *ngFor="let item of topViewedPosts; let i = index"
+            class="rank-item" (click)="goToPost(item.postId)">
+          <span class="rank-num" [class]="'rank-' + (i+1)">{{ i+1 }}</span>
+          <span class="rank-title">{{ item.title }}</span>
+          <span class="rank-badge">{{ item.count }}</span>
+        </li>
+      </ul>
     </div>
 
-    <!-- En Çok Beğenilen -->
-    <div class="col-12 col-md-6 col-xl-3">
-      <mat-card class="list-card h-100">
-        <div class="list-header">
-          <h4>{{ 'Dashboard.TopLikedPosts' | translate }}</h4>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let item of topLikedPosts; let i = index"
-              class="list-group-item d-flex justify-content-between align-items-center top-item"
-              (click)="goToPost(item.postId)">
-            <span>{{ i+1 }}. {{ item.title }}</span>
-            <span class="badge bg-primary rounded-pill">{{ item.count }}</span>
-          </li>
-        </ul>
-      </mat-card>
+    <div class="list-card">
+      <div class="list-header">
+        <mat-icon class="list-icon red">favorite</mat-icon>
+        <h4>{{ 'Dashboard.TopLikedPosts' | translate }}</h4>
+      </div>
+      <ul class="rank-list">
+        <li *ngFor="let item of topLikedPosts; let i = index"
+            class="rank-item" (click)="goToPost(item.postId)">
+          <span class="rank-num" [class]="'rank-' + (i+1)">{{ i+1 }}</span>
+          <span class="rank-title">{{ item.title }}</span>
+          <span class="rank-badge">{{ item.count }}</span>
+        </li>
+      </ul>
     </div>
 
-    <!-- En Çok Yorum Alan -->
-    <div class="col-12 col-md-6 col-xl-3">
-      <mat-card class="list-card h-100">
-        <div class="list-header">
-          <h4>{{ 'Dashboard.TopCommentedPosts' | translate }}</h4>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let item of topCommentedPosts; let i = index"
-              class="list-group-item d-flex justify-content-between align-items-center top-item"
-              (click)="goToPost(item.postId)">
-            <span>{{ i+1 }}. {{ item.title }}</span>
-            <span class="badge bg-primary rounded-pill">{{ item.count }}</span>
-          </li>
-        </ul>
-      </mat-card>
+    <div class="list-card">
+      <div class="list-header">
+        <mat-icon class="list-icon blue">comment</mat-icon>
+        <h4>{{ 'Dashboard.TopCommentedPosts' | translate }}</h4>
+      </div>
+      <ul class="rank-list">
+        <li *ngFor="let item of topCommentedPosts; let i = index"
+            class="rank-item" (click)="goToPost(item.postId)">
+          <span class="rank-num" [class]="'rank-' + (i+1)">{{ i+1 }}</span>
+          <span class="rank-title">{{ item.title }}</span>
+          <span class="rank-badge">{{ item.count }}</span>
+        </li>
+      </ul>
     </div>
 
-    <!-- En Çok Post Yazan Yazarlar -->
-    <div class="col-12 col-md-6 col-xl-3">
-      <mat-card class="list-card h-100">
-        <div class="list-header">
-          <h4>{{ 'Dashboard.TopAuthors' | translate }}</h4>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let author of topAuthors; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
-            <span>{{ i+1 }}. {{ author.authorName }}</span>
-            <span class="badge bg-primary rounded-pill">{{ author.postCount }}</span>
-          </li>
-        </ul>
-      </mat-card>
+    <div class="list-card">
+      <div class="list-header">
+        <mat-icon class="list-icon green">person</mat-icon>
+        <h4>{{ 'Dashboard.TopAuthors' | translate }}</h4>
+      </div>
+      <ul class="rank-list">
+        <li *ngFor="let author of topAuthors; let i = index" class="rank-item">
+          <span class="rank-num" [class]="'rank-' + (i+1)">{{ i+1 }}</span>
+          <span class="rank-title">{{ author.authorName }}</span>
+          <span class="rank-badge">{{ author.postCount }}</span>
+        </li>
+      </ul>
     </div>
+
   </div>
+
 </div>

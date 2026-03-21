@@ -23,8 +23,8 @@ export class PollService extends BaseApiService {
     return this.put<any>('Poll', dto);
   }
 
-  delete(id: number): Observable<any> {
-    return this.delete<any>(`Poll/${id}`);
+  deletePoll(id: number): Observable<any> {
+    return super.delete<any>(`Poll/${id}`);
   }
 
   vote(pollId: number, dto: VotePollDto): Observable<any> {

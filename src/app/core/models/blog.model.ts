@@ -19,6 +19,7 @@ export interface GetBlogPostDto {
   viewCount: number;
   tags: string[]; // ✅ burası
   estimatedReadMinutes: number;
+  isLikedByCurrentUser?: boolean;
 }
 
 // Backend: Business.DTOs.BlogPost.CreateBlogPostDto

@@ -1,98 +1,80 @@
-<!-- Başlık -->
-<div class="page-header d-flex justify-content-between align-items-center mb-3">
-  <h2>{{ 'NAV.COMMENT' | translate }}</h2>
+<!-- ─── HEADER ───────────────────────────────────────── -->
+<div class="al-header">
+  <h2 class="al-title">{{ 'NAV.COMMENT' | translate }}</h2>
 </div>
 
-<!-- Post filtresi aktifse banner göster -->
-<div *ngIf="postIdFilter" class="filter-banner">
+<!-- Filter banner -->
+<div *ngIf="postIdFilter" class="al-filter-banner">
   <mat-icon>filter_list</mat-icon>
   <span>Blog #{{ postIdFilter }} yorumları gösteriliyor</span>
-  <button mat-icon-button matTooltip="Filtreyi kaldır" (click)="clearPostFilter()">
+  <button mat-icon-button (click)="clearPostFilter()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
-<!-- Arama -->
-<div class="row justify-content-center mb-3">
-  <div class="col-12 col-md-6">
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>{{ 'COMMON.SEARCH' | translate }}</mat-label>
-      <input
-        matInput
-        [ngModel]="searchTerm"
-        (ngModelChange)="onSearchInput($event)"
-        [placeholder]="'COMMENTS.SEARCH_PLACEHOLDER' | translate">
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="onSearch()"
-        [disabled]="loading"
-        matTooltip="{{ 'COMMON.SEARCH' | translate }}">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+<!-- ─── TOOLBAR ──────────────────────────────────────── -->
+<div class="al-toolbar">
+  <div class="al-search-wrap">
+    <mat-icon class="al-search-icon">search</mat-icon>
+    <input class="al-search-input"
+           [ngModel]="searchTerm"
+           (ngModelChange)="onSearchInput($event)"
+           [placeholder]="'COMMENTS.SEARCH_PLACEHOLDER' | translate">
   </div>
 </div>
 
-<!-- Yükleniyor -->
-<div class="text-center text-muted my-3" *ngIf="loading">
+<!-- ─── LOADING ──────────────────────────────────────── -->
+<div *ngIf="loading" class="al-loading">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
-<!-- Tablo -->
-<div class="table-responsive-wrapper" *ngIf="!loading">
-  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)" class="mat-elevation-z2">
+<!-- ─── TABLE ────────────────────────────────────────── -->
+<div class="al-table-wrap" *ngIf="!loading">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
 
-    <!-- İçerik -->
     <ng-container matColumnDef="content">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.CONTENT' | translate }}</th>
-      <td mat-cell *matCellDef="let comment" class="content-cell">
-        <span [matTooltip]="comment.content">
-          {{ truncateContent(comment.content, 80) }}
-        </span>
+      <td mat-cell *matCellDef="let comment" class="al-content-cell">
+        <span [matTooltip]="comment.content">{{ truncateContent(comment.content, 80) }}</span>
       </td>
     </ng-container>
 
-    <!-- Blog Başlığı -->
     <ng-container matColumnDef="postTitle">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.POST_TITLE' | translate }}</th>
       <td mat-cell *matCellDef="let comment">
-        <a class="post-link" (click)="viewPost(comment)" [matTooltip]="comment.postTitle">
+        <a class="al-post-link" (click)="viewPost(comment)" [matTooltip]="comment.postTitle">
           {{ truncateContent(comment.postTitle || 'Bilinmeyen', 40) }}
         </a>
       </td>
     </ng-container>
 
-    <!-- Kullanıcı -->
     <ng-container matColumnDef="userFullName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.USER' | translate }}</th>
-      <td mat-cell *matCellDef="let comment">{{ comment.userFullName || 'Anonim' }}</td>
+      <td mat-cell *matCellDef="let comment">
+        <div class="al-user-cell">
+          <div class="al-user-avatar"><mat-icon>person</mat-icon></div>
+          <span>{{ comment.userFullName || 'Anonim' }}</span>
+        </div>
+      </td>
     </ng-container>
 
-    <!-- Tarih -->
     <ng-container matColumnDef="createdAt">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'COMMENTS.CREATED_AT' | translate }}</th>
-      <td mat-cell *matCellDef="let comment">{{ formatDate(comment.createdAt) }}</td>
+      <td mat-cell *matCellDef="let comment" class="al-date-cell">{{ formatDate(comment.createdAt) }}</td>
     </ng-container>
 
-    <!-- İşlemler -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.ACTIONS' | translate }}</th>
-      <td mat-cell *matCellDef="let comment">
-        <button mat-icon-button [matMenuTriggerFor]="rowMenu" matTooltip="{{ 'COMMON.ACTIONS' | translate }}">
-          <mat-icon>more_vert</mat-icon>
+      <th mat-header-cell *matHeaderCellDef class="al-actions-th">{{ 'COMMON.ACTIONS' | translate }}</th>
+      <td mat-cell *matCellDef="let comment" class="al-actions-td">
+        <button mat-icon-button class="al-btn-reply" (click)="startReply(comment)" matTooltip="Yanıtla">
+          <mat-icon>reply</mat-icon>
         </button>
-        <mat-menu #rowMenu="matMenu">
-          <button mat-menu-item (click)="startReply(comment)">
-            <mat-icon>reply</mat-icon>Yanıtla
-          </button>
-          <button mat-menu-item (click)="viewPost(comment)">
-            <mat-icon>visibility</mat-icon>{{ 'COMMENTS.VIEW_POST' | translate }}
-          </button>
-          <button mat-menu-item (click)="remove(comment.id)">
-            <mat-icon color="warn">delete</mat-icon>{{ 'COMMON.DELETE' | translate }}
-          </button>
-        </mat-menu>
+        <button mat-icon-button class="al-btn-view" (click)="viewPost(comment)" [matTooltip]="'COMMENTS.VIEW_POST' | translate">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button class="al-btn-delete" (click)="remove(comment.id)" [matTooltip]="'COMMON.DELETE' | translate">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
       </td>
     </ng-container>
 
@@ -100,47 +82,35 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <!-- Paginator -->
+  <div *ngIf="!dataSource.data?.length" class="al-empty">
+    <mat-icon>comment</mat-icon>
+    <p>{{ 'COMMENTS.NO_RECORDS' | translate }}</p>
+  </div>
+
   <mat-paginator
-    [length]="totalCount"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
-    [pageSizeOptions]="[5, 10, 20, 50]"
-    showFirstLastButtons
-    (page)="onPageChange($event)">
+    [length]="totalCount" [pageSize]="pageSize" [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons (page)="onPageChange($event)">
   </mat-paginator>
 </div>
 
-<!-- Reply Form -->
-<div class="reply-panel mat-elevation-z2" *ngIf="replyingTo">
-  <div class="reply-header">
+<!-- ─── REPLY PANEL ───────────────────────────────────── -->
+<div class="al-reply-panel" *ngIf="replyingTo">
+  <div class="al-reply-header">
     <mat-icon>reply</mat-icon>
-    <span><strong>{{ replyingTo.userFullName }}</strong> kişisine yanıt veriyorsunuz
-      <em class="original-text">"{{ truncateContent(replyingTo.content, 60) }}"</em>
+    <span><strong>{{ replyingTo.userFullName }}</strong> kişisine yanıt veriyorsunuz &mdash;
+      <em>"{{ truncateContent(replyingTo.content, 60) }}"</em>
     </span>
-    <button mat-icon-button (click)="cancelReply()" matTooltip="İptal">
-      <mat-icon>close</mat-icon>
-    </button>
+    <button mat-icon-button (click)="cancelReply()"><mat-icon>close</mat-icon></button>
   </div>
-  <mat-form-field appearance="outline" class="reply-field">
+  <mat-form-field appearance="outline" class="al-reply-field">
     <mat-label>Yanıtınız</mat-label>
     <textarea matInput [(ngModel)]="replyContent" rows="3" placeholder="Yanıtınızı yazın..."></textarea>
   </mat-form-field>
-  <div class="reply-actions">
-    <button mat-button (click)="cancelReply()">İptal</button>
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="!replyContent.trim() || replySubmitting"
-      (click)="submitReply()">
+  <div class="al-reply-actions">
+    <button mat-stroked-button (click)="cancelReply()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button mat-flat-button color="primary" [disabled]="!replyContent.trim() || replySubmitting" (click)="submitReply()">
       <mat-icon>send</mat-icon>
       {{ replySubmitting ? 'Gönderiliyor...' : 'Yanıt Gönder' }}
     </button>
   </div>
-</div>
-
-<!-- Boş durum -->
-<div class="empty-state text-center my-5" *ngIf="!loading && dataSource.data.length === 0">
-  <mat-icon class="empty-icon">comment</mat-icon>
-  <p class="text-muted">{{ 'COMMENTS.NO_RECORDS' | translate }}</p>
 </div>

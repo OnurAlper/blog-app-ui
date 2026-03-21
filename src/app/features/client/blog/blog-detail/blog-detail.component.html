@@ -1,114 +1,156 @@
 <div class="detail-page" *ngIf="!loading; else loadingTpl">
   <ng-container *ngIf="blog">
 
-    <!-- ── TOP NAV BAR ─────────────────────────────── -->
+    <!-- ── TOP NAV ─────────────────────────────────── -->
     <div class="top-nav">
-      <button mat-icon-button class="back-btn" (click)="goBack()" title="Geri Dön">
+      <button mat-icon-button class="back-btn" (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
       </button>
       <span class="breadcrumb">
         <span class="bc-link" (click)="goBack()">Bloglar</span>
         <mat-icon class="bc-sep">chevron_right</mat-icon>
-        <span class="bc-current">{{ blog.title | slice:0:40 }}{{ blog.title.length > 40 ? '...' : '' }}</span>
+        <span class="bc-current">{{ blog.title | slice:0:50 }}{{ blog.title.length > 50 ? '...' : '' }}</span>
       </span>
     </div>
 
-    <!-- ── ARTICLE HEADER ─────────────────────────── -->
-    <header class="article-header">
-      <div class="header-inner">
-        <span class="category-chip" *ngIf="blog.categoryName">{{ blog.categoryName }}</span>
+    <!-- ── ARTICLE WRAPPER ────────────────────────── -->
+    <div class="article-wrapper">
+
+      <!-- ── HEADER ─────────────────────────────── -->
+      <header class="article-header">
+
+        <!-- Meta row: category + read time -->
+        <div class="header-meta-row">
+          <span class="category-chip" *ngIf="blog.categoryName">{{ blog.categoryName }}</span>
+          <span class="read-time-badge" *ngIf="blog.estimatedReadMinutes">
+            <mat-icon>schedule</mat-icon>
+            {{ blog.estimatedReadMinutes }}dk okuma
+          </span>
+        </div>
+
+        <!-- Title -->
         <h1 class="article-title">{{ blog.title }}</h1>
 
+        <!-- Author row -->
         <div class="article-meta">
           <div class="meta-author">
-            <div class="author-avatar">
-              <mat-icon>account_circle</mat-icon>
+            <div class="author-avatar-circle">
+              <mat-icon>person</mat-icon>
             </div>
             <div class="author-info">
               <span class="author-name">{{ blog.authorFullName }}</span>
-              <span class="meta-detail">
-                {{ formatDate(blog.createdAt) }}&nbsp;·&nbsp;{{ blog.estimatedReadMinutes }} dk okuma
-              </span>
+              <span class="author-date">{{ formatDate(blog.createdAt) }}</span>
             </div>
           </div>
-          <div class="meta-stats">
-            <span class="stat"><mat-icon>visibility</mat-icon>{{ blog.viewCount }}</span>
-            <span class="stat"><mat-icon>favorite_border</mat-icon>{{ blog.likeCount }}</span>
-            <span class="stat"><mat-icon>chat_bubble_outline</mat-icon>{{ commentTotal }}</span>
+          <div class="meta-actions">
+            <button mat-icon-button class="action-btn" (click)="shareUrl('copy')" title="Paylaş">
+              <mat-icon>share</mat-icon>
+            </button>
+            <button mat-icon-button class="action-btn" [class.liked]="liked" [disabled]="liking"
+                    (click)="toggleLike()" title="Beğen">
+              <mat-icon>{{ liked ? 'favorite' : 'favorite_border' }}</mat-icon>
+            </button>
           </div>
         </div>
 
+        <!-- Tags -->
         <div class="article-tags" *ngIf="blog.tags?.length">
           <span class="tag-chip" *ngFor="let tag of blog.tags">{{ tag }}</span>
         </div>
+
+      </header>
+
+      <!-- ── COVER IMAGE ─────────────────────────── -->
+      <div class="cover-wrap" *ngIf="blog.coverImageUrl">
+        <img [src]="blog.coverImageUrl" [alt]="blog.title" class="cover-img"
+             (error)="$any($event.target).style.display='none'">
       </div>
-    </header>
 
-    <!-- ── COVER IMAGE ────────────────────────────── -->
-    <div class="cover-wrap" *ngIf="blog.coverImageUrl">
-      <img [src]="blog.coverImageUrl" [alt]="blog.title" class="cover-img"
-           (error)="$any($event.target).style.display='none'">
-    </div>
+      <!-- ── CONTENT ROW ─────────────────────────── -->
+      <div class="content-row">
 
-    <!-- ── CONTENT + ACTIONS ──────────────────────── -->
-    <div class="content-row">
-
-      <!-- Floating actions -->
-      <aside class="float-actions">
-        <button class="fab-btn" [class.liked]="liked" [disabled]="liking" (click)="toggleLike()" title="Beğen">
-          <mat-icon>{{ liked ? 'favorite' : 'favorite_border' }}</mat-icon>
-          <span>{{ blog.likeCount }}</span>
-        </button>
-        <div class="fab-btn passive" title="Görüntülenme">
-          <mat-icon>visibility</mat-icon>
-          <span>{{ blog.viewCount }}</span>
-        </div>
-        <button class="fab-btn" (click)="scrollToComments()" title="Yorumlar">
-          <mat-icon>chat_bubble_outline</mat-icon>
-          <span>{{ commentTotal }}</span>
-        </button>
-      </aside>
-
-      <!-- Article body -->
-      <article class="article-body">
-        <div class="prose" [innerHTML]="blog.content | safeHtml"></div>
-      </article>
-
-    </div>
-
-    <!-- ── COMMENTS ───────────────────────────────── -->
-    <section class="comments-section" id="comments-section">
-      <div class="comments-inner">
-
-        <h3 class="section-title">
-          <mat-icon>forum</mat-icon>
-          Yorumlar
-          <span class="count-badge">{{ commentTotal }}</span>
-        </h3>
-
-        <!-- Main comment form -->
-        <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="comment-form-wrap">
-          <mat-icon class="form-avatar">account_circle</mat-icon>
-          <div class="form-right">
-            <mat-form-field appearance="outline" style="width:100%">
-              <mat-label>Yorumunuzu yazın...</mat-label>
-              <textarea matInput formControlName="content" rows="3"></textarea>
-              <mat-error *ngIf="commentForm.get('content')?.hasError('required')">Yorum boş olamaz.</mat-error>
-              <mat-error *ngIf="commentForm.get('content')?.hasError('minlength')">En az 2 karakter giriniz.</mat-error>
-            </mat-form-field>
-            <div class="form-actions">
-              <button mat-flat-button color="primary" type="submit"
-                      [disabled]="commentForm.invalid || commentSubmitting">
-                <mat-icon>send</mat-icon>
-                {{ commentSubmitting ? 'Gönderiliyor...' : 'Yorum Gönder' }}
-              </button>
-            </div>
+        <!-- Floating sidebar -->
+        <aside class="float-actions">
+          <button class="fab-btn" [class.liked]="liked" [disabled]="liking" (click)="toggleLike()" title="Beğen">
+            <mat-icon>{{ liked ? 'favorite' : 'favorite_border' }}</mat-icon>
+            <span>{{ blog.likeCount }}</span>
+          </button>
+          <div class="fab-btn passive" title="Görüntülenme">
+            <mat-icon>visibility</mat-icon>
+            <span>{{ blog.viewCount }}</span>
           </div>
-        </form>
+          <button class="fab-btn" (click)="scrollToComments()" title="Yorumlar">
+            <mat-icon>chat_bubble_outline</mat-icon>
+            <span>{{ commentTotal }}</span>
+          </button>
+        </aside>
+
+        <!-- Article body -->
+        <article class="article-body">
+          <div class="prose" [innerHTML]="blog.content | safeHtml"></div>
+        </article>
+
+      </div>
+
+      <!-- ── SHARE SECTION ───────────────────────── -->
+      <div class="share-section">
+        <div class="share-left">
+          <span class="share-label">Bu yazıyı paylaş:</span>
+          <div class="share-btns">
+            <button class="share-icon-btn share-tw" (click)="shareUrl('twitter')" title="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+              </svg>
+            </button>
+            <button class="share-icon-btn share-lk" (click)="shareUrl('linkedin')" title="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </button>
+            <button class="share-icon-btn share-copy" (click)="shareUrl('copy')" title="Bağlantıyı kopyala">
+              <mat-icon>link</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="share-likes">
+          <mat-icon class="heart-icon" [class.liked]="liked">favorite</mat-icon>
+          <span class="like-count-text">{{ blog.likeCount }} Beğeni</span>
+        </div>
+      </div>
+
+      <!-- ── COMMENTS ─────────────────────────────── -->
+      <section class="comments-section" id="comments-section">
+
+        <div class="comments-header">
+          <h3 class="comments-title">
+            Yorumlar
+            <span class="count-badge">{{ commentTotal }}</span>
+          </h3>
+        </div>
+
+        <!-- Comment form -->
+        <div class="comment-form-card">
+          <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="comment-form-wrap">
+            <div class="form-avatar-circle">
+              <mat-icon>person</mat-icon>
+            </div>
+            <div class="form-right">
+              <textarea class="comment-textarea" formControlName="content"
+                        placeholder="Yorumunuzu yazın... *" rows="3"></textarea>
+              <div class="form-actions">
+                <button mat-flat-button color="primary" type="submit"
+                        [disabled]="commentForm.invalid || commentSubmitting" class="submit-btn">
+                  <mat-icon>send</mat-icon>
+                  {{ commentSubmitting ? 'Gönderiliyor...' : 'Yorum Gönder' }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
 
         <!-- Loading -->
         <div *ngIf="commentsLoading" class="c-loading">
-          <mat-spinner diameter="30"></mat-spinner>
+          <mat-spinner diameter="32"></mat-spinner>
         </div>
 
         <!-- Empty -->
@@ -117,20 +159,19 @@
           <p>Henüz yorum yok. İlk yorumu siz yapın!</p>
         </div>
 
-        <!-- List -->
+        <!-- Comment list -->
         <div class="comment-list" *ngIf="!commentsLoading && comments.length > 0">
           <div class="c-item" *ngFor="let c of comments">
 
-            <!-- Main comment -->
             <div class="c-main">
-              <div class="c-avatar"><mat-icon>account_circle</mat-icon></div>
+              <div class="c-avatar-circle"><mat-icon>person</mat-icon></div>
               <div class="c-body">
                 <div class="c-header">
                   <span class="c-name">{{ c.userFullName || 'Kullanıcı' }}</span>
-                  <span class="c-date">{{ formatDate(c.createdAt) }}</span>
+                  <span class="c-date">· {{ formatDate(c.createdAt) }}</span>
                   <div class="c-actions">
                     <button mat-button class="c-reply-btn" (click)="openReply(c.id)">
-                      <mat-icon style="font-size:15px;width:15px;height:15px;">reply</mat-icon>
+                      <mat-icon style="font-size:14px;width:14px;height:14px;">reply</mat-icon>
                       Yanıtla
                     </button>
                     <button *ngIf="isMyComment(c)" mat-icon-button class="c-del" (click)="deleteComment(c.id)">
@@ -144,12 +185,10 @@
 
             <!-- Inline reply form -->
             <div class="reply-form-wrap" *ngIf="replyingToId === c.id">
-              <mat-icon class="reply-avatar">account_circle</mat-icon>
+              <div class="c-avatar-circle c-avatar-sm"><mat-icon>person</mat-icon></div>
               <div class="reply-right">
-                <mat-form-field appearance="outline" style="width:100%">
-                  <mat-label>{{ c.userFullName }}'a yanıt yaz...</mat-label>
-                  <textarea matInput [formControl]="$any(replyForm.get('content'))" rows="2"></textarea>
-                </mat-form-field>
+                <textarea class="comment-textarea" [formControl]="$any(replyForm.get('content'))"
+                          [placeholder]="c.userFullName + '\a yanıt yaz...'" rows="2"></textarea>
                 <div class="reply-actions">
                   <button mat-stroked-button type="button" (click)="cancelReply()">İptal</button>
                   <button mat-flat-button color="primary" type="button"
@@ -164,11 +203,11 @@
             <!-- Nested replies -->
             <div class="replies-wrap" *ngIf="c.replies && c.replies.length > 0">
               <div class="reply-item" *ngFor="let r of c.replies">
-                <div class="r-avatar"><mat-icon>account_circle</mat-icon></div>
+                <div class="c-avatar-circle c-avatar-sm"><mat-icon>person</mat-icon></div>
                 <div class="r-body">
                   <div class="r-header">
                     <span class="r-name">{{ r.userFullName || 'Kullanıcı' }}</span>
-                    <span class="r-date">{{ formatDate(r.createdAt) }}</span>
+                    <span class="r-date">· {{ formatDate(r.createdAt) }}</span>
                     <button *ngIf="isMyComment(r)" mat-icon-button class="r-del" (click)="deleteReply(r.id, c.id)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
@@ -191,8 +230,25 @@
           showFirstLastButtons>
         </mat-paginator>
 
+      </section>
+
+    </div><!-- /.article-wrapper -->
+
+    <!-- ── FOOTER ───────────────────────────────────── -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">BlogApp</span>
+          <p class="footer-tagline">Kaliteli içerikler, uzman yazarlar.</p>
+        </div>
+        <div class="footer-links">
+          <a class="footer-link" (click)="shareUrl('twitter')">Twitter</a>
+          <a class="footer-link" href="#">GitHub</a>
+          <a class="footer-link" (click)="shareUrl('linkedin')">LinkedIn</a>
+        </div>
+        <p class="footer-copy">© {{ currentYear }} BlogApp Platform. All rights reserved.</p>
       </div>
-    </section>
+    </footer>
 
   </ng-container>
 </div>

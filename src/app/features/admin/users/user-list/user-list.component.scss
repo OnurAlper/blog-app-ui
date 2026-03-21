@@ -1,12 +1,12 @@
 .page-header {
-  h2 { font-weight: 700; font-size: 1.15rem; color: #1c1d1f; margin: 0; }
+  h2 { font-weight: 800; font-size: 1.2rem; color: #1c1d1f; margin: 0; letter-spacing: -.02em; }
   .mat-button-toggle-group { margin-right: 12px; }
 }
 
 .table-responsive-wrapper {
   width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
-  border-radius: 8px; border: 1px solid #eeeeee;
-  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  border-radius: 16px; border: 1px solid #eeeeee;
+  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.05);
 
   table {
     min-width: 820px; width: 100%;
@@ -23,7 +23,7 @@
 
     tr {
       border-bottom: 1px solid #eeeeee; transition: background .1s ease;
-      &:hover { background: #f5f3ff; }
+      &:hover { background: #fff1eb; }
       &:last-child { border-bottom: none; }
     }
   }
@@ -51,7 +51,7 @@
 }
 
 a[href^="mailto:"] {
-  color: #a435f0; text-decoration: none;
+  color: #ec5b13; text-decoration: none;
   &:hover { text-decoration: underline; }
 }
 
@@ -62,17 +62,22 @@ a[href^="mailto:"] {
 }
 
 .user-card {
-  padding: 16px; border-radius: 8px;
+  padding: 16px; border-radius: 12px;
   border: 1px solid #eeeeee; background: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
   transition: box-shadow .18s ease, transform .18s ease;
 
   &:hover { box-shadow: 0 6px 20px rgba(0,0,0,.10); transform: translateY(-2px); }
   .mat-icon { font-size: 18px; width: 18px; height: 18px; line-height: 18px; opacity: .7; }
 }
 
+.al-title {
+  font-size: 1.2rem; font-weight: 800; color: #1c1d1f;
+}
+
 .mat-paginator {
   border-top: 1px solid #eeeeee; background: #fff !important;
+  border-radius: 0 0 16px 16px;
 }
 
 .text-center.text-muted.py-5 {

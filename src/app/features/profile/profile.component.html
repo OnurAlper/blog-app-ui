@@ -1,158 +1,236 @@
-<div class="container py-4">
-  <!-- şifre kartı yokken ortala -->
-  <div class="row" [class.justify-content-center]="!isOwnProfile">
+<div class="pf-layout">
 
-    <!-- Sol Sütun: Profil Bilgileri (koşullu genişlik + ortalama) -->
-    <div
-      class="col-12 mb-4"
-      [ngClass]="isOwnProfile ? 'col-md-6' : 'col-md-8 col-lg-6 mx-auto'"
-    >
-      <div class="profile-wrapper">
-        <mat-card class="profile-card mat-elevation-z8">
-          <mat-card-header>
-            <mat-card-title>{{ 'PROFILE.TITLE' | translate }}</mat-card-title>
-          </mat-card-header>
+  <!-- ─── SIDEBAR ──────────────────────────────────────── -->
+  <aside class="pf-sidebar">
 
-          <mat-card-content>
-            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+    <!-- Profile card -->
+    <div class="pf-card pf-avatar-card">
+      <div class="pf-cover"></div>
+      <div class="pf-avatar-wrap">
+        <label class="pf-avatar-label" *ngIf="isOwnProfile">
+          <img [src]="profileImagePreview || defaultImage" alt="profil" class="pf-avatar-img" />
+          <div class="pf-avatar-overlay">
+            <mat-icon>photo_camera</mat-icon>
+          </div>
+          <input type="file" (change)="onFileSelected($event)" hidden accept="image/*" />
+        </label>
+        <div class="pf-avatar-display" *ngIf="!isOwnProfile">
+          <img [src]="profileImagePreview || defaultImage" alt="profil" class="pf-avatar-img" />
+        </div>
+      </div>
 
-              <!-- Profil Resmi -->
-              <div class="profile-header d-flex flex-column align-items-center mb-4">
-                <div class="profile-image-container">
-                  <label class="profile-image-label">
-                    <img [src]="profileImagePreview || defaultImage" alt="profile" class="profile-image" />
-                    <div class="edit-overlay">
-                      <mat-icon>edit</mat-icon>
-                    </div>
-                    <input type="file" (change)="onFileSelected($event)" hidden />
-                  </label>
-                </div>
-              </div>
+      <h2 class="pf-display-name">{{ displayName || (profileForm.get('name')?.value + ' ' + profileForm.get('surname')?.value) }}</h2>
+      <p class="pf-display-username">@{{ displayUsername || profileForm.get('username')?.value }}</p>
 
-              <div class="form-grid">
-                <!-- Ad -->
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ 'PROFILE.NAME' | translate }}</mat-label>
-                  <input matInput formControlName="name" />
-                </mat-form-field>
-
-                <!-- Soyad -->
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ 'PROFILE.SURNAME' | translate }}</mat-label>
-                  <input matInput formControlName="surname" />
-                </mat-form-field>
-
-                <!-- Kullanıcı Adı -->
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ 'PROFILE.USERNAME' | translate }}</mat-label>
-                  <input matInput formControlName="username" />
-                </mat-form-field>
-
-                <!-- E-Mail -->
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ 'PROFILE.EMAIL' | translate }}</mat-label>
-                  <input matInput formControlName="email" />
-                </mat-form-field>
-
-                <!-- Ülke -->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
-                  <mat-select formControlName="countryId" [disableOptionCentering]="true" (selectionChange)="onCountryChange($event.value)">
-                    <!-- Arama kutusu mutlaka mat-option içinde -->
-                    <mat-option>
-                      <ngx-mat-select-search
-                        [(ngModel)]="countrySearchTerm"
-                        [ngModelOptions]="{ standalone: true }"
-                        (ngModelChange)="onCountrySearch($event)"
-                        placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
-                        noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}">
-                      </ngx-mat-select-search>
-                    </mat-option>
-
-                    <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
-                      {{ country.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <!-- Telefon -->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    formControlName="phoneNumber"
-                    [prefix]="selectedDialCode + ' '"
-                    mask="(000) 000 00 00"
-                    placeholder="(5__) ___ __ __" />
-                  <mat-error *ngIf="profileForm.get('phoneNumber')?.hasError('required')">
-                    {{ 'VALIDATION.REQUIRED' | translate }}
-                  </mat-error>
-                </mat-form-field>
-
-                <!-- Doğum Tarihi -->
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ 'PROFILE.BIRTHDATE' | translate }}</mat-label>
-                  <input matInput formControlName="birthDate" [matDatepicker]="birthPicker" />
-                  <mat-datepicker-toggle matSuffix [for]="birthPicker"></mat-datepicker-toggle>
-                  <mat-datepicker #birthPicker></mat-datepicker>
-                </mat-form-field>
-
-                <!-- Cinsiyet -->
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ 'PROFILE.GENDER' | translate }}</mat-label>
-                  <mat-select formControlName="gender">
-                    <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                      {{ gender.label | translate }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-              <div class="button-container text-end mt-3">
-                <button mat-flat-button color="primary" type="submit">
-                  {{ 'PROFILE.SAVE' | translate }}
-                </button>
-              </div>
-            </form>
-          </mat-card-content>
-        </mat-card>
+      <div class="pf-stats-row">
+        <div class="pf-stat">
+          <span class="pf-stat-icon"><mat-icon>article</mat-icon></span>
+          <span class="pf-stat-label">Yazılar</span>
+        </div>
+        <div class="pf-stat-div"></div>
+        <div class="pf-stat">
+          <span class="pf-stat-icon"><mat-icon>favorite</mat-icon></span>
+          <span class="pf-stat-label">Beğeniler</span>
+        </div>
+        <div class="pf-stat-div"></div>
+        <div class="pf-stat">
+          <span class="pf-stat-icon"><mat-icon>comment</mat-icon></span>
+          <span class="pf-stat-label">Yorumlar</span>
+        </div>
       </div>
     </div>
 
-    <!-- Sağ Sütun: Şifre Güncelleme (yalnızca kendi profiliyse) -->
-    <div class="col-12 col-md-6 mb-4" *ngIf="isOwnProfile">
-      <mat-card class="password-card mat-elevation-z8">
-        <mat-card-header>
-          <mat-card-title>{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</mat-card-title>
-        </mat-card-header>
+    <!-- Navigation -->
+    <div class="pf-nav-card" *ngIf="isOwnProfile">
+      <button class="pf-nav-item" [class.active]="activeTab === 'profile'" (click)="setTab('profile')">
+        <mat-icon>person_edit</mat-icon>
+        <span>Profil Ayarları</span>
+      </button>
+      <button class="pf-nav-item" [class.active]="activeTab === 'security'" (click)="setTab('security')">
+        <mat-icon>security</mat-icon>
+        <span>Güvenlik</span>
+      </button>
+    </div>
 
-        <mat-card-content>
-          <form [formGroup]="passwordForm" (ngSubmit)="onPasswordChange()">
-            <mat-form-field appearance="outline" class="w-100">
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─────────────────────────────────── -->
+  <section class="pf-main">
+
+    <!-- Tab bar -->
+    <div class="pf-main-card" *ngIf="isOwnProfile">
+      <div class="pf-tabs">
+        <button class="pf-tab" [class.active]="activeTab === 'profile'" (click)="setTab('profile')">
+          <mat-icon>person_edit</mat-icon>
+          Profil Bilgileri
+        </button>
+        <button class="pf-tab" [class.active]="activeTab === 'security'" (click)="setTab('security')">
+          <mat-icon>security</mat-icon>
+          Güvenlik
+        </button>
+      </div>
+
+      <!-- ── PROFILE TAB ──────────────────────────── -->
+      <div class="pf-tab-content" *ngIf="activeTab === 'profile'">
+        <div class="pf-section-head">
+          <h2 class="pf-section-title">{{ 'PROFILE.TITLE' | translate }}</h2>
+          <p class="pf-section-sub">Kişisel bilgilerinizi güncelleyin.</p>
+        </div>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="pf-form">
+          <div class="pf-form-grid">
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.NAME' | translate }}</mat-label>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.SURNAME' | translate }}</mat-label>
+              <input matInput formControlName="surname" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.USERNAME' | translate }}</mat-label>
+              <input matInput formControlName="username" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.EMAIL' | translate }}</mat-label>
+              <input matInput formControlName="email" type="email" />
+            </mat-form-field>
+
+            <!-- Country -->
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.COUNTRY' | translate }}</mat-label>
+              <mat-select formControlName="countryId" [disableOptionCentering]="true"
+                          (selectionChange)="onCountryChange($event.value)">
+                <mat-option>
+                  <ngx-mat-select-search
+                    [(ngModel)]="countrySearchTerm"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="onCountrySearch($event)"
+                    placeholderLabel="{{ 'SIGNUP.SEARCH_COUNTRY' | translate }}"
+                    noEntriesFoundLabel="{{ 'SIGNUP.NO_RESULT' | translate }}">
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let country of filteredCountries" [value]="country.id">
+                  {{ country.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Phone -->
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
+              <input matInput type="text" formControlName="phoneNumber"
+                     [prefix]="selectedDialCode + ' '"
+                     mask="(000) 000 00 00"
+                     placeholder="(5__) ___ __ __" />
+            </mat-form-field>
+
+            <!-- Birth date -->
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.BIRTHDATE' | translate }}</mat-label>
+              <input matInput formControlName="birthDate" [matDatepicker]="birthPicker" />
+              <mat-datepicker-toggle matSuffix [for]="birthPicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthPicker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- Gender -->
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.GENDER' | translate }}</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                  {{ gender.label | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+
+          <div class="pf-form-actions">
+            <button mat-flat-button color="primary" type="submit" class="pf-save-btn"
+                    [disabled]="profileForm.invalid">
+              {{ 'PROFILE.SAVE' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── SECURITY TAB ─────────────────────────── -->
+      <div class="pf-tab-content" *ngIf="activeTab === 'security'">
+        <div class="pf-section-head">
+          <h2 class="pf-section-title">{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</h2>
+          <p class="pf-section-sub">{{ 'PROFILE.PASSWORD_RULE' | translate }}</p>
+        </div>
+
+        <form [formGroup]="passwordForm" (ngSubmit)="onPasswordChange()" class="pf-form">
+          <div class="pf-form-grid pf-form-grid--single">
+
+            <mat-form-field appearance="outline">
               <mat-label>{{ 'PROFILE.CURRENT_PASSWORD' | translate }}</mat-label>
               <input matInput formControlName="currentPassword" type="password" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="w-100">
+            <mat-form-field appearance="outline">
               <mat-label>{{ 'PROFILE.NEW_PASSWORD' | translate }}</mat-label>
               <input matInput formControlName="newPassword" type="password" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="w-100">
+            <mat-form-field appearance="outline">
               <mat-label>{{ 'PROFILE.NEW_PASSWORD_REPEAT' | translate }}</mat-label>
               <input matInput formControlName="confirmPassword" type="password" />
             </mat-form-field>
 
-            <div class="text-end mt-3">
-              <button mat-raised-button color="accent" type="submit">
-                {{ 'PROFILE.UPDATE_PASSWORD' | translate }}
-              </button>
-            </div>
-          </form>
-        </mat-card-content>
-      </mat-card>
+          </div>
+
+          <div class="pf-form-actions">
+            <button mat-flat-button color="primary" type="submit" class="pf-save-btn"
+                    [disabled]="passwordForm.invalid">
+              {{ 'PROFILE.UPDATE_PASSWORD' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
-  </div>
+    <!-- View-only mode (not own profile) -->
+    <div class="pf-main-card pf-view-only" *ngIf="!isOwnProfile">
+      <div class="pf-tabs">
+        <button class="pf-tab active">
+          <mat-icon>person_edit</mat-icon>
+          Profil Bilgileri
+        </button>
+      </div>
+      <div class="pf-tab-content">
+        <div class="pf-section-head">
+          <h2 class="pf-section-title">{{ 'PROFILE.TITLE' | translate }}</h2>
+          <p class="pf-section-sub">Kullanıcı profil bilgileri.</p>
+        </div>
+        <form [formGroup]="profileForm" class="pf-form">
+          <div class="pf-form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.NAME' | translate }}</mat-label>
+              <input matInput formControlName="name" readonly />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.SURNAME' | translate }}</mat-label>
+              <input matInput formControlName="surname" readonly />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.USERNAME' | translate }}</mat-label>
+              <input matInput formControlName="username" readonly />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'PROFILE.EMAIL' | translate }}</mat-label>
+              <input matInput formControlName="email" readonly />
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </section>
+
 </div>

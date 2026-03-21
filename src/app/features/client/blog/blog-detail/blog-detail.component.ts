@@ -42,6 +42,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   currentUserId: number | null = null;
 
   private sub = new Subscription();
+  currentYear = new Date().getFullYear();
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -81,6 +82,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.blog = res.data as GetBlogPostDto;
+          this.liked = this.blog.isLikedByCurrentUser ?? false;
           // Görüntülenme kaydet ve sayacı güncelle
           this.blogViewService.trackView(id).subscribe({
             next: () => { if (this.blog) this.blog.viewCount++; },
@@ -256,6 +258,15 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   isMyComment(comment: GetCommentDto): boolean {
     if (this.currentUserId == null) return false;
     return comment.userId === this.currentUserId || this.authService.isAdmin();
+  }
+
+  shareUrl(platform?: string): void {
+    const url = window.location.href;
+    if (platform === 'copy' || !platform) {
+      navigator.clipboard?.writeText(url).then(() => {
+        this.notify.success('Bağlantı kopyalandı!');
+      }).catch(() => {});
+    }
   }
 
   ngOnDestroy(): void {

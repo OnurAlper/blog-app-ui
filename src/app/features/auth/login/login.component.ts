@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   error: string = '';
   loading: boolean = false;
   currentLang: 'tr' | 'en' = 'tr';
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,

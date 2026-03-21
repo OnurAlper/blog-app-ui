@@ -1,54 +1,352 @@
-.profile-header {
-  display: flex; align-items: center; gap: 18px; margin-bottom: 20px;
+/* ── Variables ─────────────────────────────────── */
+$orange:       #ec5b13;
+$orange-dark:  #c94d0d;
+$orange-light: #fff1eb;
+$text:         #1c1d1f;
+$text-2:       #6a6f73;
+$border:       #e2e8f0;
+$bg:           #f8f6f6;
 
-  .profile-image-container {
-    position: relative; cursor: pointer; flex-shrink: 0;
+/* ── Layout ─────────────────────────────────────── */
+.pf-layout {
+  display: flex;
+  gap: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 48px 64px;
+  align-items: flex-start;
 
-    .profile-image {
-      width: 92px; height: 92px; border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #ede9fe;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
+  @media (max-width: 900px) {
+    flex-direction: column;
+    padding: 24px 16px 48px;
+  }
+}
 
-    .edit-overlay {
-      position: absolute; bottom: 0; right: 0;
-      width: 28px; height: 28px; border-radius: 50%;
-      background: #a435f0; color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 6px rgba(164,53,240,.4);
-      transition: background .18s ease;
-      &:hover { background: #6d28d9; }
-      mat-icon { font-size: 15px; width: 15px; height: 15px; }
-    }
+/* ── Sidebar ─────────────────────────────────────── */
+.pf-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (max-width: 900px) { width: 100%; }
+}
+
+/* ── Cards ───────────────────────────────────────── */
+.pf-card, .pf-nav-card, .pf-main-card {
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+
+/* ── Avatar card ─────────────────────────────────── */
+.pf-avatar-card {
+  padding: 0 24px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Cover banner */
+.pf-cover {
+  width: calc(100% + 48px);   /* bleeds through horizontal padding */
+  height: 80px;
+  background: linear-gradient(135deg, $orange-dark 0%, $orange 55%, #f0905a 100%);
+  margin: 0 -24px 0;
+  flex-shrink: 0;
+  position: relative;
+
+  /* Subtle wave/pattern overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  }
+}
+
+.pf-avatar-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: rgba($orange, .12);
+  padding: 3px;
+  margin-top: -48px;
+  margin-bottom: 12px;
+  z-index: 1;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+}
+
+.pf-avatar-label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.pf-avatar-display {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.pf-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.pf-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .2s;
+  mat-icon { color: #fff; font-size: 22px; width: 22px; height: 22px; }
+}
+
+.pf-avatar-label:hover .pf-avatar-overlay { opacity: 1; }
+
+.pf-display-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: $text;
+  margin: 0 0 4px;
+  letter-spacing: -.02em;
+}
+
+.pf-display-username {
+  font-size: 13px;
+  color: $orange;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+/* Stats row */
+.pf-stats-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 16px;
+  border-top: 1px solid $border;
+  gap: 0;
+}
+
+.pf-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  padding: 8px 4px;
+  border-radius: 10px;
+  transition: background .15s;
+  cursor: default;
+
+  &:hover { background: rgba($orange, .05); }
+}
+
+.pf-stat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: $orange-light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mat-icon { font-size: 18px; width: 18px; height: 18px; color: $orange; }
+}
+
+.pf-stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: $text-2;
+}
+
+.pf-stat-div {
+  width: 1px;
+  background: $border;
+  margin: 4px 0;
+}
+
+/* ── Nav card ────────────────────────────────────── */
+.pf-nav-card {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pf-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-2;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+  transition: all .15s;
+  mat-icon { font-size: 20px; width: 20px; height: 20px; }
+
+  &:hover { background: rgba($orange,.06); color: $orange; }
+  &.active {
+    background: $orange;
+    color: #fff;
+    mat-icon { color: #fff; }
+    box-shadow: 0 4px 14px rgba($orange, .3);
+  }
+}
+
+/* ── Main ────────────────────────────────────────── */
+.pf-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-main-card {
+  overflow: hidden;
+}
+
+/* ── Tabs ────────────────────────────────────────── */
+.pf-tabs {
+  display: flex;
+  border-bottom: 1px solid $border;
+  padding: 0 8px;
+  overflow-x: auto;
+}
+
+.pf-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-2;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &:hover { color: $text; }
+  &.active { color: $orange; border-bottom-color: $orange; }
+}
+
+/* ── Tab content ─────────────────────────────────── */
+.pf-tab-content {
+  padding: 32px 36px;
+
+  @media (max-width: 600px) { padding: 24px 20px; }
+}
+
+.pf-section-head {
+  margin-bottom: 28px;
+  padding-left: 16px;
+  border-left: 3px solid $orange;
+}
+
+.pf-section-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: $text;
+  margin: 0 0 6px;
+  letter-spacing: -.02em;
+}
+
+.pf-section-sub {
+  font-size: 13px;
+  color: $text-2;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Form ────────────────────────────────────────── */
+.pf-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pf-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 16px;
+
+  mat-form-field { width: 100%; }
+
+  &.pf-form-grid--single {
+    grid-template-columns: 1fr;
+    max-width: 480px;
   }
 
-  .profile-details { flex-grow: 1; }
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
 }
 
-.profile-card,
-.password-card {
-  width: 100%; max-width: 700px; margin: auto; padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #eeeeee !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06) !important;
-  background: #fff;
+.pf-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 24px;
+  border-top: 1px solid $border;
+  margin-top: 12px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+/* Save button — force orange regardless of Material theme */
+.pf-save-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px;
+  padding: 0 32px !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  background: $orange !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba($orange, .25) !important;
+  transition: transform .15s, box-shadow .15s, background .15s !important;
+
+  &:hover:not([disabled]) {
+    background: $orange-dark !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba($orange, .35) !important;
+  }
+
+  &[disabled] {
+    background: #e0e0e0 !important;
+    color: #9ba3ae !important;
+    box-shadow: none !important;
+  }
 }
 
-.button-container {
-  display: flex; justify-content: flex-end; margin-top: 20px;
-}
-
-mat-form-field { width: 100%; }
-
-@media (max-width: 768px) {
-  .profile-card, .password-card { padding: 14px; }
-  .form-grid { grid-template-columns: 1fr; }
-  .profile-header { flex-direction: column; align-items: center; text-align: center; }
-}
+/* ── View only ───────────────────────────────────── */
+/* Same layout as own-profile — just read-only fields */

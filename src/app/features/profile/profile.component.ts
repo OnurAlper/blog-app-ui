@@ -30,7 +30,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profileImagePreview: string | null = null;
   defaultImage = 'assets/user.png';
 
-  // görüntülenen profilin ID’si
   private viewedUserId!: number;
 
   genders = [
@@ -38,8 +37,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     { value: GenderType.Female, label: 'GENDER.FEMALE' }
   ];
 
-  // kendi profilim mi?
   isOwnProfile = false;
+
+  activeTab: 'profile' | 'security' = 'profile';
+
+  // User display data
+  displayName = '';
+  displayUsername = '';
 
   constructor(
     private fb: FormBuilder,
@@ -57,9 +61,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.initProfileForm();
     this.initPasswordForm();
-
     this.loadUser();
     this.fetchCountries();
+  }
+
+  setTab(tab: 'profile' | 'security'): void {
+    this.activeTab = tab;
   }
 
   initProfileForm(): void {
@@ -102,6 +109,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         const data = res.data as GetUserDto;
 
         this.profileImagePreview = data.profileImageUrl || this.defaultImage;
+        this.displayName = `${data.name || ''} ${data.surname || ''}`.trim();
+        this.displayUsername = data.username || '';
 
         this.profileForm.patchValue({
           ...data,
@@ -152,7 +161,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.profileForm.invalid) return;
 
-    // ✅ ID’yi request’e ekliyoruz
     const form = this.profileForm.value;
     const request: UpdateProfileDto = {
       id: this.viewedUserId,
@@ -172,6 +180,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.userService.updateProfile(request).subscribe({
       next: res => {
         if (res.data?.isUpdated) {
+          this.displayName = `${form.name} ${form.surname}`.trim();
+          this.displayUsername = form.username;
           this.notification.success(res.data.message || this.translate.instant('PROFILE.UPDATE_SUCCESS'));
         } else {
           this.notification.error(this.translate.instant('PROFILE.UPDATE_FAILED'));
@@ -185,7 +195,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onPasswordChange(): void {
-    if (!this.isOwnProfile) return; // güvenlik için
+    if (!this.isOwnProfile) return;
 
     if (this.passwordForm.invalid) {
       this.notification.error(this.translate.instant('VALIDATION.REQUIRED'));

@@ -1,40 +1,47 @@
-<div class="container-fluid min-vh-100 d-flex flex-column flex-md-row p-0">
-  <!-- Sağ Taraf (Form) - Mobilde üstte, masaüstünde sağda -->
-  <div class="order-1 order-md-2 col-12 col-md-6 d-flex align-items-center justify-content-center bg-light p-4">
-
-    <!-- Sağ üstte bayrak dropdown -->
-    <div class="position-absolute top-0 end-0 p-3 z-3">
+<div class="auth-shell">
+  <!-- Header -->
+  <header class="auth-header">
+    <div class="brand">
+      <span class="brand-icon"><mat-icon>auto_stories</mat-icon></span>
+      <span class="brand-name">BlogPlatform</span>
+    </div>
+    <div class="header-right">
       <div class="dropdown">
-        <a class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none fs-6" href="#" role="button"
-          id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <img [src]="'assets/flags/' + (currentLang === 'en' ? 'us' : currentLang) + '.svg'" width="24" height="16"
+        <a class="lang-toggle dropdown-toggle d-flex align-items-center gap-2 text-decoration-none" href="#"
+          role="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <img [src]="'assets/flags/' + (currentLang === 'en' ? 'us' : currentLang) + '.svg'" width="22" height="15"
             alt="Flag" class="rounded border" />
           <span>{{ currentLang === 'tr' ? 'Türkçe' : 'English' }}</span>
         </a>
-
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
           <li>
             <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('tr')">
-              <img src="assets/flags/tr.svg" width="24" height="16" alt="TR" class="rounded border" />
+              <img src="assets/flags/tr.svg" width="22" height="15" alt="TR" class="rounded border" />
               {{ 'LANG.TURKISH' | translate }}
             </a>
           </li>
           <li>
             <a class="dropdown-item d-flex align-items-center gap-2" (click)="switchLang('en')">
-              <img src="assets/flags/us.svg" width="24" height="16" alt="US" class="rounded border" />
+              <img src="assets/flags/us.svg" width="22" height="15" alt="US" class="rounded border" />
               {{ 'LANG.ENGLISH' | translate }}
             </a>
           </li>
         </ul>
       </div>
+      <a class="signup-link" routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a>
     </div>
+  </header>
 
+  <!-- Main -->
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="card-intro">
+        <h1>{{ 'LOGIN.TITLE' | translate }}</h1>
+        <p>{{ 'LOGIN.SUBTITLE' | translate }}</p>
+      </div>
 
-    <div class="card p-4 shadow w-100" style="max-width: 400px;">
-      <h3 class="text-center mb-4">{{ 'LOGIN.TITLE' | translate }}</h3>
-
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="w-100 mb-3">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ 'LOGIN.USERNAME' | translate }}</mat-label>
           <input matInput formControlName="usernameOrEmail" />
           <mat-error *ngIf="loginForm.get('usernameOrEmail')?.hasError('required')">
@@ -42,40 +49,40 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ 'LOGIN.PASSWORD' | translate }}</mat-label>
-          <input matInput type="password" formControlName="password" />
+          <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" />
+          <button mat-icon-button matSuffix type="button" (click)="showPassword = !showPassword">
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
           <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
             {{ 'VALIDATION.REQUIRED' | translate }}
           </mat-error>
         </mat-form-field>
 
-        <div class="d-flex justify-content-end mb-2">
-          <a class="small text-decoration-none" routerLink="/forgot-password">
+        <div class="form-row-between">
+          <mat-checkbox formControlName="staySignedIn">
+            {{ 'LOGIN.REMEMBER_ME' | translate }}
+          </mat-checkbox>
+          <a class="forgot-link" routerLink="/forgot-password">
             {{ 'LOGIN.FORGOT_PASSWORD' | translate }}
           </a>
         </div>
-        <mat-checkbox formControlName="staySignedIn" class="mb-3">
-          {{ 'LOGIN.REMEMBER_ME' | translate }}
-        </mat-checkbox>
 
-        <button mat-raised-button color="primary" class="w-100" [disabled]="loginForm.invalid || loading">
+        <button mat-raised-button color="primary" class="submit-btn" type="submit"
+          [disabled]="loginForm.invalid || loading">
           {{ loading ? ('LOGIN.LOADING' | translate) : ('LOGIN.BUTTON' | translate) }}
         </button>
       </form>
 
-      <p class="text-center mt-3">
+      <p class="bottom-link">
         {{ 'LOGIN.NO_ACCOUNT' | translate }}
         <a routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a>
       </p>
     </div>
-  </div>
+  </main>
 
-  <!-- Sol Taraf (Görsel) - Mobilde altta, masaüstünde solda -->
-  <div
-    class="order-2 order-md-1 col-12 col-md-6 d-flex flex-column align-items-center justify-content-center bg-primary text-white text-center p-4">
-    <h2 class="mb-3">EMBEDDEDACADEMY</h2>
-    <p class="mb-4">Learn. Build. Innovate.</p>
-    <img src="assets/circuit.svg" alt="circuit" class="img-fluid" style="max-width: 300px;" />
-  </div>
+  <footer class="auth-footer">
+    <p>© 2024 BlogPlatform Inc. All rights reserved.</p>
+  </footer>
 </div>

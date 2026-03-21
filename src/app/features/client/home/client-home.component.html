@@ -1,40 +1,51 @@
 <!-- ─── HERO BANNER ─────────────────────────────────────── -->
-<section class="hero-section" [class.has-bg]="settings.bannerImageUrl"
+<section class="hero-section"
+         [class.has-bg]="settings.bannerImageUrl"
          [style.backgroundImage]="settings.bannerImageUrl ? 'url(' + settings.bannerImageUrl + ')' : null">
-  <div class="hero-overlay" *ngIf="settings.bannerImageUrl"></div>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-badge">
-      <mat-icon>auto_awesome</mat-icon>
-      <span>Blog Platform</span>
-    </div>
+    <span class="hero-badge">Öne Çıkan Yazı</span>
     <h1 class="hero-title">{{ settings.bannerTitle }}</h1>
     <p class="hero-subtitle">{{ settings.bannerSubtitle }}</p>
-    <p class="hero-desc" *ngIf="settings.bannerDescription">{{ settings.bannerDescription }}</p>
     <div class="hero-actions">
       <button mat-flat-button class="hero-btn-primary" (click)="goToBlogs()">
-        <mat-icon>explore</mat-icon>
         {{ settings.bannerButtonText }}
       </button>
+      <span class="hero-readtime" *ngIf="recentPosts.length && recentPosts[0]?.estimatedReadMinutes">
+        <mat-icon>schedule</mat-icon>
+        {{ recentPosts[0].estimatedReadMinutes }} dk okuma
+      </span>
     </div>
   </div>
-  <!-- Decorative wave -->
   <div class="hero-wave">
     <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f7f8fa"/>
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f8f6f6"/>
     </svg>
   </div>
 </section>
 
-<!-- ─── RECENT POSTS ─────────────────────────────────────── -->
+<!-- ─── CATEGORY NAV ─────────────────────────────────────── -->
+<div class="category-nav-wrapper">
+  <nav class="category-nav">
+    <a class="cat-tab" [class.active]="selectedCategoryId === null" (click)="selectCategory(null)">
+      Tüm Yazılar
+    </a>
+    <a class="cat-tab"
+       *ngFor="let cat of categories"
+       [class.active]="selectedCategoryId === cat.id"
+       (click)="selectCategory(cat.id)">
+      {{ cat.name }}
+    </a>
+  </nav>
+</div>
+
+<!-- ─── LATEST STORIES ─────────────────────────────────────── -->
 <section class="posts-section">
   <div class="section-header">
-    <div class="section-title-group">
-      <span class="section-eyebrow">Son Yazılar</span>
-      <h2 class="section-title">En Yeni İçerikler</h2>
-    </div>
-    <button mat-stroked-button class="see-all-btn" (click)="goToBlogs()">
+    <h2 class="section-title">Son Yazılar</h2>
+    <a class="see-all-link" (click)="goToBlogs()">
       Tümünü Gör <mat-icon>arrow_forward</mat-icon>
-    </button>
+    </a>
   </div>
 
   <!-- Loading -->
@@ -44,41 +55,61 @@
 
   <!-- Posts grid -->
   <div class="posts-grid" *ngIf="!loadingPosts">
-    <article class="post-card" *ngFor="let post of recentPosts" (click)="goToPost(post.id)">
+    <article class="post-card" *ngFor="let post of filteredPosts" (click)="goToPost(post.id)">
       <!-- Cover -->
-      <div class="card-cover" [class.no-img]="!post.coverImageUrl">
-        <img *ngIf="post.coverImageUrl" [src]="post.coverImageUrl" [alt]="post.title"
-             (error)="$any($event.target).style.display='none'">
-        <div class="cover-placeholder" *ngIf="!post.coverImageUrl">
-          <mat-icon>article</mat-icon>
+      <div class="card-cover">
+        <div class="card-img-wrap">
+          <img *ngIf="post.coverImageUrl" [src]="post.coverImageUrl" [alt]="post.title"
+               (error)="$any($event.target).style.display='none'">
+          <div class="cover-placeholder" *ngIf="!post.coverImageUrl">
+            <mat-icon>article</mat-icon>
+          </div>
         </div>
-        <span class="card-category" *ngIf="post.categoryName">{{ post.categoryName }}</span>
+        <span class="card-category-badge" *ngIf="post.categoryName">{{ post.categoryName }}</span>
       </div>
       <!-- Body -->
       <div class="card-body">
-        <div class="card-tags" *ngIf="post.tags?.length">
-          <span class="tag" *ngFor="let t of post.tags | slice:0:3">{{ t }}</span>
-        </div>
         <h3 class="card-title">{{ post.title }}</h3>
-        <p class="card-excerpt">{{ truncate(post.content) }}</p>
+        <p class="card-excerpt">{{ truncate(post.content, 100) }}</p>
       </div>
       <!-- Footer -->
       <div class="card-footer">
         <div class="card-author">
-          <mat-icon class="author-icon">account_circle</mat-icon>
-          <span>{{ post.authorFullName }}</span>
+          <div class="author-avatar">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <span class="author-name">{{ post.authorFullName }}</span>
         </div>
-        <div class="card-stats">
-          <span><mat-icon>visibility</mat-icon>{{ post.viewCount }}</span>
-          <span><mat-icon>favorite_border</mat-icon>{{ post.likeCount }}</span>
-          <span><mat-icon>chat_bubble_outline</mat-icon>{{ post.commentCount }}</span>
-        </div>
+        <span class="card-readtime" *ngIf="post.estimatedReadMinutes">
+          <mat-icon>schedule</mat-icon>
+          {{ post.estimatedReadMinutes }} dk
+        </span>
       </div>
     </article>
   </div>
 
-  <div *ngIf="!loadingPosts && recentPosts.length === 0" class="empty-posts">
+  <div *ngIf="!loadingPosts && filteredPosts.length === 0" class="empty-posts">
     <mat-icon>article</mat-icon>
-    <p>Henüz yayınlanmış yazı yok.</p>
+    <p>{{ 'EMPTY.NO_RECORDS' | translate }}</p>
+  </div>
+</section>
+
+<!-- ─── NEWSLETTER CTA ─────────────────────────────────────── -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="newsletter-icon">
+      <mat-icon>mail</mat-icon>
+    </div>
+    <h2 class="newsletter-title">Gelişmelerden Haberdar Ol</h2>
+    <p class="newsletter-desc">
+      Her hafta en iyi içerikler doğrudan e-posta kutunuza gelsin. Spam yok, sadece kaliteli yazılar.
+    </p>
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="E-posta adresiniz" />
+      <button mat-flat-button class="newsletter-btn" color="primary" (click)="goToBlogs()">
+        Abone Ol
+      </button>
+    </div>
+    <p class="newsletter-note">25.000+ OKUYUCUYA KATIL</p>
   </div>
 </section>
