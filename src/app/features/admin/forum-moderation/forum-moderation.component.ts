@@ -3,10 +3,10 @@ import { finalize } from 'rxjs/operators';
 import { ForumService } from 'src/app/core/services/forum.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ForumThread, ForumPost, ForumBan } from 'src/app/core/models/forum.model';
+import { ForumCategory, ForumThread, ForumPost, ForumBan } from 'src/app/core/models/forum.model';
 import { Router } from '@angular/router';
 
-type Tab = 'flagged-threads' | 'flagged-posts' | 'bans';
+type Tab = 'flagged-threads' | 'flagged-posts' | 'bans' | 'categories';
 
 @Component({
   selector: 'app-forum-moderation',
@@ -20,6 +20,7 @@ export class ForumModerationComponent implements OnInit {
   flaggedThreads: ForumThread[] = [];
   flaggedPosts: ForumPost[] = [];
   bans: ForumBan[] = [];
+  categories: ForumCategory[] = [];
 
   loading = false;
 
@@ -28,6 +29,13 @@ export class ForumModerationComponent implements OnInit {
   banReason = '';
   banExpiresAt = '';
   banSubmitting = false;
+
+  // Kategori formu
+  newCatName = '';
+  newCatDesc = '';
+  newCatOrder = 0;
+  catSubmitting = false;
+  editingCat: ForumCategory | null = null;
 
   constructor(
     private forumService: ForumService,
@@ -50,11 +58,71 @@ export class ForumModerationComponent implements OnInit {
       this.forumService.getFlaggedPosts()
         .pipe(finalize(() => (this.loading = false)))
         .subscribe({ next: (r) => { this.flaggedPosts = (r?.data as any) || []; }, error: this.onErr() });
+    } else if (this.activeTab === 'categories') {
+      this.forumService.getCategories()
+        .pipe(finalize(() => (this.loading = false)))
+        .subscribe({ next: (r) => { this.categories = (r?.data as any) || []; }, error: this.onErr() });
     } else {
       this.forumService.getBans()
         .pipe(finalize(() => (this.loading = false)))
         .subscribe({ next: (r) => { this.bans = (r?.data as any) || []; }, error: this.onErr() });
     }
+  }
+
+  // ── Kategori CRUD ─────────────────────────────────────────
+  startEditCat(cat: ForumCategory): void {
+    this.editingCat = { ...cat };
+  }
+
+  cancelEditCat(): void {
+    this.editingCat = null;
+  }
+
+  saveEditCat(): void {
+    if (!this.editingCat || !this.editingCat.name.trim()) return;
+    this.catSubmitting = true;
+    this.forumService.updateCategory({
+      id: this.editingCat.id,
+      name: this.editingCat.name,
+      description: this.editingCat.description,
+      isActive: this.editingCat.isActive,
+      orderIndex: this.editingCat.orderIndex
+    }).pipe(finalize(() => (this.catSubmitting = false)))
+      .subscribe({
+        next: () => { this.notify.success(this.i18n.instant('COMMON.UPDATE_SUCCESS')); this.editingCat = null; this.loadTab(); },
+        error: this.onErr()
+      });
+  }
+
+  createCategory(): void {
+    if (!this.newCatName.trim() || this.catSubmitting) return;
+    this.catSubmitting = true;
+    this.forumService.createCategory({ name: this.newCatName, description: this.newCatDesc || undefined, orderIndex: this.newCatOrder })
+      .pipe(finalize(() => (this.catSubmitting = false)))
+      .subscribe({
+        next: () => {
+          this.notify.success(this.i18n.instant('COMMON.CREATE_SUCCESS'));
+          this.newCatName = ''; this.newCatDesc = ''; this.newCatOrder = 0;
+          this.loadTab();
+        },
+        error: this.onErr()
+      });
+  }
+
+  deleteCat(id: number): void {
+    if (!confirm(this.i18n.instant('COMMON.CONFIRM_DELETE'))) return;
+    this.forumService.deleteCategory(id).subscribe({
+      next: () => { this.notify.success(this.i18n.instant('COMMON.DELETE_SUCCESS')); this.loadTab(); },
+      error: this.onErr()
+    });
+  }
+
+  toggleCatActive(cat: ForumCategory): void {
+    this.forumService.updateCategory({ id: cat.id, name: cat.name, description: cat.description, isActive: !cat.isActive, orderIndex: cat.orderIndex })
+      .subscribe({
+        next: () => { this.notify.success(this.i18n.instant('COMMON.UPDATE_SUCCESS')); this.loadTab(); },
+        error: this.onErr()
+      });
   }
 
   lockThread(id: number): void {

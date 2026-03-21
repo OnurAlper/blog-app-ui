@@ -40,6 +40,11 @@
         <span matListItemTitle>{{ 'NAV.BLOGS' | translate }}</span>
       </a>
 
+      <a *ngIf="isClient()" mat-list-item routerLink="/polls" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>poll</mat-icon>
+        <span matListItemTitle>{{ 'NAV.POLLS' | translate }}</span>
+      </a>
+
       <!-- ── Admin: İçerik grubu ── -->
       <span *ngIf="isAdmin()" class="nav-section-label">İçerik</span>
 
@@ -63,11 +68,7 @@
         <span matListItemTitle>{{ 'NAV.TAGS' | translate }}</span>
       </a>
 
-      <!-- ── Shared: Anketler ── -->
-      <span class="nav-section-label">{{ 'NAV.POLLS' | translate }}</span>
-
-      <a mat-list-item routerLink="/polls" routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }">
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/polls" routerLinkActive="active-link">
         <mat-icon matListItemIcon>poll</mat-icon>
         <span matListItemTitle>{{ 'NAV.POLLS' | translate }}</span>
       </a>

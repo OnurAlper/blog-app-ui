@@ -247,7 +247,16 @@
     "APPLY_BAN": "Apply Ban",
     "BAN_USER_COL": "User",
     "BANNED_BY": "Banned By",
-    "NO_BANS": "No active ban records."
+    "NO_BANS": "No active ban records.",
+    "CATEGORIES": "Categories",
+    "CREATE_CATEGORY": "Create New Category",
+    "CATEGORY_NAME": "Category Name",
+    "CATEGORY_NAME_PLACEHOLDER": "Enter category name...",
+    "CATEGORY_DESC": "Description",
+    "CATEGORY_DESC_PLACEHOLDER": "Short description (optional)",
+    "CATEGORY_ORDER": "Order",
+    "ACTIVATE_CAT": "Activate",
+    "DEACTIVATE_CAT": "Deactivate"
   },
   "ADMIN_LOGS": {
     "ADMIN": "Admin",

@@ -4,6 +4,9 @@
 
 <!-- Tabs -->
 <div class="fm-tabs">
+  <button class="fm-tab" [class.active]="activeTab === 'categories'" (click)="setTab('categories')">
+    <mat-icon>category</mat-icon> {{ 'FORUM.CATEGORIES' | translate }}
+  </button>
   <button class="fm-tab" [class.active]="activeTab === 'flagged-threads'" (click)="setTab('flagged-threads')">
     <mat-icon>flag</mat-icon> {{ 'FORUM.FLAGGED_THREADS' | translate }}
     <span class="fm-badge" *ngIf="flaggedThreads.length">{{ flaggedThreads.length }}</span>
@@ -18,6 +21,82 @@
 </div>
 
 <div *ngIf="loading" class="al-loading"><mat-progress-bar mode="indeterminate"></mat-progress-bar></div>
+
+<!-- ── Categories ─────────────────────────────── -->
+<div *ngIf="activeTab === 'categories' && !loading">
+
+  <!-- Create form -->
+  <div class="fm-cat-form">
+    <h3 class="fm-ban-title"><mat-icon>add_circle</mat-icon>{{ 'FORUM.CREATE_CATEGORY' | translate }}</h3>
+    <div class="fm-ban-fields">
+      <div class="fm-ban-field">
+        <label>{{ 'FORUM.CATEGORY_NAME' | translate }}</label>
+        <input [(ngModel)]="newCatName" class="fm-input" [placeholder]="'FORUM.CATEGORY_NAME_PLACEHOLDER' | translate">
+      </div>
+      <div class="fm-ban-field">
+        <label>{{ 'FORUM.CATEGORY_DESC' | translate }}</label>
+        <input [(ngModel)]="newCatDesc" class="fm-input" [placeholder]="'FORUM.CATEGORY_DESC_PLACEHOLDER' | translate">
+      </div>
+      <div class="fm-ban-field" style="max-width:120px">
+        <label>{{ 'FORUM.CATEGORY_ORDER' | translate }}</label>
+        <input type="number" [(ngModel)]="newCatOrder" class="fm-input" min="0">
+      </div>
+    </div>
+    <button mat-flat-button color="primary" [disabled]="!newCatName.trim() || catSubmitting" (click)="createCategory()">
+      <mat-icon>add</mat-icon> {{ 'COMMON.CREATE' | translate }}
+    </button>
+  </div>
+
+  <!-- Category list -->
+  <div *ngIf="!categories.length" class="al-empty">
+    <mat-icon>forum</mat-icon><p>{{ 'FORUM.NO_CATEGORIES' | translate }}</p>
+  </div>
+
+  <div class="fm-cat-list">
+    <div class="fm-cat-item" *ngFor="let cat of categories">
+
+      <!-- View mode -->
+      <ng-container *ngIf="editingCat?.id !== cat.id">
+        <div class="fm-cat-info">
+          <span class="fm-cat-order">#{{ cat.orderIndex }}</span>
+          <div>
+            <span class="fm-cat-name">{{ cat.name }}</span>
+            <span class="fm-cat-desc" *ngIf="cat.description">{{ cat.description }}</span>
+          </div>
+          <span class="fm-cat-count">{{ cat.threadCount }} konu</span>
+          <span class="fm-status" [class.active]="cat.isActive">{{ cat.isActive ? 'Aktif' : 'Pasif' }}</span>
+        </div>
+        <div class="fm-item-actions">
+          <button mat-icon-button (click)="startEditCat(cat)" [matTooltip]="'COMMON.EDIT' | translate">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="toggleCatActive(cat)" [matTooltip]="(cat.isActive ? 'FORUM.DEACTIVATE_CAT' : 'FORUM.ACTIVATE_CAT') | translate">
+            <mat-icon>{{ cat.isActive ? 'pause_circle' : 'play_circle' }}</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteCat(cat.id)" [matTooltip]="'COMMON.DELETE' | translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Edit mode -->
+      <ng-container *ngIf="editingCat?.id === cat.id">
+        <div class="fm-cat-edit-row">
+          <input [(ngModel)]="editingCat!.name" class="fm-input" [placeholder]="'FORUM.CATEGORY_NAME' | translate">
+          <input [(ngModel)]="editingCat!.description" class="fm-input" [placeholder]="'FORUM.CATEGORY_DESC' | translate">
+          <input type="number" [(ngModel)]="editingCat!.orderIndex" class="fm-input" style="max-width:80px" min="0">
+        </div>
+        <div class="fm-item-actions">
+          <button mat-flat-button color="primary" [disabled]="catSubmitting" (click)="saveEditCat()">
+            <mat-icon>save</mat-icon> {{ 'COMMON.SAVE' | translate }}
+          </button>
+          <button mat-stroked-button (click)="cancelEditCat()">{{ 'COMMON.CANCEL' | translate }}</button>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>
 
 <!-- ── Flagged Threads ─────────────────────────── -->
 <div *ngIf="activeTab === 'flagged-threads' && !loading">

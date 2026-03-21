@@ -247,7 +247,16 @@
     "APPLY_BAN": "Engelle",
     "BAN_USER_COL": "Kullanıcı",
     "BANNED_BY": "Engelleyen",
-    "NO_BANS": "Aktif ban kaydı yok."
+    "NO_BANS": "Aktif ban kaydı yok.",
+    "CATEGORIES": "Kategoriler",
+    "CREATE_CATEGORY": "Yeni Kategori Oluştur",
+    "CATEGORY_NAME": "Kategori Adı",
+    "CATEGORY_NAME_PLACEHOLDER": "Kategori adını girin...",
+    "CATEGORY_DESC": "Açıklama",
+    "CATEGORY_DESC_PLACEHOLDER": "Kısa açıklama (opsiyonel)",
+    "CATEGORY_ORDER": "Sıra",
+    "ACTIVATE_CAT": "Aktif Et",
+    "DEACTIVATE_CAT": "Pasif Et"
   },
   "ADMIN_LOGS": {
     "ADMIN": "Admin",
