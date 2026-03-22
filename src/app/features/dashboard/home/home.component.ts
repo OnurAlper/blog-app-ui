@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   areaSeries: ApexAxisChartSeries = [];
   areaChart: ApexChart = { type: 'area', height: 320, toolbar: { show: false }, animations: { enabled: true } };
   areaXaxis: ApexXAxis = { categories: [] };
-  areaYaxis: ApexYAxis = { labels: { formatter: v => String(Math.round(v)) } };
+  areaYaxis: ApexYAxis = { min: 0, labels: { formatter: v => String(Math.round(v)) } };
   areaStroke: ApexStroke = { curve: 'smooth', width: 2 };
   areaFill: ApexFill = { type: 'gradient', gradient: { shadeIntensity: 0.3, opacityFrom: 0.6, opacityTo: 0.1 } };
   dataLabels: ApexDataLabels = { enabled: false };

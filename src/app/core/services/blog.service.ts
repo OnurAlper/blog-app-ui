@@ -24,6 +24,7 @@ export interface BlogPostQuery {
   orderBy?: string;
   orderDirection?: OrderDirection;
   searchTerm?: string | null;
+  onlyPublished?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -31,15 +32,15 @@ export class BlogService extends BaseApiService {
   private readonly resource = 'BlogPost';
 
   getAll(query: BlogPostQuery = {}): Observable<ListResponse<GetBlogPostDto>> {
-    return this.get<ListResponse<GetBlogPostDto>>(this.resource, {
-      params: {
-        pageNumber: query.pageNumber ?? 1,
-        pageSize: query.pageSize ?? 10,
-        orderBy: query.orderBy ?? 'CreatedAt',
-        orderDirection: query.orderDirection ?? 'desc',
-        searchTerm: query.searchTerm ?? undefined
-      }
-    });
+    const params: any = {
+      pageNumber: query.pageNumber ?? 1,
+      pageSize: query.pageSize ?? 10,
+      orderBy: query.orderBy ?? 'CreatedAt',
+      orderDirection: query.orderDirection ?? 'desc',
+      searchTerm: query.searchTerm ?? undefined
+    };
+    if (query.onlyPublished) params['onlyPublished'] = true;
+    return this.get<ListResponse<GetBlogPostDto>>(this.resource, { params });
   }
 
   getById(id: number): Observable<BaseResponse<GetBlogPostDto>> {

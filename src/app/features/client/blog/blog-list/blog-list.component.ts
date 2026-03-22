@@ -81,7 +81,8 @@ export class BlogListComponent implements OnInit, OnDestroy {
         pageSize: this.pageSize,
         orderBy: this.sortBy,
         orderDirection: this.sortDirection,
-        searchTerm: this.searchTerm.trim() || undefined
+        searchTerm: this.searchTerm.trim() || undefined,
+        onlyPublished: true
       })
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({

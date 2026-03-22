@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -47,6 +48,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly location: Location,
     private readonly fb: FormBuilder,
     private readonly blogService: BlogService,
     private readonly commentService: CommentService,
@@ -241,7 +243,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/client/blogs']);
+    this.location.back();
   }
 
   formatDate(date: string): string {
