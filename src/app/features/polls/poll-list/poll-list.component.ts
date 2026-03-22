@@ -5,7 +5,7 @@ import { PollService } from 'src/app/core/services/poll.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Poll } from 'src/app/core/models/poll.model';
+import { Poll, PollVoter } from 'src/app/core/models/poll.model';
 
 @Component({
   selector: 'app-poll-list',
@@ -18,6 +18,11 @@ export class PollListComponent implements OnInit {
   loading = false;
   votingPollId: number | null = null;
   selectedOptions: { [pollId: number]: number[] } = {};
+
+  // Voters panel (admin)
+  votersLoading: { [pollId: number]: boolean } = {};
+  voters: { [pollId: number]: PollVoter[] } = {};
+  votersOpen: { [pollId: number]: boolean } = {};
 
   constructor(
     private pollService: PollService,
@@ -61,7 +66,7 @@ export class PollListComponent implements OnInit {
   }
 
   toggleOption(poll: Poll, optionId: number): void {
-    if (poll.hasVoted || !this.isActive(poll)) return;
+    if (!this.isActive(poll)) return;
     if (!this.selectedOptions[poll.id]) this.selectedOptions[poll.id] = [];
 
     if (poll.allowMultipleChoice) {
@@ -76,8 +81,12 @@ export class PollListComponent implements OnInit {
     }
   }
 
+  isOptionSelected(poll: Poll, optionId: number): boolean {
+    return this.selectedOptions[poll.id]?.includes(optionId) ?? false;
+  }
+
   canVote(poll: Poll): boolean {
-    return this.isActive(poll) && !poll.hasVoted && (this.selectedOptions[poll.id]?.length ?? 0) > 0;
+    return this.isActive(poll) && (this.selectedOptions[poll.id]?.length ?? 0) > 0;
   }
 
   vote(poll: Poll): void {
@@ -121,11 +130,32 @@ export class PollListComponent implements OnInit {
     });
   }
 
+  editPoll(poll: Poll): void {
+    this.router.navigate(['/polls/edit', poll.id]);
+  }
+
   createPoll(): void {
     this.router.navigate(['/polls/create']);
   }
 
   getProgressWidth(percentage: number): string {
     return `${percentage}%`;
+  }
+
+  toggleVoters(poll: Poll): void {
+    const id = poll.id;
+    if (this.votersOpen[id]) {
+      this.votersOpen[id] = false;
+      return;
+    }
+    this.votersOpen[id] = true;
+    if (this.voters[id]) return;
+    this.votersLoading[id] = true;
+    this.pollService.getVoters(id)
+      .pipe(finalize(() => (this.votersLoading[id] = false)))
+      .subscribe({
+        next: (res) => { this.voters[id] = (res?.data as any) || []; },
+        error: (err) => this.notify.error(err?.error?.Message || this.i18n.instant('COMMON.ERROR'))
+      });
   }
 }

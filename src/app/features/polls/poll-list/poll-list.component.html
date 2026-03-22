@@ -43,14 +43,18 @@
           <div
             class="option-item"
             *ngFor="let option of poll.options"
-            [class.selected]="selectedOptions[poll.id]?.includes(option.id)"
+            [class.selected]="isOptionSelected(poll, option.id)"
             [class.voted-option]="poll.hasVoted && poll.userVotedOptionIds.includes(option.id)"
-            [class.clickable]="!poll.hasVoted && isActive(poll)"
+            [class.clickable]="isActive(poll)"
             (click)="toggleOption(poll, option.id)">
 
             <div class="option-row">
-              <mat-icon class="option-check" *ngIf="poll.hasVoted && poll.userVotedOptionIds.includes(option.id)">check_circle</mat-icon>
-              <mat-icon class="option-check muted" *ngIf="!poll.hasVoted || !poll.userVotedOptionIds.includes(option.id)">radio_button_unchecked</mat-icon>
+              <!-- Selected (pre-vote) -->
+              <mat-icon class="option-check" *ngIf="!poll.hasVoted && isOptionSelected(poll, option.id)">check_circle</mat-icon>
+              <!-- Voted confirmation -->
+              <mat-icon class="option-check voted" *ngIf="poll.hasVoted && poll.userVotedOptionIds.includes(option.id)">check_circle</mat-icon>
+              <!-- Unselected -->
+              <mat-icon class="option-check muted" *ngIf="!isOptionSelected(poll, option.id) && !(poll.hasVoted && poll.userVotedOptionIds.includes(option.id))">radio_button_unchecked</mat-icon>
               <span class="option-text">{{ option.optionText }}</span>
               <span class="option-count" *ngIf="poll.hasVoted || !isActive(poll)">
                 {{ option.voteCount }} {{ 'POLL.VOTES' | translate }} ({{ option.percentage }}%)
@@ -69,10 +73,30 @@
           <span *ngIf="poll.endsAt"><mat-icon inline>event</mat-icon> {{ poll.endsAt | date:'mediumDate' }}</span>
           <span><mat-icon inline>person</mat-icon> {{ poll.createdByAdminName }}</span>
         </div>
+
+        <!-- Voters panel (admin) -->
+        <div class="voters-panel" *ngIf="isAdmin() && votersOpen[poll.id]">
+          <div *ngIf="votersLoading[poll.id]" class="voters-loading">
+            <mat-spinner diameter="24"></mat-spinner>
+          </div>
+          <div *ngIf="!votersLoading[poll.id] && voters[poll.id]">
+            <div *ngIf="voters[poll.id].length === 0" class="voters-empty">
+              {{ 'POLL.NO_VOTERS' | translate }}
+            </div>
+            <div class="voter-row" *ngFor="let v of voters[poll.id]">
+              <mat-icon class="voter-icon">person</mat-icon>
+              <div class="voter-info">
+                <span class="voter-name">{{ v.userFullName }} <span class="voter-username">@{{ v.userName }}</span></span>
+                <span class="voter-options">{{ v.votedOptions.join(', ') }}</span>
+              </div>
+              <span class="voter-date">{{ v.votedAt | date:'short' }}</span>
+            </div>
+          </div>
+        </div>
       </mat-card-content>
 
       <!-- Vote button -->
-      <mat-card-actions *ngIf="!poll.hasVoted && isActive(poll)">
+      <mat-card-actions *ngIf="isActive(poll)">
         <button
           mat-raised-button
           color="primary"
@@ -81,13 +105,19 @@
           <mat-spinner *ngIf="votingPollId === poll.id" diameter="20" class="inline-spinner"></mat-spinner>
           <ng-container *ngIf="votingPollId !== poll.id">
             <mat-icon>how_to_vote</mat-icon>
-            {{ 'POLL.VOTE' | translate }}
+            {{ poll.hasVoted ? ('POLL.CHANGE_VOTE' | translate) : ('POLL.VOTE' | translate) }}
           </ng-container>
         </button>
       </mat-card-actions>
 
       <!-- Admin actions -->
       <mat-card-actions *ngIf="isAdmin()" class="admin-actions">
+        <button mat-icon-button [matTooltip]="'POLL.VIEW_VOTERS' | translate" (click)="toggleVoters(poll)">
+          <mat-icon>{{ votersOpen[poll.id] ? 'expand_less' : 'people' }}</mat-icon>
+        </button>
+        <button mat-icon-button [matTooltip]="'COMMON.EDIT' | translate" (click)="editPoll(poll)">
+          <mat-icon>edit</mat-icon>
+        </button>
         <button mat-icon-button [matTooltip]="(poll.isActive ? 'POLL.DEACTIVATE' : 'POLL.ACTIVATE') | translate" (click)="toggleActive(poll)">
           <mat-icon>{{ poll.isActive ? 'pause_circle' : 'play_circle' }}</mat-icon>
         </button>

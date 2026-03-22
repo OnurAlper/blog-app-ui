@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
@@ -14,7 +16,8 @@ import {
   styleUrls: ['./home.component.scss'],
   standalone: false
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   // KPI
   totalVisits = 0;
@@ -82,7 +85,7 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/client'], { replaceUrl: true });
       return;
     }
-    this.dashboardService.getDashboardData().subscribe({
+    this.dashboardService.getDashboardData().pipe(takeUntil(this.destroy$)).subscribe({
       next: (res) => {
         const data: DashboardData = res.data;
 
@@ -128,5 +131,10 @@ export class HomeComponent implements OnInit {
       },
       error: (err) => console.error('Dashboard verileri alınamadı:', err)
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

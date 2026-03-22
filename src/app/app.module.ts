@@ -60,6 +60,7 @@ import { ForumCreateThreadComponent } from './features/forum/forum-create-thread
 import { ForumModerationComponent } from './features/admin/forum-moderation/forum-moderation.component';
 import { PollListComponent } from './features/polls/poll-list/poll-list.component';
 import { PollCreateComponent } from './features/polls/poll-create/poll-create.component';
+import { PollEditComponent } from './features/polls/poll-edit/poll-edit.component';
 // 📌 Locale'leri kaydet
 registerLocaleData(localeTr, 'tr');
 registerLocaleData(localeEn, 'en');
@@ -105,7 +106,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ForumCreateThreadComponent,
     ForumModerationComponent,
     PollListComponent,
-    PollCreateComponent
+    PollCreateComponent,
+    PollEditComponent
   ],
   imports: [
     BrowserModule,

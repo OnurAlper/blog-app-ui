@@ -197,3 +197,78 @@ mat-card-actions {
   display: inline-flex;
   margin-right: 6px;
 }
+
+/* Voters panel */
+.voters-panel {
+  margin-top: 12px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 12px;
+}
+
+.voters-loading {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.voters-empty {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.85rem;
+  padding: 8px 0;
+}
+
+.voter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid #f5f5f5;
+
+  &:last-child { border-bottom: none; }
+
+  .voter-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #999;
+    flex-shrink: 0;
+  }
+
+  .voter-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .voter-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .voter-username {
+    font-weight: 400;
+    color: #999;
+    font-size: 0.82rem;
+  }
+
+  .voter-options {
+    font-size: 0.8rem;
+    color: #1976d2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .voter-date {
+    font-size: 0.78rem;
+    color: #bbb;
+    flex-shrink: 0;
+  }
+}
+
+.option-check.voted {
+  color: #4caf50;
+}

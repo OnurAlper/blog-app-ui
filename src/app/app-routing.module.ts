@@ -33,6 +33,7 @@ import { ForumCreateThreadComponent } from './features/forum/forum-create-thread
 import { ForumModerationComponent } from './features/admin/forum-moderation/forum-moderation.component';
 import { PollListComponent } from './features/polls/poll-list/poll-list.component';
 import { PollCreateComponent } from './features/polls/poll-create/poll-create.component';
+import { PollEditComponent } from './features/polls/poll-edit/poll-edit.component';
 
 // ✅ Client components
 import { BlogListComponent } from './features/client/blog/blog-list/blog-list.component';
@@ -102,6 +103,7 @@ const routes: Routes = [
       // POLLS
       { path: 'polls', component: PollListComponent, data: { roles: ['Admin', 'Client'] } },
       { path: 'polls/create', component: PollCreateComponent, data: { roles: ['Admin'] } },
+      { path: 'polls/edit/:id', component: PollEditComponent, data: { roles: ['Admin'] } },
     ]
   },
 

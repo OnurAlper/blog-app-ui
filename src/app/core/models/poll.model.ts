@@ -41,3 +41,11 @@ export interface UpdatePollDto {
 export interface VotePollDto {
   optionIds: number[];
 }
+
+export interface PollVoter {
+  userId: number;
+  userName: string;
+  userFullName: string;
+  votedOptions: string[];
+  votedAt: string;
+}

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApiService } from './base-api.service';
 import { BaseResponse } from '../models/base-response.model';
-import { Poll, CreatePollDto, UpdatePollDto, VotePollDto } from '../models/poll.model';
+import { Poll, CreatePollDto, UpdatePollDto, VotePollDto, PollVoter } from '../models/poll.model';
 
 @Injectable({ providedIn: 'root' })
 export class PollService extends BaseApiService {
@@ -29,5 +29,9 @@ export class PollService extends BaseApiService {
 
   vote(pollId: number, dto: VotePollDto): Observable<any> {
     return this.post<any>(`Poll/${pollId}/vote`, dto);
+  }
+
+  getVoters(pollId: number): Observable<BaseResponse<PollVoter[]>> {
+    return this.get<BaseResponse<PollVoter[]>>(`Poll/${pollId}/voters`);
   }
 }

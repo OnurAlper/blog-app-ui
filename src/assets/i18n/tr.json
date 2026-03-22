@@ -395,6 +395,11 @@
     "ENDED": "Sona Erdi",
     "MULTI_CHOICE": "Çoklu Seçim",
     "ACTIVATE": "Aktif Et",
-    "DEACTIVATE": "Pasif Et"
+    "DEACTIVATE": "Pasif Et",
+    "CHANGE_VOTE": "Oyumu Değiştir",
+    "VIEW_VOTERS": "Katılımcıları Gör",
+    "NO_VOTERS": "Henüz kimse oy kullanmadı.",
+    "EDIT_TITLE": "Anketi Düzenle",
+    "IS_ACTIVE": "Aktif"
   }
 }

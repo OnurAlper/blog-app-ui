@@ -1,0 +1,52 @@
+<div class="edit-page">
+  <div class="edit-header">
+    <h2>{{ 'POLL.EDIT_TITLE' | translate }}</h2>
+  </div>
+
+  <div *ngIf="loading" class="loading-wrapper">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <mat-card class="edit-card" *ngIf="!loading">
+    <mat-card-content>
+      <form [formGroup]="form">
+        <!-- Title -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'POLL.POLL_TITLE' | translate }}</mat-label>
+          <input matInput formControlName="title" [placeholder]="'POLL.TITLE_PLACEHOLDER' | translate">
+          <mat-error *ngIf="form.get('title')?.hasError('required')">{{ 'COMMON.REQUIRED_FIELD' | translate }}</mat-error>
+          <mat-error *ngIf="form.get('title')?.hasError('minlength')">{{ 'COMMON.MIN_LENGTH' | translate: {value: 5} }}</mat-error>
+        </mat-form-field>
+
+        <!-- Description -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'POLL.DESCRIPTION' | translate }}</mat-label>
+          <textarea matInput formControlName="description" rows="3"
+            [placeholder]="'POLL.DESCRIPTION_PLACEHOLDER' | translate"></textarea>
+        </mat-form-field>
+
+        <!-- End date -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'POLL.ENDS_AT' | translate }}</mat-label>
+          <input matInput type="date" formControlName="endsAt">
+          <mat-hint>{{ 'POLL.ENDS_AT_HINT' | translate }}</mat-hint>
+        </mat-form-field>
+
+        <!-- Active toggle -->
+        <div class="toggle-row">
+          <mat-slide-toggle formControlName="isActive" color="primary">
+            {{ 'POLL.IS_ACTIVE' | translate }}
+          </mat-slide-toggle>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="form-actions">
+      <button mat-button (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+      <button mat-raised-button color="primary" [disabled]="form.invalid || saving" (click)="submit()">
+        <mat-spinner *ngIf="saving" diameter="18" class="inline-spinner"></mat-spinner>
+        <span *ngIf="!saving">{{ 'COMMON.SAVE' | translate }}</span>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

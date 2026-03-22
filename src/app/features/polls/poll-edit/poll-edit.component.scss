@@ -1,0 +1,41 @@
+.edit-page {
+  padding: 24px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.edit-header {
+  margin-bottom: 20px;
+  h2 { margin: 0; font-size: 1.5rem; font-weight: 600; }
+}
+
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.edit-card {
+  border-radius: 12px !important;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.toggle-row {
+  padding: 8px 0 16px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.inline-spinner {
+  display: inline-flex;
+  margin-right: 6px;
+}

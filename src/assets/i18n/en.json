@@ -395,6 +395,11 @@
     "ENDED": "Ended",
     "MULTI_CHOICE": "Multiple Choice",
     "ACTIVATE": "Activate",
-    "DEACTIVATE": "Deactivate"
+    "DEACTIVATE": "Deactivate",
+    "CHANGE_VOTE": "Change Vote",
+    "VIEW_VOTERS": "View Voters",
+    "NO_VOTERS": "No one has voted yet.",
+    "EDIT_TITLE": "Edit Poll",
+    "IS_ACTIVE": "Active"
   }
 }
