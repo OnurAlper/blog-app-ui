@@ -38,8 +38,19 @@
       </div>
     </div>
 
+    <!-- Duyuru toggle (sadece admin) -->
+    <div class="fct-announcement-toggle" *ngIf="auth.isAdmin()">
+      <mat-slide-toggle formControlName="isAnnouncement" color="warn">
+        <span class="fct-announce-label">
+          <mat-icon>campaign</mat-icon>
+          {{ 'FORUM.IS_ANNOUNCEMENT' | translate }}
+        </span>
+      </mat-slide-toggle>
+      <p class="fct-announce-hint">{{ 'FORUM.IS_ANNOUNCEMENT_HINT' | translate }}</p>
+    </div>
+
     <!-- Güvenlik Notu -->
-    <div class="fct-notice">
+    <div class="fct-notice" *ngIf="!form.get('isAnnouncement')?.value">
       <mat-icon>shield</mat-icon>
       <span>{{ 'FORUM.CONTENT_POLICY' | translate }}</span>
     </div>

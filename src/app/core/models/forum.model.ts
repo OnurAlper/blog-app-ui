@@ -20,6 +20,7 @@ export interface ForumThread {
   updatedAt?: string;
   isLocked: boolean;
   isPinned: boolean;
+  isAnnouncement: boolean;
   isFlagged: boolean;
   viewCount: number;
   postCount: number;
@@ -38,6 +39,7 @@ export interface ForumThreadDetail {
   updatedAt?: string;
   isLocked: boolean;
   isPinned: boolean;
+  isAnnouncement: boolean;
   isFlagged: boolean;
   flagReason?: string;
   viewCount: number;

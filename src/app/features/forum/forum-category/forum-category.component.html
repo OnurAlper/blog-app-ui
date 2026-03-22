@@ -32,6 +32,7 @@
 
   <div class="fc-thread-item" *ngFor="let t of threads" (click)="openThread(t)">
     <div class="fc-thread-badges">
+      <span class="fc-badge fc-badge-announce" *ngIf="t.isAnnouncement"><mat-icon>campaign</mat-icon>{{ 'FORUM.ANNOUNCEMENT' | translate }}</span>
       <span class="fc-badge fc-badge-pin" *ngIf="t.isPinned"><mat-icon>push_pin</mat-icon></span>
       <span class="fc-badge fc-badge-lock" *ngIf="t.isLocked"><mat-icon>lock</mat-icon></span>
     </div>

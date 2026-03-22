@@ -14,9 +14,10 @@
     <div class="ft-thread-top">
       <div>
         <div class="ft-badges">
-          <span class="ft-badge ft-pin" *ngIf="thread.isPinned"><mat-icon>push_pin</mat-icon>Sabitlenmiş</span>
-          <span class="ft-badge ft-lock" *ngIf="thread.isLocked"><mat-icon>lock</mat-icon>Kilitli</span>
-          <span class="ft-badge ft-flag" *ngIf="thread.isFlagged"><mat-icon>flag</mat-icon>İşaretli</span>
+          <span class="ft-badge ft-announce" *ngIf="thread.isAnnouncement"><mat-icon>campaign</mat-icon>{{ 'FORUM.ANNOUNCEMENT' | translate }}</span>
+          <span class="ft-badge ft-pin" *ngIf="thread.isPinned"><mat-icon>push_pin</mat-icon>{{ 'FORUM.PINNED' | translate }}</span>
+          <span class="ft-badge ft-lock" *ngIf="thread.isLocked"><mat-icon>lock</mat-icon>{{ 'FORUM.LOCKED' | translate }}</span>
+          <span class="ft-badge ft-flag" *ngIf="thread.isFlagged"><mat-icon>flag</mat-icon></span>
         </div>
         <h1 class="ft-thread-title">{{ thread.title }}</h1>
       </div>
@@ -83,22 +84,30 @@
     </div>
   </div>
 
-  <!-- Reply Box -->
-  <div class="ft-reply-box" *ngIf="!thread.isLocked; else lockedMsg">
-    <h3 class="ft-reply-title">{{ 'FORUM.ADD_REPLY' | translate }}</h3>
-    <textarea class="ft-reply-area" [(ngModel)]="replyContent" rows="5"
-              [placeholder]="'FORUM.REPLY_PLACEHOLDER' | translate"></textarea>
-    <div class="ft-reply-actions">
-      <button mat-flat-button color="primary" [disabled]="!replyContent.trim() || replySubmitting" (click)="submitReply()">
-        <mat-icon>send</mat-icon>
-        {{ replySubmitting ? ('FORUM.SENDING' | translate) : ('FORUM.SEND_REPLY' | translate) }}
-      </button>
-    </div>
+  <!-- Announcement: no replies allowed -->
+  <div class="ft-announcement-msg" *ngIf="thread.isAnnouncement">
+    <mat-icon>campaign</mat-icon>
+    <span>{{ 'FORUM.ANNOUNCEMENT_NO_REPLY' | translate }}</span>
   </div>
-  <ng-template #lockedMsg>
-    <div class="ft-locked-msg">
-      <mat-icon>lock</mat-icon>
-      <span>{{ 'FORUM.THREAD_LOCKED_MSG' | translate }}</span>
+
+  <!-- Reply Box (normal threads only) -->
+  <ng-container *ngIf="!thread.isAnnouncement">
+    <div class="ft-reply-box" *ngIf="!thread.isLocked; else lockedMsg">
+      <h3 class="ft-reply-title">{{ 'FORUM.ADD_REPLY' | translate }}</h3>
+      <textarea class="ft-reply-area" [(ngModel)]="replyContent" rows="5"
+                [placeholder]="'FORUM.REPLY_PLACEHOLDER' | translate"></textarea>
+      <div class="ft-reply-actions">
+        <button mat-flat-button color="primary" [disabled]="!replyContent.trim() || replySubmitting" (click)="submitReply()">
+          <mat-icon>send</mat-icon>
+          {{ replySubmitting ? ('FORUM.SENDING' | translate) : ('FORUM.SEND_REPLY' | translate) }}
+        </button>
+      </div>
     </div>
-  </ng-template>
+    <ng-template #lockedMsg>
+      <div class="ft-locked-msg">
+        <mat-icon>lock</mat-icon>
+        <span>{{ 'FORUM.THREAD_LOCKED_MSG' | translate }}</span>
+      </div>
+    </ng-template>
+  </ng-container>
 </ng-container>

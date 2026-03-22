@@ -33,8 +33,11 @@ $orange: #ec5b13; $border: #eeeeee; $text: #1c1d1f; $text-2: #6a6f73; $text-3: #
 }
 
 .fc-thread-badges { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
-.fc-badge { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px;
+.fc-badge { display: flex; align-items: center; justify-content: center; border-radius: 6px; min-width: 24px; height: 24px;
   mat-icon { font-size: 14px; width: 14px; height: 14px; }
+}
+.fc-badge-announce { background: #fff3e0; color: #e65100; padding: 0 8px; font-size: 11px; font-weight: 700; gap: 4px;
+  mat-icon { color: #e65100; }
 }
 .fc-badge-pin { background: rgba($orange,.1); mat-icon { color: $orange; } }
 .fc-badge-lock { background: #fef2f2; mat-icon { color: #ef4444; } }

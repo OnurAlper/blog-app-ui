@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { ForumService } from 'src/app/core/services/forum.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ForumCategory } from 'src/app/core/models/forum.model';
 
 @Component({
@@ -21,7 +22,8 @@ export class ForumCreateThreadComponent implements OnInit {
   form = new FormGroup({
     categoryId: new FormControl<number | null>(null, Validators.required),
     title: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(300)]),
-    content: new FormControl('', [Validators.required, Validators.minLength(10)])
+    content: new FormControl('', [Validators.required, Validators.minLength(10)]),
+    isAnnouncement: new FormControl(false)
   });
 
   constructor(
@@ -29,7 +31,8 @@ export class ForumCreateThreadComponent implements OnInit {
     private router: Router,
     private forumService: ForumService,
     private notify: NotificationService,
-    public i18n: TranslateService
+    public i18n: TranslateService,
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +53,7 @@ export class ForumCreateThreadComponent implements OnInit {
     if (this.form.invalid || this.submitting) return;
     this.submitting = true;
     const val = this.form.value;
-    this.forumService.createThread({ title: val.title!, content: val.content!, categoryId: val.categoryId! })
+    this.forumService.createThread({ title: val.title!, content: val.content!, categoryId: val.categoryId!, isAnnouncement: val.isAnnouncement ?? false })
       .pipe(finalize(() => (this.submitting = false)))
       .subscribe({
         next: (res) => {

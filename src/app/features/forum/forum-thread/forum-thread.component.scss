@@ -21,6 +21,7 @@ $orange: #ec5b13; $border: #eeeeee; $text: #1c1d1f; $text-2: #6a6f73; $text-3: #
   padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: .05em;
   mat-icon { font-size: 12px; width: 12px; height: 12px; }
 }
+.ft-announce { background: #fff3e0; color: #e65100; }
 .ft-pin  { background: $orange-lt; color: $orange; }
 .ft-lock { background: #fef2f2; color: #ef4444; }
 .ft-flag { background: #fefce8; color: #ca8a04; }
@@ -85,5 +86,9 @@ $orange: #ec5b13; $border: #eeeeee; $text: #1c1d1f; $text-2: #6a6f73; $text-3: #
 }
 
 .ft-locked-msg { display: flex; align-items: center; gap: 10px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; color: #ef4444; font-size: 14px; font-weight: 600; margin-top: 16px;
+  mat-icon { font-size: 20px; }
+}
+
+.ft-announcement-msg { display: flex; align-items: center; gap: 10px; background: #fff3e0; border: 1px solid #ffcc80; border-radius: 12px; padding: 16px; color: #e65100; font-size: 14px; font-weight: 600; margin-top: 16px;
   mat-icon { font-size: 20px; }
 }

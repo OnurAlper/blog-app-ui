@@ -35,7 +35,7 @@ export class ForumService extends BaseApiService {
     return this.get<BaseResponse<ForumThreadDetail>>(`ForumThread/${id}`);
   }
 
-  createThread(dto: { title: string; content: string; categoryId: number }): Observable<any> {
+  createThread(dto: { title: string; content: string; categoryId: number; isAnnouncement?: boolean }): Observable<any> {
     return this.post<any>('ForumThread', dto);
   }
 

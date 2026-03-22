@@ -256,7 +256,13 @@
     "CATEGORY_DESC_PLACEHOLDER": "Kısa açıklama (opsiyonel)",
     "CATEGORY_ORDER": "Sıra",
     "ACTIVATE_CAT": "Aktif Et",
-    "DEACTIVATE_CAT": "Pasif Et"
+    "DEACTIVATE_CAT": "Pasif Et",
+    "IS_ANNOUNCEMENT": "Duyuru Konusu",
+    "IS_ANNOUNCEMENT_HINT": "Kullanıcılar bu konuya yorum yapamaz. Etkinlik, promosyon veya bilgilendirme için kullanın.",
+    "ANNOUNCEMENT": "Duyuru",
+    "ANNOUNCEMENT_NO_REPLY": "Bu bir duyuru konusudur. Yorum yapılmasına izin verilmez.",
+    "PINNED": "Sabitlenmiş",
+    "LOCKED": "Kilitli"
   },
   "ADMIN_LOGS": {
     "ADMIN": "Admin",

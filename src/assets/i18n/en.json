@@ -256,7 +256,13 @@
     "CATEGORY_DESC_PLACEHOLDER": "Short description (optional)",
     "CATEGORY_ORDER": "Order",
     "ACTIVATE_CAT": "Activate",
-    "DEACTIVATE_CAT": "Deactivate"
+    "DEACTIVATE_CAT": "Deactivate",
+    "IS_ANNOUNCEMENT": "Announcement Thread",
+    "IS_ANNOUNCEMENT_HINT": "Users cannot reply to this thread. Use for events, promotions, and informational posts.",
+    "ANNOUNCEMENT": "Announcement",
+    "ANNOUNCEMENT_NO_REPLY": "This is an announcement thread. Replies are not allowed.",
+    "PINNED": "Pinned",
+    "LOCKED": "Locked"
   },
   "ADMIN_LOGS": {
     "ADMIN": "Admin",

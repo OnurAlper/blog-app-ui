@@ -45,6 +45,15 @@ $orange: #ec5b13; $border: #d1d5db; $text: #1c1d1f; $text-2: #6a6f73; $text-3: #
   mat-icon { font-size: 18px; width: 18px; height: 18px; flex-shrink: 0; }
 }
 
+.fct-announcement-toggle {
+  background: #fff8f0; border: 1px solid #f97316; border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 16px;
+  .fct-announce-label { display: flex; align-items: center; gap: 6px; font-weight: 700; color: #c2410c;
+    mat-icon { font-size: 18px; width: 18px; height: 18px; }
+  }
+  .fct-announce-hint { margin: 6px 0 0; font-size: 12px; color: #9a3412; }
+}
+
 .fct-actions {
   display: flex; gap: 10px; justify-content: flex-end;
   button { display: flex; align-items: center; gap: 6px; border-radius: 10px; }
