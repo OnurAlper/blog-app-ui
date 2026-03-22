@@ -25,6 +25,35 @@
   }
 }
 
+.poll-filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+
+  .poll-tab {
+    padding: 7px 20px;
+    border: 1.5px solid #ddd;
+    border-radius: 20px;
+    background: #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.18s;
+
+    &:hover {
+      border-color: #e87722;
+      color: #e87722;
+    }
+
+    &.active {
+      background: #e87722;
+      border-color: #e87722;
+      color: #fff;
+    }
+  }
+}
+
 .loading-wrapper {
   display: flex;
   justify-content: center;

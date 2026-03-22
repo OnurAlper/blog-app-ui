@@ -21,10 +21,19 @@
         </div>
         <h1 class="ft-thread-title">{{ thread.title }}</h1>
       </div>
-      <button *ngIf="isOwner(thread.userId)" mat-icon-button class="ft-delete-btn"
-              (click)="deleteThread()" [matTooltip]="'COMMON.DELETE' | translate">
-        <mat-icon>delete_outline</mat-icon>
-      </button>
+      <div class="ft-thread-actions">
+        <button *ngIf="!isOwner(thread.userId) && !thread.isFlagged && currentUserId" mat-icon-button class="ft-report-btn"
+                (click)="reportThread()" [matTooltip]="'FORUM.REPORT_THREAD' | translate">
+          <mat-icon>flag</mat-icon>
+        </button>
+        <span class="ft-already-flagged" *ngIf="thread.isFlagged && !isOwner(thread.userId)">
+          <mat-icon>flag</mat-icon>{{ 'FORUM.ALREADY_REPORTED' | translate }}
+        </span>
+        <button *ngIf="isOwner(thread.userId)" mat-icon-button class="ft-delete-btn"
+                (click)="deleteThread()" [matTooltip]="'COMMON.DELETE' | translate">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
     </div>
 
     <div class="ft-author-row">
@@ -54,12 +63,18 @@
           <span class="ft-post-date">{{ formatDate(post.createdAt) }}</span>
           <span class="ft-post-edited" *ngIf="post.updatedAt">({{ 'FORUM.EDITED' | translate }})</span>
           <span class="ft-flag-badge" *ngIf="post.isFlagged"><mat-icon>flag</mat-icon></span>
-          <div class="ft-post-actions" *ngIf="isOwner(post.userId)">
-            <button mat-icon-button (click)="startEdit(post.id, post.content)" [matTooltip]="'COMMON.EDIT' | translate">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deletePost(post.id)" [matTooltip]="'COMMON.DELETE' | translate" class="ft-del-btn">
-              <mat-icon>delete_outline</mat-icon>
+          <div class="ft-post-actions">
+            <ng-container *ngIf="isOwner(post.userId)">
+              <button mat-icon-button (click)="startEdit(post.id, post.content)" [matTooltip]="'COMMON.EDIT' | translate">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deletePost(post.id)" [matTooltip]="'COMMON.DELETE' | translate" class="ft-del-btn">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </ng-container>
+            <button *ngIf="!isOwner(post.userId) && !post.isFlagged && currentUserId" mat-icon-button class="ft-report-btn"
+                    (click)="reportPost(post.id)" [matTooltip]="'FORUM.REPORT_POST' | translate">
+              <mat-icon>outlined_flag</mat-icon>
             </button>
           </div>
         </div>

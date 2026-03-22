@@ -110,6 +110,26 @@ export class ForumThreadComponent implements OnInit, OnDestroy {
       });
   }
 
+  reportPost(postId: number): void {
+    if (!confirm(this.i18n.instant('FORUM.CONFIRM_REPORT'))) return;
+    this.forumService.flagPost(postId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => { this.notify.success(this.i18n.instant('FORUM.REPORT_SUCCESS')); this.loadThread(this.thread!.id); },
+        error: (err) => this.notify.error(err?.error?.Message || this.i18n.instant('COMMON.ERROR'))
+      });
+  }
+
+  reportThread(): void {
+    if (!this.thread || !confirm(this.i18n.instant('FORUM.CONFIRM_REPORT'))) return;
+    this.forumService.flagThread(this.thread.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => { this.notify.success(this.i18n.instant('FORUM.REPORT_SUCCESS')); this.loadThread(this.thread!.id); },
+        error: (err) => this.notify.error(err?.error?.Message || this.i18n.instant('COMMON.ERROR'))
+      });
+  }
+
   isOwner(userId: number): boolean { return this.currentUserId === userId; }
 
   formatDate(d: string): string {

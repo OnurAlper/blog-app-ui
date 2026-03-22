@@ -7,28 +7,94 @@ $text-2:       #6a6f73;
 $border:       #eeeeee;
 $bg:           #f8f6f6;
 
-/* ── Hero section ──────────────────────────────── */
-.hero-section {
+/* ── Hero Slider ────────────────────────────────── */
+.hero-slider {
   position: relative;
   min-height: 500px;
-  display: flex;
-  align-items: flex-end;
   overflow: hidden;
-  background: linear-gradient(to top, rgba(34,22,16,.9) 0%, rgba(34,22,16,.2) 60%, rgba(34,22,16,0) 100%),
-              linear-gradient(135deg, #1c1d1f 0%, #4a1c0a 50%, $orange 100%);
-  background-size: cover;
-  background-position: center;
 
-  &.has-bg {
-    background: linear-gradient(to top, rgba(34,22,16,.9) 0%, rgba(34,22,16,.2) 60%, rgba(34,22,16,0) 100%);
+  &.hero-fallback {
+    background: linear-gradient(135deg, #1c1d1f 0%, #4a1c0a 50%, $orange 100%);
+    display: flex;
+    align-items: flex-end;
   }
 }
 
-.hero-overlay {
+.slide-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+.slide {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(34,22,16,.9) 0%, rgba(34,22,16,.2) 60%, rgba(34,22,16,0) 100%);
+  min-height: 500px;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover !important;
+  background-position: center !important;
+  opacity: 0;
+  transition: opacity 0.7s ease;
   pointer-events: none;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+  }
+}
+
+/* Slider arrows */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255,255,255,0.18);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #fff;
+
+  &:hover { background: rgba(255,255,255,0.35); }
+  &.prev { left: 16px; }
+  &.next { right: 16px; }
+
+  mat-icon { font-size: 28px; height: 28px; width: 28px; }
+}
+
+/* Slider dots */
+.slider-dots {
+  position: absolute;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &.active {
+      background: #fff;
+      width: 24px;
+      border-radius: 4px;
+    }
+  }
 }
 
 .hero-content {
@@ -43,6 +109,13 @@ $bg:           #f8f6f6;
   animation: fadeUp .5s ease both;
 
   @media (max-width: 768px) { padding: 40px 24px 100px; }
+}
+
+.hero-desc {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.95rem;
+  margin: 0;
+  max-width: 560px;
 }
 
 @keyframes fadeUp {

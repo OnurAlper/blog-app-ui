@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { ForumService } from 'src/app/core/services/forum.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,10 +26,15 @@ export class ForumModerationComponent implements OnInit {
   loading = false;
 
   // Ban formu
-  banUserId: number | null = null;
+  banSearch = '';
+  banSuggestions: { id: number; username: string; fullName: string }[] = [];
+  selectedBanUser: { id: number; username: string; fullName: string } | null = null;
+  banSuggestionsOpen = false;
   banReason = '';
   banExpiresAt = '';
   banSubmitting = false;
+
+  private banSearch$ = new Subject<string>();
 
   // Kategori formu
   newCatName = '';
@@ -44,7 +50,19 @@ export class ForumModerationComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void { this.loadTab(); }
+  ngOnInit(): void {
+    this.loadTab();
+    this.banSearch$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(q => q.length >= 2 ? this.forumService.searchBanUsers(q) : [])
+    ).subscribe({
+      next: (r: any) => {
+        this.banSuggestions = (r?.data as any) || [];
+        this.banSuggestionsOpen = this.banSuggestions.length > 0;
+      }
+    });
+  }
 
   setTab(tab: Tab): void { this.activeTab = tab; this.loadTab(); }
 
@@ -155,13 +173,40 @@ export class ForumModerationComponent implements OnInit {
     this.forumService.clearFlag('post', id).subscribe({ next: () => { this.notify.success('Flag temizlendi.'); this.loadTab(); }, error: this.onErr() });
   }
 
+  onBanSearchInput(val: string): void {
+    this.banSearch = val;
+    this.selectedBanUser = null;
+    this.banSearch$.next(val);
+    if (!val) { this.banSuggestions = []; this.banSuggestionsOpen = false; }
+  }
+
+  selectBanUser(user: { id: number; username: string; fullName: string }): void {
+    this.selectedBanUser = user;
+    this.banSearch = `${user.username} — ${user.fullName}`;
+    this.banSuggestions = [];
+    this.banSuggestionsOpen = false;
+  }
+
+  quickBan(userId: number, userFullName: string): void {
+    this.setTab('bans');
+    // Pre-fill with known user — we don't have username so search by fullName
+    this.banSuggestions = [{ id: userId, username: '', fullName: userFullName }];
+    this.selectedBanUser = { id: userId, username: '', fullName: userFullName };
+    this.banSearch = userFullName;
+    this.banSuggestionsOpen = false;
+  }
+
   submitBan(): void {
-    if (!this.banUserId || !this.banReason.trim() || this.banSubmitting) return;
+    if (!this.selectedBanUser || !this.banReason.trim() || this.banSubmitting) return;
     this.banSubmitting = true;
-    this.forumService.banUser({ userId: this.banUserId, reason: this.banReason, expiresAt: this.banExpiresAt || undefined })
+    this.forumService.banUser({ userId: this.selectedBanUser.id, reason: this.banReason, expiresAt: this.banExpiresAt || undefined })
       .pipe(finalize(() => (this.banSubmitting = false)))
       .subscribe({
-        next: () => { this.notify.success('Kullanıcı banlandı.'); this.banUserId = null; this.banReason = ''; this.banExpiresAt = ''; this.loadTab(); },
+        next: () => {
+          this.notify.success('Kullanıcı banlandı.');
+          this.selectedBanUser = null; this.banSearch = ''; this.banReason = ''; this.banExpiresAt = '';
+          this.loadTab();
+        },
         error: this.onErr()
       });
   }

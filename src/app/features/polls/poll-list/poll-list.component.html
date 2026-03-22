@@ -10,17 +10,30 @@
     </button>
   </div>
 
+  <!-- Filter tabs -->
+  <div class="poll-filter-tabs">
+    <button class="poll-tab" [class.active]="filter === 'all'" (click)="filter = 'all'">
+      {{ 'COMMON.ALL' | translate }}
+    </button>
+    <button class="poll-tab" [class.active]="filter === 'active'" (click)="filter = 'active'">
+      {{ 'POLL.IS_ACTIVE' | translate }}
+    </button>
+    <button class="poll-tab" [class.active]="filter === 'passive'" (click)="filter = 'passive'">
+      {{ 'POLL.INACTIVE' | translate }}
+    </button>
+  </div>
+
   <div *ngIf="loading" class="loading-wrapper">
     <mat-spinner diameter="48"></mat-spinner>
   </div>
 
-  <div *ngIf="!loading && polls.length === 0" class="empty-state">
+  <div *ngIf="!loading && filteredPolls.length === 0" class="empty-state">
     <mat-icon>poll</mat-icon>
     <p>{{ 'POLL.NO_POLLS' | translate }}</p>
   </div>
 
-  <div class="poll-grid" *ngIf="!loading && polls.length > 0">
-    <mat-card class="poll-card" *ngFor="let poll of polls" [class.inactive]="!poll.isActive || isExpired(poll)">
+  <div class="poll-grid" *ngIf="!loading && filteredPolls.length > 0">
+    <mat-card class="poll-card" *ngFor="let poll of filteredPolls" [class.inactive]="!poll.isActive || isExpired(poll)">
       <!-- Card header -->
       <mat-card-header>
         <mat-card-title>{{ poll.title }}</mat-card-title>

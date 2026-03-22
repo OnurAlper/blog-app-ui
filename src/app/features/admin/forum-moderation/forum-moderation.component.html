@@ -124,6 +124,9 @@
               [matTooltip]="t.isLocked ? 'Kilidi Aç' : 'Kilitle'">
         <mat-icon>{{ t.isLocked ? 'lock_open' : 'lock' }}</mat-icon>
       </button>
+      <button mat-stroked-button class="fm-btn-ban" (click)="quickBan(t.userId, t.userFullName)" matTooltip="Kullanıcıyı Engelle">
+        <mat-icon>person_off</mat-icon>
+      </button>
       <button mat-stroked-button class="fm-btn-del" (click)="deleteThread(t.id)" matTooltip="Sil">
         <mat-icon>delete_outline</mat-icon>
       </button>
@@ -153,6 +156,9 @@
       <button mat-stroked-button class="fm-btn-ok" (click)="clearPostFlag(p.id)" matTooltip="Flag Temizle">
         <mat-icon>check</mat-icon>
       </button>
+      <button mat-stroked-button class="fm-btn-ban" (click)="quickBan(p.userId, p.userFullName)" matTooltip="Kullanıcıyı Engelle">
+        <mat-icon>person_off</mat-icon>
+      </button>
       <button mat-stroked-button class="fm-btn-del" (click)="deletePost(p.id)" matTooltip="Sil">
         <mat-icon>delete_outline</mat-icon>
       </button>
@@ -167,9 +173,19 @@
   <div class="fm-ban-form">
     <h3 class="fm-ban-title"><mat-icon>block</mat-icon>{{ 'FORUM.BAN_USER' | translate }}</h3>
     <div class="fm-ban-fields">
-      <div class="fm-ban-field">
-        <label>{{ 'FORUM.BAN_USER_ID' | translate }}</label>
-        <input type="number" [(ngModel)]="banUserId" class="fm-input" placeholder="Kullanıcı ID">
+      <div class="fm-ban-field" style="position:relative">
+        <label>{{ 'FORUM.BAN_USER' | translate }}</label>
+        <input class="fm-input" [value]="banSearch" (input)="onBanSearchInput($any($event.target).value)"
+               placeholder="Kullanıcı adı ara..." autocomplete="off">
+        <div class="fm-user-dropdown" *ngIf="banSuggestionsOpen">
+          <div class="fm-user-option" *ngFor="let u of banSuggestions" (click)="selectBanUser(u)">
+            <span class="fm-user-name">{{ u.username }}</span>
+            <span class="fm-user-full">{{ u.fullName }}</span>
+          </div>
+        </div>
+        <span class="fm-selected-user" *ngIf="selectedBanUser">
+          <mat-icon>check_circle</mat-icon> {{ selectedBanUser.fullName }}
+        </span>
       </div>
       <div class="fm-ban-field">
         <label>{{ 'FORUM.BAN_REASON' | translate }}</label>
@@ -180,7 +196,7 @@
         <input type="datetime-local" [(ngModel)]="banExpiresAt" class="fm-input">
       </div>
     </div>
-    <button mat-flat-button color="warn" [disabled]="!banUserId || !banReason.trim() || banSubmitting" (click)="submitBan()">
+    <button mat-flat-button color="warn" [disabled]="!selectedBanUser || !banReason.trim() || banSubmitting" (click)="submitBan()">
       <mat-icon>block</mat-icon> {{ 'FORUM.APPLY_BAN' | translate }}
     </button>
   </div>

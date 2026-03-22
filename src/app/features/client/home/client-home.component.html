@@ -1,21 +1,53 @@
-<!-- ─── HERO BANNER ─────────────────────────────────────── -->
-<section class="hero-section"
-         [class.has-bg]="settings.bannerImageUrl"
-         [style.backgroundImage]="settings.bannerImageUrl ? 'url(' + settings.bannerImageUrl + ')' : null">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <span class="hero-badge">Öne Çıkan Yazı</span>
-    <h1 class="hero-title">{{ settings.bannerTitle }}</h1>
-    <p class="hero-subtitle">{{ settings.bannerSubtitle }}</p>
-    <div class="hero-actions">
-      <button mat-flat-button class="hero-btn-primary" (click)="goToBlogs()">
-        {{ settings.bannerButtonText }}
-      </button>
-      <span class="hero-readtime" *ngIf="recentPosts.length && recentPosts[0]?.estimatedReadMinutes">
-        <mat-icon>schedule</mat-icon>
-        {{ recentPosts[0].estimatedReadMinutes }} dk okuma
-      </span>
+<!-- ─── HERO BANNER SLIDER ───────────────────────────────── -->
+<section class="hero-slider" *ngIf="banners.length > 0">
+  <div class="slide-track">
+    <div class="slide"
+         *ngFor="let b of banners; let i = index"
+         [class.active]="i === currentSlide"
+         [ngStyle]="getBannerStyle(b)">
+      <div class="hero-content">
+        <h1 class="hero-title">{{ b.title }}</h1>
+        <p class="hero-subtitle" *ngIf="b.subtitle">{{ b.subtitle }}</p>
+        <p class="hero-desc" *ngIf="b.description">{{ b.description }}</p>
+        <div class="hero-actions">
+          <button mat-flat-button class="hero-btn-primary" (click)="goToBlogs()">
+            {{ b.buttonText }}
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Arrows (sadece birden fazla banner varsa) -->
+  <button class="slider-arrow prev" *ngIf="banners.length > 1" (click)="prevSlide()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button class="slider-arrow next" *ngIf="banners.length > 1" (click)="nextSlide()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+  <!-- Dots -->
+  <div class="slider-dots" *ngIf="banners.length > 1">
+    <span class="dot"
+          *ngFor="let b of banners; let i = index"
+          [class.active]="i === currentSlide"
+          (click)="goToSlide(i)">
+    </span>
+  </div>
+
+  <!-- Wave -->
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f8f6f6"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Fallback boş banner -->
+<section class="hero-slider hero-fallback" *ngIf="banners.length === 0">
+  <div class="hero-content">
+    <h1 class="hero-title">Blog Dünyasına Hoş Geldiniz</h1>
+    <button mat-flat-button class="hero-btn-primary" (click)="goToBlogs()">Yazıları Keşfet</button>
   </div>
   <div class="hero-wave">
     <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">

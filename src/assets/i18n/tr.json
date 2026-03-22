@@ -262,7 +262,12 @@
     "ANNOUNCEMENT": "Duyuru",
     "ANNOUNCEMENT_NO_REPLY": "Bu bir duyuru konusudur. Yorum yapılmasına izin verilmez.",
     "PINNED": "Sabitlenmiş",
-    "LOCKED": "Kilitli"
+    "LOCKED": "Kilitli",
+    "REPORT_THREAD": "Konuyu Şikayet Et",
+    "REPORT_POST": "Gönderiyi Şikayet Et",
+    "CONFIRM_REPORT": "Bu içeriği şikayet etmek istediğinize emin misiniz?",
+    "REPORT_SUCCESS": "Şikayetiniz alındı. Moderatörler inceleyecek.",
+    "ALREADY_REPORTED": "Şikayet edildi"
   },
   "ADMIN_LOGS": {
     "ADMIN": "Admin",

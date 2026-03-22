@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { SiteSettingsService } from 'src/app/core/services/site-settings.service';
+import { BannerService } from 'src/app/core/services/banner.service';
 import { BlogService } from 'src/app/core/services/blog.service';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { SiteSettings } from 'src/app/core/models/site-settings.model';
+import { Banner } from 'src/app/core/models/banner.model';
 import { GetBlogPostDto } from 'src/app/core/models/blog.model';
 import { GetCategoryDto } from 'src/app/core/models/category.model';
 
@@ -14,14 +14,10 @@ import { GetCategoryDto } from 'src/app/core/models/category.model';
   styleUrls: ['./client-home.component.scss'],
   standalone: false
 })
-export class ClientHomeComponent implements OnInit {
-  settings: SiteSettings = {
-    bannerTitle: 'Blog Dünyasına Hoş Geldiniz',
-    bannerSubtitle: 'En güncel yazılar, ipuçları ve teknoloji haberleri',
-    bannerDescription: 'Uzman yazarlarımızın kaleme aldığı içerikleri keşfedin.',
-    bannerButtonText: 'Yazıları Keşfet',
-    bannerImageUrl: null
-  };
+export class ClientHomeComponent implements OnInit, OnDestroy {
+  banners: Banner[] = [];
+  currentSlide = 0;
+  private slideInterval: any;
 
   recentPosts: GetBlogPostDto[] = [];
   loadingPosts = false;
@@ -29,23 +25,67 @@ export class ClientHomeComponent implements OnInit {
   selectedCategoryId: number | null = null;
 
   constructor(
-    private readonly settingsService: SiteSettingsService,
+    private readonly bannerService: BannerService,
     private readonly blogService: BlogService,
     private readonly categoryService: CategoryService,
     private readonly router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadSettings();
+    this.loadBanners();
     this.loadRecentPosts();
     this.loadCategories();
   }
 
-  loadSettings(): void {
-    this.settingsService.getSettings().subscribe({
-      next: (data) => { this.settings = data; },
+  ngOnDestroy(): void {
+    clearInterval(this.slideInterval);
+  }
+
+  loadBanners(): void {
+    this.bannerService.getActive().subscribe({
+      next: (r: any) => {
+        this.banners = (r?.data as any) || [];
+        if (this.banners.length > 1) this.startSlider();
+      },
       error: () => {}
     });
+  }
+
+  startSlider(): void {
+    this.slideInterval = setInterval(() => {
+      this.currentSlide = (this.currentSlide + 1) % this.banners.length;
+    }, 5000);
+  }
+
+  goToSlide(i: number): void {
+    this.currentSlide = i;
+    clearInterval(this.slideInterval);
+    if (this.banners.length > 1) this.startSlider();
+  }
+
+  prevSlide(): void {
+    this.goToSlide((this.currentSlide - 1 + this.banners.length) % this.banners.length);
+  }
+
+  nextSlide(): void {
+    this.goToSlide((this.currentSlide + 1) % this.banners.length);
+  }
+
+  get activeBanner(): Banner | null {
+    return this.banners[this.currentSlide] ?? null;
+  }
+
+  getBannerStyle(b: Banner): { [key: string]: string } {
+    if (b.imageUrl) {
+      return {
+        'background-image': `linear-gradient(to top, rgba(28,29,31,.88) 0%, rgba(28,29,31,.35) 60%, rgba(28,29,31,.1) 100%), url(${b.imageUrl})`,
+        'background-size': 'cover',
+        'background-position': 'center'
+      };
+    }
+    return {
+      'background': `linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 100%), linear-gradient(${b.gradientAngle}deg, ${b.gradientColor1}, ${b.gradientColor2})`
+    };
   }
 
   loadRecentPosts(): void {

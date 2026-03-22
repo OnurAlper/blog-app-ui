@@ -262,7 +262,12 @@
     "ANNOUNCEMENT": "Announcement",
     "ANNOUNCEMENT_NO_REPLY": "This is an announcement thread. Replies are not allowed.",
     "PINNED": "Pinned",
-    "LOCKED": "Locked"
+    "LOCKED": "Locked",
+    "REPORT_THREAD": "Report Thread",
+    "REPORT_POST": "Report Post",
+    "CONFIRM_REPORT": "Are you sure you want to report this content?",
+    "REPORT_SUCCESS": "Your report has been received. Moderators will review it.",
+    "ALREADY_REPORTED": "Reported"
   },
   "ADMIN_LOGS": {
     "ADMIN": "Admin",

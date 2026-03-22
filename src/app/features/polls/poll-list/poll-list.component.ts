@@ -15,9 +15,16 @@ import { Poll, PollVoter } from 'src/app/core/models/poll.model';
 })
 export class PollListComponent implements OnInit {
   polls: Poll[] = [];
+  filter: 'all' | 'active' | 'passive' = 'all';
   loading = false;
   votingPollId: number | null = null;
   selectedOptions: { [pollId: number]: number[] } = {};
+
+  get filteredPolls(): Poll[] {
+    if (this.filter === 'active') return this.polls.filter(p => this.isActive(p));
+    if (this.filter === 'passive') return this.polls.filter(p => !this.isActive(p));
+    return this.polls;
+  }
 
   // Voters panel (admin)
   votersLoading: { [pollId: number]: boolean } = {};

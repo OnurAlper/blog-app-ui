@@ -66,6 +66,14 @@ export class ForumService extends BaseApiService {
     return this.delete<any>(`ForumPost/${id}`);
   }
 
+  flagPost(id: number): Observable<any> {
+    return this.post<any>(`ForumPost/flag/${id}`, {});
+  }
+
+  flagThread(id: number): Observable<any> {
+    return this.post<any>(`ForumThread/flag/${id}`, {});
+  }
+
   // ── Moderation ────────────────────────────────────────
   getFlaggedThreads(): Observable<BaseResponse<ForumThread[]>> {
     return this.get<BaseResponse<ForumThread[]>>('ForumModeration/flagged-threads');
@@ -113,5 +121,9 @@ export class ForumService extends BaseApiService {
 
   unbanUser(banId: number): Observable<any> {
     return this.post<any>(`ForumModeration/unban/${banId}`, {});
+  }
+
+  searchBanUsers(q: string): Observable<BaseResponse<{ id: number; username: string; fullName: string }[]>> {
+    return this.get<any>(`ForumModeration/search-user`, { params: { q } });
   }
 }

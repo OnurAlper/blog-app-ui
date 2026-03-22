@@ -1,78 +1,170 @@
 <div class="page-header mb-4">
-  <h2>Site Ayarları</h2>
-  <p class="text-muted">Anasayfada gösterilecek banner içeriğini buradan düzenleyebilirsiniz.</p>
+  <div>
+    <h2>Site Ayarları — Bannerlar</h2>
+    <p class="text-muted">Anasayfada gösterilecek slider bannerları buradan yönetebilirsiniz.</p>
+  </div>
+  <button mat-raised-button color="primary" (click)="openCreate()" *ngIf="!showForm">
+    <mat-icon>add</mat-icon> Yeni Banner
+  </button>
 </div>
 
+<!-- Loading -->
 <div class="text-center my-5" *ngIf="loading">
   <mat-spinner></mat-spinner>
 </div>
 
-<mat-card class="settings-card" *ngIf="!loading">
+<!-- Banner Form -->
+<mat-card class="settings-card mb-4" *ngIf="showForm">
+  <mat-card-header>
+    <mat-card-title>{{ editingBanner ? 'Banneri Düzenle' : 'Yeni Banner Oluştur' }}</mat-card-title>
+  </mat-card-header>
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-      <!-- Banner Başlığı -->
-      <mat-form-field appearance="outline" class="w-100 mb-3">
-        <mat-label>Banner Başlığı</mat-label>
-        <input matInput formControlName="bannerTitle" placeholder="örn. Blog Dünyasına Hoş Geldiniz">
-        <mat-error *ngIf="form.get('bannerTitle')?.hasError('required')">Bu alan zorunludur.</mat-error>
-        <mat-error *ngIf="form.get('bannerTitle')?.hasError('maxlength')">En fazla 200 karakter.</mat-error>
-      </mat-form-field>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Başlık *</mat-label>
+          <input matInput formControlName="title" placeholder="örn. Blog Dünyasına Hoş Geldiniz">
+          <mat-error *ngIf="form.get('title')?.hasError('required')">Zorunlu alan.</mat-error>
+        </mat-form-field>
 
-      <!-- Alt Başlık -->
-      <mat-form-field appearance="outline" class="w-100 mb-3">
-        <mat-label>Alt Başlık</mat-label>
-        <input matInput formControlName="bannerSubtitle" placeholder="örn. En güncel yazılar ve ipuçları">
-        <mat-error *ngIf="form.get('bannerSubtitle')?.hasError('maxlength')">En fazla 400 karakter.</mat-error>
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Alt Başlık</mat-label>
+          <input matInput formControlName="subtitle" placeholder="örn. En güncel yazılar">
+        </mat-form-field>
+      </div>
 
-      <!-- Açıklama -->
       <mat-form-field appearance="outline" class="w-100 mb-3">
         <mat-label>Açıklama</mat-label>
-        <textarea matInput formControlName="bannerDescription" rows="3"
-          placeholder="Banner altında gösterilecek kısa açıklama metni"></textarea>
-        <mat-error *ngIf="form.get('bannerDescription')?.hasError('maxlength')">En fazla 800 karakter.</mat-error>
+        <textarea matInput formControlName="description" rows="2" placeholder="Kısa açıklama..."></textarea>
       </mat-form-field>
 
-      <!-- Buton Metni -->
-      <mat-form-field appearance="outline" class="w-100 mb-3">
-        <mat-label>Buton Metni</mat-label>
-        <input matInput formControlName="bannerButtonText" placeholder="örn. Yazıları Keşfet">
-        <mat-error *ngIf="form.get('bannerButtonText')?.hasError('maxlength')">En fazla 100 karakter.</mat-error>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Buton Metni</mat-label>
+          <input matInput formControlName="buttonText" placeholder="örn. Yazıları Keşfet">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Sıra</mat-label>
+          <input matInput type="number" formControlName="orderIndex" min="0">
+        </mat-form-field>
+      </div>
+
+      <!-- Resim URL -->
+      <mat-form-field appearance="outline" class="w-100 mb-2">
+        <mat-label>Arka Plan Görseli URL (isteğe bağlı)</mat-label>
+        <input matInput formControlName="imageUrl" placeholder="https://cdn.örnek.com/gorsel.jpg">
+        <mat-hint>
+          ⚠️ Doğrudan görsel URL'si olmalı (.jpg, .png, .webp). Pixabay sayfa linki değil, görsel üzerine sağ tıklayıp <strong>"Resim adresini kopyala"</strong> seçeneğini kullanın.
+        </mat-hint>
       </mat-form-field>
 
-      <!-- Banner Görsel URL -->
-      <mat-form-field appearance="outline" class="w-100 mb-3">
-        <mat-label>Banner Görsel URL (isteğe bağlı)</mat-label>
-        <input matInput formControlName="bannerImageUrl" placeholder="https://...">
-        <mat-hint>Boş bırakılırsa gradient arka plan kullanılır.</mat-hint>
-        <mat-error *ngIf="form.get('bannerImageUrl')?.hasError('maxlength')">En fazla 500 karakter.</mat-error>
-      </mat-form-field>
-
-      <!-- Önizleme -->
-      <div class="preview-section mb-4" *ngIf="form.value.bannerTitle">
-        <p class="preview-label">Önizleme</p>
-        <div class="banner-preview" [style.backgroundImage]="form.value.bannerImageUrl ? 'url(' + form.value.bannerImageUrl + ')' : ''">
-          <div class="preview-overlay">
-            <h3>{{ form.value.bannerTitle }}</h3>
-            <p *ngIf="form.value.bannerSubtitle">{{ form.value.bannerSubtitle }}</p>
-            <p *ngIf="form.value.bannerDescription" class="preview-desc">{{ form.value.bannerDescription }}</p>
-            <button mat-raised-button color="accent" type="button" *ngIf="form.value.bannerButtonText">
-              {{ form.value.bannerButtonText }}
-            </button>
+      <!-- Gradient Renk Seçici -->
+      <div class="gradient-section mb-3">
+        <p class="gradient-label">Gradient Renkleri (görsel yoksa kullanılır)</p>
+        <div class="gradient-controls">
+          <div class="color-field">
+            <label>Başlangıç Rengi</label>
+            <div class="color-input-wrap">
+              <input type="color" formControlName="gradientColor1" class="color-picker">
+              <span class="color-hex">{{ form.value.gradientColor1 }}</span>
+            </div>
           </div>
+
+          <div class="color-field">
+            <label>Bitiş Rengi</label>
+            <div class="color-input-wrap">
+              <input type="color" formControlName="gradientColor2" class="color-picker">
+              <span class="color-hex">{{ form.value.gradientColor2 }}</span>
+            </div>
+          </div>
+
+          <mat-form-field appearance="outline" class="angle-field">
+            <mat-label>Açı (°)</mat-label>
+            <input matInput type="number" formControlName="gradientAngle" min="0" max="360">
+          </mat-form-field>
+        </div>
+
+        <!-- Gradient preview -->
+        <div class="gradient-preview" [style.background]="previewGradient">
+          <span class="gradient-preview-text">Önizleme</span>
         </div>
       </div>
 
-      <!-- Kaydet -->
-      <div class="d-flex justify-content-end">
+      <!-- Aktif toggle -->
+      <div class="toggle-row mb-3">
+        <mat-slide-toggle formControlName="isActive" color="primary">Aktif</mat-slide-toggle>
+      </div>
+
+      <!-- Banner tam önizleme -->
+      <div class="banner-full-preview mb-4"
+           [style.backgroundImage]="form.value.imageUrl ? 'url(' + form.value.imageUrl + ')' : ''"
+           [style.background]="!form.value.imageUrl ? previewGradient : ''">
+        <div class="preview-overlay">
+          <h3>{{ form.value.title || 'Banner Başlığı' }}</h3>
+          <p *ngIf="form.value.subtitle">{{ form.value.subtitle }}</p>
+          <p class="preview-desc" *ngIf="form.value.description">{{ form.value.description }}</p>
+          <button mat-raised-button color="accent" type="button" *ngIf="form.value.buttonText">
+            {{ form.value.buttonText }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="cancelForm()">İptal</button>
         <button mat-raised-button color="primary" type="submit" [disabled]="saving || form.invalid">
-          <mat-icon *ngIf="saving">hourglass_empty</mat-icon>
-          <mat-icon *ngIf="!saving">save</mat-icon>
-          Kaydet
+          <mat-icon>{{ saving ? 'hourglass_empty' : 'save' }}</mat-icon>
+          {{ editingBanner ? 'Güncelle' : 'Oluştur' }}
         </button>
       </div>
 
     </form>
   </mat-card-content>
 </mat-card>
+
+<!-- Banner Listesi -->
+<div *ngIf="!loading">
+  <div *ngIf="banners.length === 0" class="empty-state">
+    <mat-icon>image</mat-icon>
+    <p>Henüz banner eklenmemiş.</p>
+  </div>
+
+  <div class="banner-list">
+    <mat-card class="banner-item" *ngFor="let b of banners" [class.passive]="!b.isActive">
+      <div class="banner-item-inner">
+      <div class="banner-thumb" [style.background]="getBannerBg(b)">
+        <div class="thumb-overlay">
+          <span class="thumb-title">{{ b.title }}</span>
+        </div>
+      </div>
+      <div class="banner-info">
+        <div class="banner-meta">
+          <span class="banner-name">{{ b.title }}</span>
+          <span class="banner-sub" *ngIf="b.subtitle">{{ b.subtitle }}</span>
+          <div class="banner-colors">
+            <span class="color-dot" [style.background]="b.gradientColor1"></span>
+            <span class="color-dot" [style.background]="b.gradientColor2"></span>
+            <span class="angle-label">{{ b.gradientAngle }}°</span>
+            <span class="order-badge">#{{ b.orderIndex }}</span>
+          </div>
+        </div>
+        <div class="banner-actions">
+          <mat-chip [color]="b.isActive ? 'primary' : 'warn'" selected class="status-chip">
+            {{ b.isActive ? 'Aktif' : 'Pasif' }}
+          </mat-chip>
+          <button mat-icon-button (click)="toggleActive(b)" [matTooltip]="b.isActive ? 'Pasif et' : 'Aktif et'">
+            <mat-icon>{{ b.isActive ? 'pause_circle' : 'play_circle' }}</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openEdit(b)" matTooltip="Düzenle">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteBanner(b.id)" matTooltip="Sil">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
